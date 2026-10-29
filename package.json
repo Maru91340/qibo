@@ -1,0 +1,13 @@
+{
+  "name": "qbxzs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "蓝色星原：旅谣 助手小程序（奇波图鉴 / 角色图鉴 / 元素克制 / 队伍编成）",
+  "scripts": {
+    "build:npm": "node scripts/build-npm.js",
+    "check": "node scripts/check.js"
+  },
+  "dependencies": {
+    "tdesign-miniprogram": "^1.17.0"
+  }
+}

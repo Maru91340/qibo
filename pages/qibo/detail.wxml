@@ -1,0 +1,77 @@
+<view class="page detail" wx:if="{{item}}">
+  <view class="head hero">
+    <view class="hero__inner">
+      <view class="head__top">
+        <view class="head__dot" style="background: {{item.elementColor}};">{{item.elementName}}</view>
+        <view class="head__text">
+          <view class="head__name">{{item.name}}</view>
+          <view class="head__sub">{{item.kind}} · {{item.rarity}}形态</view>
+        </view>
+      </view>
+      <view class="head__tags">
+        <text class="head__tag" wx:for="{{item.usage}}" wx:for-item="use" wx:key="*this">{{use}}</text>
+        <text class="head__tag" wx:if="{{!item.verified}}">数据待核实</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="panel card">
+    <view class="panel__title">基础信息</view>
+    <view class="kv">
+      <view class="kv__row">
+        <text class="kv__key">栖息地</text>
+        <text class="kv__value">{{item.habitat}}</text>
+      </view>
+      <view class="kv__row">
+        <text class="kv__key">定位</text>
+        <text class="kv__value">{{item.kind}}</text>
+      </view>
+      <view class="kv__row">
+        <text class="kv__key">元素</text>
+        <text class="kv__value">{{item.elementLabel}}</text>
+      </view>
+      <view class="kv__row">
+        <text class="kv__key">进化阶段</text>
+        <text class="kv__value">{{item.stages.length}} 阶</text>
+      </view>
+    </view>
+    <view class="panel__desc">{{item.desc}}</view>
+  </view>
+
+  <view class="panel card">
+    <view class="panel__title">进化链</view>
+    <view class="stages">
+      <view class="stage" wx:for="{{item.stages}}" wx:for-item="stage" wx:key="*this">
+        <view class="stage__dot">{{index + 1}}</view>
+        <view class="stage__name">{{stage}}</view>
+      </view>
+    </view>
+    <view class="panel__sub" wx:if="{{item.forms.length}}">稀有形态</view>
+    <view class="chip-row" wx:if="{{item.forms.length}}">
+      <text class="chip" wx:for="{{item.forms}}" wx:for-item="form" wx:key="*this">{{form}}</text>
+    </view>
+  </view>
+
+  <view class="panel card">
+    <view class="panel__title">能力与玩法</view>
+    <view class="skill" wx:for="{{item.skills}}" wx:for-item="skill" wx:key="*this">
+      <t-icon name="star" size="30rpx" color="#2f6bff" />
+      <text class="skill__name">{{skill}}</text>
+    </view>
+  </view>
+
+  <view class="detail__foot">
+    <t-button
+      block
+      theme="{{inTeam ? 'default' : 'primary'}}"
+      variant="{{inTeam ? 'outline' : 'base'}}"
+      bind:tap="toggleTeam"
+    >{{inTeam ? '移出出战奇波' : '设为出战奇波'}}</t-button>
+  </view>
+
+  <view class="footnote">{{notice}}</view>
+</view>
+
+<view class="page" wx:else>
+  <t-empty description="未找到该奇波" />
+</view>
