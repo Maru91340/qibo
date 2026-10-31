@@ -158,6 +158,7 @@ function normalizeQibo(payload, context) {
       rarity: text(item.rarity, 20, `${field}.rarity`),
       habitat: text(item.habitat, 30, `${field}.habitat`),
       desc: text(item.desc, LIMITS.text, `${field}.desc`),
+      icon: text(item.icon || '', 200, `${field}.icon`, { required: false }),
       usage: stringList(item.usage, `${field}.usage`, { max: 8, itemMax: 20 }),
       stages: stringList(item.stages, `${field}.stages`, { max: 8, itemMax: 20 }),
       forms: stringList(item.forms || [], `${field}.forms`, { max: 8, itemMax: 20 }),
@@ -194,6 +195,7 @@ function normalizeCharacter(payload, context) {
       role: text(item.role, 20, `${field}.role`),
       rarity: text(item.rarity, 20, `${field}.rarity`),
       desc: text(item.desc, LIMITS.text, `${field}.desc`),
+      icon: text(item.icon || '', 200, `${field}.icon`, { required: false }),
       teams: stringList(item.teams || [], `${field}.teams`, { max: 8, itemMax: 20 }),
       skills: listOf(item.skills, `${field}.skills`).map((skill, skillIndex) => {
         const skillField = `${field}.skills[${skillIndex}]`;

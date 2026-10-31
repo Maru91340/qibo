@@ -100,7 +100,7 @@
 import { useTheme } from '@/utils/theme.js';
 
 const { isDark } = useTheme();
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { onLoad, onUnload, onShareAppMessage } from '@dcloudio/uni-app';
 import { getCatalog, onCatalogUpdate } from '@/services/content.js';
 import { createElementToolkit } from '@/data/element.js';
@@ -123,6 +123,12 @@ const guidePoster = computed(() => {
   return hit ? hit.icon : '';
 });
 const notice = computed(() => catalog.value.notice || '');
+// 头像三级回退：240px → 120px 原图 → 隐藏（元素圆点兜底）
+const iconError = ref(false);
+const bigIcon = computed(() => {
+  const icon = item.value && item.value.icon;
+  return icon ? icon.replace('/120px-', '/240px-') : '';
+});
 const elementNotice = computed(() => toolkit.value.notice);
 
 const labels = (keys) =>
@@ -136,6 +142,7 @@ const counters = computed(() => {
   };
 });
 
+watch(() => id.value, () => { iconError.value = false; });
 function reload() {
   catalog.value = getCatalog('character').data || { items: [], notice: '' };
   toolkit.value = createElementToolkit(getCatalog('element').data);
