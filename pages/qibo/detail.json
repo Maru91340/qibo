@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "奇波详情",
-  "usingComponents": {
-    "t-button": "tdesign-miniprogram/button/button",
-    "t-empty": "tdesign-miniprogram/empty/empty",
-    "t-icon": "tdesign-miniprogram/icon/icon"
-  }
-}

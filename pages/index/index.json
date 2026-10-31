@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "蓝色星原",
-  "usingComponents": {
-    "t-search": "tdesign-miniprogram/search/search",
-    "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar",
-    "t-icon": "tdesign-miniprogram/icon/icon"
-  }
-}

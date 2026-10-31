@@ -2,12 +2,30 @@
   "name": "qbxzs",
   "version": "1.0.0",
   "private": true,
-  "description": "蓝色星原：旅谣 助手小程序（奇波图鉴 / 角色图鉴 / 元素克制 / 队伍编成）",
+  "description": "蓝色星原：旅谣 助手小程序（uni-app + 微信云开发 + TDesign）",
   "scripts": {
-    "build:npm": "node scripts/build-npm.js",
-    "check": "node scripts/check.js"
+    "dev:mp-weixin": "uni -p mp-weixin",
+    "npm:mp": "node scripts/build-npm.mjs dist/dev/mp-weixin",
+    "dev:h5": "uni",
+    "build:mp-weixin": "node scripts/check.mjs && uni build -p mp-weixin && node scripts/build-npm.mjs && node scripts/sync-cloudfunctions.mjs",
+    "build:h5": "uni build",
+    "check": "node scripts/check.mjs",
+    "test": "node --test \"cloudfunctions/shared/tests/*.test.js\"",
+    "seed:export": "node scripts/export-seed.mjs",
+    "cloud:deploy": "node scripts/deploy-cloudfunctions.mjs"
   },
   "dependencies": {
-    "tdesign-miniprogram": "^1.17.0"
+    "@dcloudio/uni-app": "3.0.0-5020620260917001",
+    "@dcloudio/uni-components": "3.0.0-5020620260917001",
+    "@dcloudio/uni-h5": "3.0.0-5020620260917001",
+    "@dcloudio/uni-mp-weixin": "3.0.0-5020620260917001",
+    "tdesign-miniprogram": "^1.17.0",
+    "vue": "3.4.21"
+  },
+  "devDependencies": {
+    "@dcloudio/uni-cli-shared": "3.0.0-5020620260917001",
+    "@dcloudio/vite-plugin-uni": "3.0.0-5020620260917001",
+    "esbuild": "0.20.2",
+    "vite": "5.2.8"
   }
 }

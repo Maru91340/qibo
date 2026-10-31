@@ -1,0 +1,525 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "蓝色星原",
+        "mp-weixin": {
+          "usingComponents": {
+            "t-search": "tdesign-miniprogram/search/search",
+            "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar",
+            "t-icon": "tdesign-miniprogram/icon/icon"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/qibo/list",
+      "style": {
+        "navigationBarTitleText": "奇波图鉴",
+        "mp-weixin": {
+          "usingComponents": {
+            "t-search": "tdesign-miniprogram/search/search",
+            "t-check-tag": "tdesign-miniprogram/check-tag/check-tag",
+            "t-tag": "tdesign-miniprogram/tag/tag",
+            "t-empty": "tdesign-miniprogram/empty/empty",
+            "t-icon": "tdesign-miniprogram/icon/icon"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/qibo/detail",
+      "style": {
+        "navigationBarTitleText": "奇波详情",
+        "mp-weixin": {
+          "usingComponents": {
+            "t-button": "tdesign-miniprogram/button/button",
+            "t-empty": "tdesign-miniprogram/empty/empty",
+            "t-icon": "tdesign-miniprogram/icon/icon"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/character/list",
+      "style": {
+        "navigationBarTitleText": "角色图鉴",
+        "mp-weixin": {
+          "usingComponents": {
+            "t-search": "tdesign-miniprogram/search/search",
+            "t-check-tag": "tdesign-miniprogram/check-tag/check-tag",
+            "t-tag": "tdesign-miniprogram/tag/tag",
+            "t-empty": "tdesign-miniprogram/empty/empty",
+            "t-icon": "tdesign-miniprogram/icon/icon"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/character/detail",
+      "style": {
+        "navigationBarTitleText": "角色详情",
+        "mp-weixin": {
+          "usingComponents": {
+            "t-tag": "tdesign-miniprogram/tag/tag",
+            "t-button": "tdesign-miniprogram/button/button",
+            "t-empty": "tdesign-miniprogram/empty/empty"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/element/element",
+      "style": {
+        "navigationBarTitleText": "元素克制",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/team/team",
+      "style": {
+        "navigationBarTitleText": "队伍编成",
+        "mp-weixin": {
+          "usingComponents": {
+            "t-icon": "tdesign-miniprogram/icon/icon",
+            "t-button": "tdesign-miniprogram/button/button",
+            "t-empty": "tdesign-miniprogram/empty/empty",
+            "t-popup": "tdesign-miniprogram/popup/popup"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/search/search",
+      "style": {
+        "navigationBarTitleText": "搜索",
+        "mp-weixin": {
+          "usingComponents": {
+            "t-search": "tdesign-miniprogram/search/search",
+            "t-empty": "tdesign-miniprogram/empty/empty",
+            "t-icon": "tdesign-miniprogram/icon/icon"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/compare/compare",
+      "style": {
+        "navigationBarTitleText": "角色对比",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/cultivation/cultivation",
+      "style": {
+        "navigationBarTitleText": "养成计算",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/affix/affix",
+      "style": {
+        "navigationBarTitleText": "战斗词条",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/pity/pity",
+      "style": {
+        "navigationBarTitleText": "保底计算",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/spirit/list",
+      "style": {
+        "navigationBarTitleText": "灵子图鉴",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/spirit/detail",
+      "style": {
+        "navigationBarTitleText": "灵子详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/item/list",
+      "style": {
+        "navigationBarTitleText": "物品图鉴",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/item/detail",
+      "style": {
+        "navigationBarTitleText": "物品详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/simulator/simulator",
+      "style": {
+        "navigationBarTitleText": "星结模拟",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/equipment/list",
+      "style": {
+        "navigationBarTitleText": "装备图鉴",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/equipment/detail",
+      "style": {
+        "navigationBarTitleText": "装备详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/material/list",
+      "style": {
+        "navigationBarTitleText": "材料图鉴",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/material/detail",
+      "style": {
+        "navigationBarTitleText": "材料详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/food/list",
+      "style": {
+        "navigationBarTitleText": "美食图鉴",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/food/detail",
+      "style": {
+        "navigationBarTitleText": "美食详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/fishing/list",
+      "style": {
+        "navigationBarTitleText": "钓鱼图鉴",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/fishing/detail",
+      "style": {
+        "navigationBarTitleText": "钓鱼详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/enemy/list",
+      "style": {
+        "navigationBarTitleText": "敌人图鉴",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/enemy/detail",
+      "style": {
+        "navigationBarTitleText": "敌人详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/evolution/evolution",
+      "style": {
+        "navigationBarTitleText": "进化图谱",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/beast/beast",
+      "style": {
+        "navigationBarTitleText": "凶兽生态",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/dungeon/list",
+      "style": {
+        "navigationBarTitleText": "副本图鉴",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/dungeon/detail",
+      "style": {
+        "navigationBarTitleText": "副本详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/building/list",
+      "style": {
+        "navigationBarTitleText": "家园建筑",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/building/detail",
+      "style": {
+        "navigationBarTitleText": "建筑详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/station/station",
+      "style": {
+        "navigationBarTitleText": "家园派驻",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/achievement/achievement",
+      "style": {
+        "navigationBarTitleText": "成就图鉴",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/region/list",
+      "style": {
+        "navigationBarTitleText": "地区阵营",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/region/detail",
+      "style": {
+        "navigationBarTitleText": "地区详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/explore/explore",
+      "style": {
+        "navigationBarTitleText": "地图探索",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/tutorial/list",
+      "style": {
+        "navigationBarTitleText": "教程合集",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/tutorial/detail",
+      "style": {
+        "navigationBarTitleText": "教程详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/guide/guide",
+      "style": {
+        "navigationBarTitleText": "玩法指南",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/story/list",
+      "style": {
+        "navigationBarTitleText": "剧情读物",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/story/detail",
+      "style": {
+        "navigationBarTitleText": "剧情详情",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/versus/versus",
+      "style": {
+        "navigationBarTitleText": "奇波对决",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/ridu/ridu",
+      "style": {
+        "navigationBarTitleText": "日杜尘影",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/wallpaper/list",
+      "style": {
+        "navigationBarTitleText": "壁纸画廊",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/wallpaper/detail",
+      "style": {
+        "navigationBarTitleText": "壁纸预览",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/codes/codes",
+      "style": {
+        "navigationBarTitleText": "福利码",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/rebate/rebate",
+      "style": {
+        "navigationBarTitleText": "充值返利",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/subscribe/subscribe",
+      "style": {
+        "navigationBarTitleText": "订阅提醒",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/wiki/wiki",
+      "style": {
+        "navigationBarTitleText": "奇波百科",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/about/about",
+      "style": {
+        "navigationBarTitleText": "关于游戏",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
+      "path": "pages/settings/settings",
+      "style": {
+        "navigationBarTitleText": "设置",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "蓝色星原",
+    "navigationBarBackgroundColor": "#1F3D9E",
+    "backgroundColor": "#F3F5FB",
+    "backgroundColorTop": "#1F3D9E",
+    "backgroundColorBottom": "#F3F5FB"
+  },
+  "easycom": {
+    "autoscan": true
+  }
+}

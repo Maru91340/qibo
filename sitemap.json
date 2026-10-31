@@ -1,7 +1,0 @@
-{
-  "desc": "蓝色星原助手：奇波图鉴、角色图鉴、元素克制与队伍编成，允许被微信搜索索引",
-  "rules": [
-    { "action": "allow", "page": "*" },
-    { "action": "disallow", "page": "pages/team/index" }
-  ]
-}
