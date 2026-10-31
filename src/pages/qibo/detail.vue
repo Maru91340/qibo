@@ -61,6 +61,21 @@
         </template>
       </view>
 
+      <view class="panel card">
+        <view class="panel__title">元素相克参考</view>
+        <view class="counter">
+          <view class="counter__col">
+            <text class="counter__label">克制</text>
+            <text class="counter__value">{{ counters.strongText }}</text>
+          </view>
+          <view class="counter__col">
+            <text class="counter__label">被克制</text>
+            <text class="counter__value">{{ counters.weakText }}</text>
+          </view>
+        </view>
+        <view class="panel__desc panel__desc--first">{{ elementNotice }}</view>
+      </view>
+
       <view v-if="item.skills && item.skills.length" class="panel card">
         <view class="panel__title">能力与玩法</view>
         <view v-for="skill in item.skills" :key="skill.name" class="skill">
@@ -111,6 +126,17 @@ const item = computed(() =>
 );
 // BWIKI 缩略图升 240px；加载失败回退 120px 原图
 const iconError = ref(false);
+
+const counters = computed(() => {
+  const it = item.value || {};
+  const names = (keys) =>
+    (keys || []).map((key) => (toolkit.value.elementMap[key] || {}).label).filter(Boolean).join('、') || '无';
+  return {
+    strongText: names(toolkit.value.counters && toolkit.value.counters[it.element]),
+    weakText: names(toolkit.value.counteredBy && toolkit.value.counteredBy[it.element])
+  };
+});
+const elementNotice = computed(() => toolkit.value.notice);
 const bigIcon = computed(() => {
   const icon = item.value && item.value.icon;
   return icon ? icon.replace('/120px-', '/240px-') : '';

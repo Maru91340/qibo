@@ -212,27 +212,4 @@ onShareAppMessage(() => ({
   line-height: 1.65;
 }
 
-.counter {
-  display: flex;
-  gap: 20rpx;
-}
-
-.counter__col {
-  flex: 1;
-  padding: 22rpx 24rpx;
-  border-radius: var(--radius-md);
-  background: var(--soft);
-}
-
-.counter__label {
-  color: var(--ink-3);
-  font-size: 22rpx;
-}
-
-.counter__value {
-  display: block;
-  margin-top: 10rpx;
-  font-size: 26rpx;
-  font-weight: 600;
-}
 </style>
