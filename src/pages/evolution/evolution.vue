@@ -6,7 +6,7 @@
         <view class="page-hero__title">进化图谱</view>
         <view class="page-hero__sub">按元素分组查看奇波进化链，点击进化链进入奇波详情。</view>
         <view class="page-hero__meta">
-          <text class="page-hero__tag">BWIKI 收录</text>
+          <text class="page-hero__tag">BWIKI 收录 {{ totalCount }} 只</text>
           <text class="page-hero__tag">六系元素</text>
         </view>
       </view>
@@ -29,6 +29,7 @@
       <view class="panel__title">
         <view class="ev-dot" :style="{ background: group.color }" />
         {{ group.label }}系
+        <text class="ev-count">{{ group.total }} 只</text>
       </view>
       <view v-for="qibo in group.items" :key="qibo.id" class="ev-chain" hover-class="tap-hover" @tap="goQibo(qibo.id)">
         <view class="ev-chain__top">
@@ -50,6 +51,9 @@
       </view>
     </view>
 
+    <view v-if="shownCount < totalCount" class="cl-more" hover-class="cl-more--hover" hover-stay-time="90" @tap="limit += 12">
+      加载更多（已显示 {{ shownCount }} / {{ totalCount }} 只）
+    </view>
     <view v-if="!list.length" class="ev-empty">没有匹配的进化链</view>
     <view class="footnote">{{ notice }}</view>
   </view>
@@ -59,7 +63,7 @@
 import { useTheme } from '@/utils/theme.js';
 
 const { isDark } = useTheme();
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { onShareAppMessage } from '@dcloudio/uni-app';
 import { getCatalog, onCatalogUpdate } from '@/services/content.js';
 import { createElementToolkit } from '@/data/element.js';
@@ -75,17 +79,30 @@ const elementOptions = computed(() => [
   ...toolkit.value.elements
 ]);
 
+// 增量渲染：每系先显示 12 条，避免 212 条进化链一次铺满
+const limit = ref(12);
+const totalCount = computed(() => (catalog.value.items || []).filter((item) => item.stages && item.stages.length).length);
+const shownCount = computed(() =>
+  list.value.reduce((sum, group) => sum + group.items.length, 0)
+);
 const list = computed(() =>
   toolkit.value.elements
     .filter((elementInfo) => element.value === 'all' || elementInfo.key === element.value)
-    .map((elementInfo) => ({
-      key: elementInfo.key,
-      label: elementInfo.label,
-      color: elementInfo.color,
-      items: (catalog.value.items || []).filter((item) => item.element === elementInfo.key && item.stages && item.stages.length)
-    }))
+    .map((elementInfo) => {
+      const all = (catalog.value.items || []).filter((item) => item.element === elementInfo.key && item.stages && item.stages.length);
+      return {
+        key: elementInfo.key,
+        label: elementInfo.label,
+        color: elementInfo.color,
+        total: all.length,
+        items: all.slice(0, limit.value)
+      };
+    })
     .filter((group) => group.items.length)
 );
+watch(element, () => {
+  limit.value = 12;
+});
 
 function reload() {
   catalog.value = getCatalog('qibo').data || { items: [], notice: '' };
@@ -115,6 +132,13 @@ onShareAppMessage(() => ({ title: '进化图谱 · 蓝色星原助手', path: '/
   border-radius: 50%;
   margin-right: 12rpx;
   vertical-align: middle;
+}
+
+.ev-count {
+  margin-left: 12rpx;
+  font-size: 22rpx;
+  font-weight: 400;
+  color: var(--ink-3);
 }
 
 .ev-chain {
