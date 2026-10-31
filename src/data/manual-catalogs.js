@@ -254,6 +254,40 @@ export const enemyCatalog = {
       sections: [{ title: '应对建议', text: '冲撞路径直线易读，提前横向闪避后绕背输出，用冰/水元素克制。' }],
       source: '9game《全奇波图鉴 | 强力奇波介绍》(www.9game.cn/lsxyly/11826196.html)',
       verified: false
+    },
+    {
+      id: 'enemy-helidashi',
+      name: '河狸大师',
+      category: '精英',
+      rarity: '三星',
+      tags: ['水', '兽形', '精英'],
+      summary: '水元素奇波，连击后接三段重击，附带双防与水抗削减。',
+      desc: '技能「大师狸击」连续多次攻击，每次约 118.8% 水伤，随后猛烈攻击打出三次约 299.9% 水伤并降低敌人物防、魔防和水抗；「浪袭」释放贴地波浪打出约 372.1% 水伤，连招总伤害高。',
+      fields: [
+        { label: '类型', value: '精英' },
+        { label: '元素', value: '水' },
+        { label: '技能', value: '大师狸击 / 浪袭' }
+      ],
+      sections: [{ title: '应对建议', text: '连击末段伤害最高，前两段开始侧移拉开距离，贴地波浪需跳避，用地/火元素反制。' }],
+      source: '9game《全奇波图鉴 | 强力奇波介绍》(www.9game.cn/lsxyly/11826196.html)',
+      verified: false
+    },
+    {
+      id: 'enemy-shuanglingou',
+      name: '霜灵偶',
+      category: '精英',
+      rarity: '三星',
+      tags: ['冰', '灵体', '精英'],
+      summary: '冰元素灵体，创造冰霜领域的爆发型敌人，与水灵偶同族。',
+      desc: '技能「霜寒领域」创造领域，对被命中敌人打出约 1375.9% 冰伤并附加物防、魔防、冰抗下降；「寒冰之罚」召唤 5 枚冰刺攻击目标，每枚约 50% 冰伤。与水灵偶/汐灵偶同属灵体系。',
+      fields: [
+        { label: '类型', value: '精英' },
+        { label: '元素', value: '冰' },
+        { label: '技能', value: '霜寒领域 / 寒冰之罚' }
+      ],
+      sections: [{ title: '应对建议', text: '领域伤害极高且带减益，起手读条时立即撤出范围，用火元素快速破韧。' }],
+      source: '9game《全奇波图鉴 | 强力奇波介绍》(www.9game.cn/lsxyly/11826196.html)',
+      verified: false
     }
   ]
 };
