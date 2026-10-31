@@ -99,6 +99,7 @@
 
 <script setup>
 import { useTheme } from '@/utils/theme.js';
+import { pushRecent } from '@/utils/recent.js';
 
 const { isDark } = useTheme();
 import { computed, ref, watch } from 'vue';
@@ -150,7 +151,10 @@ const counters = computed(() => {
 
 watch(() => id.value, () => { iconError.value = false; });
 function reload() {
-  catalog.value = getCatalog('character').data || { items: [], notice: '' };
+  catalog.value = getCatalog('character').data || { items: [], notice: '' }
+  // 最近浏览记录
+  const it = catalog.value.items.filter((entry) => entry.id === id.value)[0];
+  if (it) pushRecent({ type: 'character', id: it.id, name: it.name, icon: it.icon || '' });;
   toolkit.value = createElementToolkit(getCatalog('element').data);
   inTeam.value = load().members.indexOf(id.value) >= 0;
   if (item.value) uni.setNavigationBarTitle({ title: item.value.name });

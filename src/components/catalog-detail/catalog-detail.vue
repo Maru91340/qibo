@@ -74,6 +74,7 @@ import { useTheme } from '@/utils/theme.js';
 const { isDark } = useTheme();
 import { computed, ref } from 'vue';
 import { getCatalog, onCatalogUpdate } from '@/services/content.js';
+import { pushRecent } from '@/utils/recent.js';
 import { isFav, toggleFav } from '@/utils/favorites.js';
 
 const props = defineProps({
@@ -121,7 +122,10 @@ const badgeText = computed(() => {
 });
 
 function reload() {
-  catalog.value = getCatalog(props.type).data || { items: [], notice: '' };
+  catalog.value = getCatalog(props.type).data || { items: [], notice: '' }
+  // 最近浏览记录
+  const it = (catalog.value.items || []).filter((entry) => entry.id === props.id)[0];
+  if (it) pushRecent({ type: props.type, id: it.id, name: it.name, icon: it.icon || '' });;
 }
 
 function goBack() {

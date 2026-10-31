@@ -86,6 +86,7 @@
 import { useTheme } from '@/utils/theme.js';
 
 const { isDark } = useTheme();
+import { pushRecent } from '@/utils/recent.js';
 import { computed, ref } from 'vue';
 import { CONTENT_NOTICE, CONTENT_UPDATED_AT, findContentItem, relatedContent } from '@/data/content.js';
 
@@ -100,6 +101,9 @@ const updatedAt = CONTENT_UPDATED_AT;
 const notice = CONTENT_NOTICE;
 const item = computed(() => findContentItem(props.type, props.id));
 const imgError = ref(false);
+
+// 最近浏览记录
+if (item.value) pushRecent({ type: props.type, id: item.value.id, name: item.value.title, icon: item.value.image || '', path: '/pages/' + props.type + '/detail' });
 
 function preview(src) {
   if (!src) return;

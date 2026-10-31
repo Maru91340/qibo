@@ -11,6 +11,16 @@
       </view>
     </view>
 
+    <view class="seg card">
+      <view class="seg__item" :class="{ 'seg__item--on': tab === 'fav' }" hover-class="tap-hover" @tap="tab = 'fav'">
+        ⭐ 收藏{{ list.length ? ' ' + list.length : '' }}
+      </view>
+      <view class="seg__item" :class="{ 'seg__item--on': tab === 'recent' }" hover-class="tap-hover" @tap="tab = 'recent'">
+        🕐 最近{{ recents.length ? ' ' + recents.length : '' }}
+      </view>
+    </view>
+
+    <template v-if="tab === 'fav'">
     <view v-for="group in groups" :key="group.label" class="panel card">
       <view class="panel__title">{{ group.label }}</view>
       <view
@@ -36,6 +46,34 @@
       <view class="fav-empty__text">还没有收藏，去图鉴里点亮星星吧</view>
       <view class="fav-empty__back" hover-class="tap-hover" @tap="goHome">去图鉴逛逛</view>
     </view>
+    </template>
+
+    <template v-else>
+    <view class="panel card">
+      <view class="panel__title">最近浏览</view>
+      <view
+        v-for="rec in recents"
+        :key="rec.type + rec.id"
+        class="fav-item"
+        hover-class="fav-item--hover"
+        hover-stay-time="90"
+        @tap="go(rec)"
+      >
+        <image v-if="rec.icon && !broken[rec.id]" class="fav-item__img" :src="rec.icon" mode="aspectFill" @error="broken[rec.id] = true" />
+        <view v-else class="fav-item__glyph">{{ (rec.name || '?').slice(0, 1) }}</view>
+        <view class="fav-item__body">
+          <text class="fav-item__name">{{ rec.name }}</text>
+          <text class="fav-item__type">{{ TYPE_LABELS[rec.type] || rec.type }}</text>
+        </view>
+        <text class="fav-item__time">{{ timeAgo(rec.ts) }}</text>
+      </view>
+      <view v-if="recents.length" class="fav-clear" hover-class="tap-hover" @tap="clearAll">清空浏览记录</view>
+    </view>
+    <view v-if="!recents.length" class="fav-empty">
+      <view class="fav-empty__icon">🕐</view>
+      <view class="fav-empty__text">暂无浏览记录，看过的条目会出现在这里</view>
+    </view>
+    </template>
     <view class="footnote">收藏保存在本机 · 清除小程序数据会一并清空</view>
   </view>
 </template>
@@ -45,9 +83,12 @@ import { computed, ref } from 'vue';
 import { onShow, onShareAppMessage } from '@dcloudio/uni-app';
 import { useTheme } from '@/utils/theme.js';
 import { listFavs, removeFav, favPath } from '@/utils/favorites.js';
+import { listRecent, clearRecent, favPath as recentPath } from '@/utils/recent.js';
 
 const { isDark } = useTheme();
 const list = ref([]);
+const recents = ref([]);
+const tab = ref('fav');
 const broken = ref({});
 
 const TYPE_LABELS = {
@@ -68,10 +109,25 @@ const groups = computed(() => {
 
 function refresh() {
   list.value = listFavs();
+  recents.value = listRecent();
 }
 
 function go(fav) {
   uni.navigateTo({ url: favPath(fav) });
+}
+
+function timeAgo(ts) {
+  if (!ts) return '';
+  const diff = Date.now() - ts;
+  if (diff < 3600000) return Math.max(1, Math.floor(diff / 60000)) + ' 分钟前';
+  if (diff < 86400000) return Math.floor(diff / 3600000) + ' 小时前';
+  return Math.floor(diff / 86400000) + ' 天前';
+}
+
+function clearAll() {
+  clearRecent();
+  refresh();
+  uni.showToast({ title: '已清空', icon: 'none' });
 }
 
 function remove(fav) {
@@ -90,6 +146,45 @@ onShareAppMessage(() => ({ title: '我的收藏 · 蓝色星原助手', path: '/
 </script>
 
 <style>
+.seg {
+  display: flex;
+  gap: 12rpx;
+  padding: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.seg__item {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  border-radius: 999rpx;
+  color: var(--ink-2);
+  font-size: 25rpx;
+  font-weight: 600;
+  background: var(--soft);
+  transition: all 0.2s ease;
+}
+
+.seg__item--on {
+  background: var(--brand);
+  color: #ffffff;
+}
+
+.fav-item__time {
+  flex-shrink: 0;
+  color: var(--ink-3);
+  font-size: 21rpx;
+}
+
+.fav-clear {
+  margin-top: 16rpx;
+  text-align: center;
+  color: var(--ink-3);
+  font-size: 23rpx;
+  padding: 12rpx 0;
+}
+
+
 .fav-item {
   display: flex;
   align-items: center;
