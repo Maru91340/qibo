@@ -6,7 +6,9 @@ export const elements = [
   { key: 'grove', name: '林', label: '苍林', color: '#28b37a', tint: '#e9f8f1' },
   { key: 'bolt', name: '雷', label: '惊雷', color: '#f2b50c', tint: '#fff7e0' },
   { key: 'frost', name: '霜', label: '寒霜', color: '#4fd2e8', tint: '#e8fbff' },
-  { key: 'astral', name: '辉', label: '星辉', color: '#8a6cff', tint: '#f0ecff' }
+  { key: 'astral', name: '辉', label: '星辉', color: '#8a6cff', tint: '#f0ecff' },
+  // BWIKI 后期元素（地/暗/风）暂无克制数据，先归入未知系，公测后补表
+  { key: 'unknown', name: '?', label: '未知', color: '#8a93a8', tint: '#f2f4f9' }
 ];
 
 export const counters = {

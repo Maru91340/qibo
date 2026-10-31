@@ -33,7 +33,7 @@ function wikiEle(tags) {
     if (ELE_KEY[tag]) return ELE_KEY[tag];
     for (const ch of tag) if (ELE_KEY[ch]) return ELE_KEY[ch];
   }
-  return 'astral';
+  return 'unknown';
 }
 
 // 真实奇波追加到示例数据后：206+ 条 BWIKI 收录
