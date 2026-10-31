@@ -103,7 +103,12 @@ const SKIP_FIELDS = new Set(['名称', '图片', '图片2', 'title', '稀有度'
 
 function buildEntry(type, row, config) {
   const name = row['名称'] || row.title;
-  const category = row[config.categoryField] || row['类型'] || row['大类'] || '未分类';
+  let category = row[config.categoryField] || row['类型'] || row['大类'] || '';
+  // 未分类归并：用首个标签或稀有度兜底，避免 facet 大量「未分类」不可筛
+  if (!category || category === '未分类') {
+    const firstTag = (row[config.tagFields && config.tagFields[0]] || '').split(/[、,，]/)[0].trim();
+    category = firstTag || row['稀有度'] && ('稀有度' + row['稀有度']) || '其他';
+  }
   const rarity = row['稀有度'] || row['奖杯等级'] || '';
   const tags = [];
   (config.tagFields || []).forEach((field) => {
