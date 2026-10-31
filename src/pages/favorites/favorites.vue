@@ -83,7 +83,7 @@ import { computed, ref } from 'vue';
 import { onShow, onShareAppMessage } from '@dcloudio/uni-app';
 import { useTheme } from '@/utils/theme.js';
 import { listFavs, removeFav, favPath } from '@/utils/favorites.js';
-import { listRecent, clearRecent, favPath as recentPath } from '@/utils/recent.js';
+import { listRecent, clearRecent } from '@/utils/recent.js';
 
 const { isDark } = useTheme();
 const list = ref([]);

@@ -2,7 +2,7 @@
 const NOTICE = '示例条目，用于跑通列表/详情交互；公测后由采集脚本替换。';
 
 export const enemyCatalog = {
-  notice: '敌人条目为示例，类型与元素口径参考图鉴截图；公测后替换为正式数据。',
+  notice: '敌人条目：基础示例 + 9game 攻略文提取（带 source 标注，均未实机验证）；公测后替换为正式数据。',
   items: [
     {
       id: 'enemy-xunlang',
@@ -167,6 +167,92 @@ export const enemyCatalog = {
         { label: '元素', value: '地' }
       ],
       sections: [{ title: '应对建议', text: '引导冲锋撞墙可创造长硬直，落石阶段优先清理场地中央。' }],
+      verified: false
+    },
+    // ---- 以下条目自 9game 攻略文结构化提取（野生奇波/亚种口径，待公测校对） ----
+    {
+      id: 'enemy-luanguanlinghu',
+      name: '萝冠灵狐',
+      category: '普通',
+      rarity: '二星',
+      tags: ['木', '兽形'],
+      summary: '木元素奇波，头顶如戴上萝冠，擅长远程木属性光束压制。',
+      desc: '技能「萝冠之息」对附近领域打出约 165.9% 木伤并施加木属印记，可削减敌人木抗约 8 秒；「灵木」连续发射 10 枚灵木弹，每枚约 37.2% 木伤，压制节奏强。',
+      fields: [
+        { label: '类型', value: '普通' },
+        { label: '元素', value: '木' },
+        { label: '技能', value: '萝冠之息 / 灵木' }
+      ],
+      sections: [{ title: '应对建议', text: '光束弹幕密集，建议侧向绕行拉近距离打断，用火/地元素快速破韧。' }],
+      source: '9game《全奇波图鉴 | 强力奇波介绍》(www.9game.cn/lsxyly/11826196.html)',
+      verified: false
+    },
+    {
+      id: 'enemy-lieyanjiaoniu',
+      name: '烈焰角牛',
+      category: '精英',
+      rarity: '三星',
+      tags: ['火', '兽形', '精英'],
+      summary: '火元素奇波，蓄力挥拳的多段矩形范围攻击，压迫感强。',
+      desc: '技能「烈焰冲拳」蓄力后向前挥拳，对矩形范围打出 6 次火伤并降低敌人火抗；「燎焰之拳」可响应攻击瞬移至目标身旁打出约 138% 火伤，近战威胁高。',
+      fields: [
+        { label: '类型', value: '精英' },
+        { label: '元素', value: '火' },
+        { label: '技能', value: '烈焰冲拳 / 燎焰之拳' }
+      ],
+      sections: [{ title: '应对建议', text: '蓄力挥拳前摇明显，看到抬手立即脱离矩形范围，用冰/水元素克制输出。' }],
+      source: '9game《全奇波图鉴 | 强力奇波介绍》(www.9game.cn/lsxyly/11826196.html)',
+      verified: false
+    },
+    {
+      id: 'enemy-murongtu',
+      name: '目绒兔',
+      category: '普通',
+      rarity: '一星',
+      tags: ['光', '兽形'],
+      summary: '光元素奇波，生性胆小，具备为同伴恢复生命的辅助能力。',
+      desc: '技能「紧急治疗」为区域内同伴恢复等同自身生命上限约 6.9% 的生命，对低血量（<50%）目标恢复量额外提升 20%，并提升约 8 秒物防和魔防；常与群体野生奇波一同出没。',
+      fields: [
+        { label: '类型', value: '普通' },
+        { label: '元素', value: '光' },
+        { label: '技能', value: '紧急治疗' }
+      ],
+      sections: [{ title: '应对建议', text: '优先集火治疗目标，避免陷入消耗战；单挑时威胁很低。' }],
+      source: '9game《全奇波图鉴 | 强力奇波介绍》(www.9game.cn/lsxyly/11826196.html)',
+      verified: false
+    },
+    {
+      id: 'enemy-gululu',
+      name: '菇噜噜',
+      category: '普通',
+      rarity: '二星',
+      tags: ['暗', '菌形'],
+      summary: '暗元素奇波，尾巴形似蘑菇，以毒气类范围攻击骚扰目标。',
+      desc: '技能「菇噜噜噜」向周围释放气体，造成约 428.7% 暗伤，降低敌约 10% 移速及 9.9% 物防魔防；「暗魂影」向目标发射影子打出暗伤，持续减益能力突出。',
+      fields: [
+        { label: '类型', value: '普通' },
+        { label: '元素', value: '暗' },
+        { label: '技能', value: '菇噜噜噜 / 暗魂影' }
+      ],
+      sections: [{ title: '应对建议', text: '气体范围攻击附带减速与防御削减，建议远程拉扯规避，或用光元素反制。' }],
+      source: '9game《全奇波图鉴 | 强力奇波介绍》(www.9game.cn/lsxyly/11826196.html)',
+      verified: false
+    },
+    {
+      id: 'enemy-dulu',
+      name: '嘟噜',
+      category: '普通',
+      rarity: '二星',
+      tags: ['地', '兽形'],
+      summary: '地元素奇波，张开翅膀高速冲撞，突进路径多段伤害。',
+      desc: '技能「一地毛」快速冲撞，路径上共 7 次攻击，每击约 158.8% 地伤并附加地抗下降；「岩石」向前滚动打出约 79.4% 地伤，突进类打法极难近身。',
+      fields: [
+        { label: '类型', value: '普通' },
+        { label: '元素', value: '地' },
+        { label: '技能', value: '一地毛 / 岩石' }
+      ],
+      sections: [{ title: '应对建议', text: '冲撞路径直线易读，提前横向闪避后绕背输出，用冰/水元素克制。' }],
+      source: '9game《全奇波图鉴 | 强力奇波介绍》(www.9game.cn/lsxyly/11826196.html)',
       verified: false
     }
   ]
