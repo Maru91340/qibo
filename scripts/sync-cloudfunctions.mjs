@@ -69,3 +69,17 @@ writeFileSync(weixinConfigPath, `${JSON.stringify(weixinConfig, null, 2)}\n`);
 
 console.log(`云函数已准备：${relative(projectRoot, join(deployRoot, 'cloudfunctions'))}`);
 FUNCTIONS.forEach(({ name }) => console.log(`- ${name}：index.js + ${SHARED_FILES.length} 个公共模块`));
+
+
+// 同步到小程序项目内（开发者工具 cloudfunctionRoot 直传路径），并注入 project.config.json
+const mpRoot = join(projectRoot, 'dist', 'build', 'mp-weixin');
+const mpFn = join(mpRoot, 'cloudfunctions');
+if (existsSync(mpFn)) rmSync(mpFn, { recursive: true, force: true });
+cpSync(join(deployRoot, 'cloudfunctions'), mpFn, { recursive: true });
+const mpCfgPath = join(mpRoot, 'project.config.json');
+if (existsSync(mpCfgPath)) {
+  const mpCfg = JSON.parse(readFileSync(mpCfgPath, 'utf8'));
+  mpCfg.cloudfunctionRoot = 'cloudfunctions/';
+  writeFileSync(mpCfgPath, JSON.stringify(mpCfg, null, 2));
+}
+console.log('云函数已同步至小程序项目（cloudfunctionRoot）');
