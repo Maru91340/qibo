@@ -7,7 +7,7 @@
         <view
           v-for="option in options"
           :key="option.value"
-          class="st-option"
+          class="st-option" hover-class="tap-hover"
           :class="{ 'st-option--active': pref === option.value }"
           @tap="apply(option.value)"
         >
@@ -21,7 +21,7 @@
     <view class="panel card">
       <view class="panel__title">资料缓存</view>
       <view class="panel__desc">{{ cacheDesc }}</view>
-      <view class="st-btn" @tap="clearCache">清除云端资料缓存</view>
+      <view class="st-btn" hover-class="tap-hover" @tap="clearCache">清除云端资料缓存</view>
     </view>
 
     <view class="panel card">

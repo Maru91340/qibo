@@ -1,5 +1,15 @@
 <template>
   <view class="page" :class="{ 'theme-dark': isDark }">
+    <view class="cl-hero" :style="{ background: heroBg }">
+      <view class="cl-hero__dots" />
+      <view class="cl-hero__body">
+        <text class="cl-hero__emoji">✨</text>
+        <view class="cl-hero__copy">
+          <text class="cl-hero__title">{{ heroTitle }}</text>
+          <text class="cl-hero__sub">收录 {{ total }} 条 · 点击条目看详情</text>
+        </view>
+      </view>
+    </view>
     <view class="filter-bar card">
       <view class="cl-search">
         <text class="cl-search__icon">⌕</text>
@@ -12,11 +22,11 @@
           @input="onKeywordInput"
           @confirm="onKeywordConfirm"
         />
-        <text v-if="keyword" class="cl-search__clear" @tap="keyword = ''">×</text>
+        <text v-if="keyword" class="cl-search__clear" hover-class="tap-hover" @tap="keyword = ''">×</text>
       </view>
       <scroll-view v-if="facetRows.length" scroll-y class="facets">
         <view v-for="row in facetRows" :key="row.key" class="facet-row" :class="{ 'facet-row--open': row.open }">
-          <view class="facet-row__head" @tap="toggleFacet(row.key)">
+          <view class="facet-row__head" hover-class="tap-hover" @tap="toggleFacet(row.key)">
             <text class="facet-row__label">{{ row.label }}</text>
             <text class="facet-row__value">{{ row.active === '全部' ? '不限' : row.active }}</text>
             <text class="facet-row__arrow" :class="{ 'facet-row__arrow--open': row.open }">›</text>
@@ -58,14 +68,14 @@
           lazy-load
           @error="brokenIcons[item.id] = true"
         />
-        <view v-else class="entry-card__badge" :style="{ color: accent, background: tintBg }">
+        <view v-else class="entry-card__badge" :style="{ color: rarityColor(item), background: hexTint(rarityColor(item)) }">
           {{ badgeText(item) }}
         </view>
         <view class="entry-card__body">
           <view class="entry-card__title">
             <text>{{ item.name }}</text>
             <text v-if="!item.verified" class="mini-tag mini-tag--warn">待核实</text>
-            <text v-if="item.rarity" class="mini-tag">{{ item.rarity }}</text>
+            <text v-if="item.rarity" class="mini-tag" :style="{ color: rarityColor(item), background: hexTint(rarityColor(item)) }">{{ item.rarity }}</text>
           </view>
           <view class="entry-card__desc">{{ cleanSummary(item) }}</view>
           <view v-if="item.tags && item.tags.length" class="chip-row">
@@ -125,6 +135,17 @@ watch([keyword, active, () => catalog.value], () => {
 });
 
 const tintBg = computed(() => hexTint(props.accent));
+const heroBg = computed(() => `linear-gradient(132deg, ${props.accent} 0%, ${hexFade(props.accent, 0.72)} 55%, ${hexFade(props.accent, 0.35)} 100%)`);
+const heroTitle = computed(() => (catalog.value.notice || '').split('数据采集')[0].split('条目')[0].slice(0, 14) || '图鉴');
+function hexFade(hex, alpha) {
+  const value = String(hex || '').replace('#', '');
+  if (value.length !== 6) return `rgba(47, 107, 255, ${alpha})`;
+  const num = parseInt(value, 16);
+  return `rgba(${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}, ${alpha})`;
+}
+// 稀有度配色：徽章色条 + 标签
+const RARITY_COLORS = { SSR: '#b56cff', SR: '#3f8cff', R: '#8a93a8', UR: '#ff5b7f', 五星: '#ffb02e', 四星: '#8a6cff', 三星: '#3f8cff', 未知: '#8a93a8' };
+const rarityColor = computed(() => (item) => RARITY_COLORS[item.rarity] || props.accent);
 const items = computed(() => catalog.value.items || []);
 const notice = computed(() => catalog.value.notice || '');
 const total = computed(() => items.value.length);
@@ -246,6 +267,49 @@ let unsubscribe = onCatalogUpdate(reload);
 </script>
 
 <style>
+.cl-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  padding: 30rpx 32rpx;
+  margin-bottom: 20rpx;
+  color: #ffffff;
+  box-shadow: 0 12rpx 30rpx rgba(31, 61, 158, 0.25);
+}
+
+.cl-hero__dots {
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.85) 1.5rpx, transparent 1.5rpx);
+  background-size: 22rpx 22rpx;
+}
+
+.cl-hero__body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.cl-hero__emoji {
+  font-size: 52rpx;
+}
+
+.cl-hero__title {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 800;
+  text-shadow: 0 2rpx 10rpx rgba(10, 14, 38, 0.3);
+}
+
+.cl-hero__sub {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 23rpx;
+  opacity: 0.9;
+}
+
 .cl-search {
   display: flex;
   align-items: center;
@@ -339,13 +403,13 @@ let unsubscribe = onCatalogUpdate(reload);
   padding: 2rpx 12rpx;
   border-radius: 8rpx;
   background: var(--brand-soft);
-  color: var(--brand);
+  color: var(--brand-deep);
   font-size: 20rpx;
 }
 
 .mini-tag--warn {
-  background: #fff4e6;
-  color: #c77700;
+  background: var(--warn-soft);
+  color: var(--warn-ink);
 }
 
 .entry-card__arrow {
@@ -359,7 +423,7 @@ let unsubscribe = onCatalogUpdate(reload);
   width: 76rpx;
   height: 76rpx;
   border-radius: 22rpx;
-  background: var(--soft, #f2f4f9);
+  background: var(--soft);
 }
 
 .cl-empty {
@@ -419,10 +483,14 @@ let unsubscribe = onCatalogUpdate(reload);
 }
 
 .cl-empty__reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64rpx;
   margin-top: 6rpx;
-  padding: 14rpx 44rpx;
+  padding: 0 44rpx;
   border-radius: 32rpx;
-  background: #2f6bff;
+  background: var(--brand);
   color: #ffffff;
   font-size: 24rpx;
   transition: transform 0.16s ease;

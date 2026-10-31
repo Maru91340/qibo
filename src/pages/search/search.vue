@@ -1,7 +1,7 @@
 <template>
   <view class="page" :class="{ 'theme-dark': isDark }">
     <view class="searchbar">
-      <t-search
+      <cx-input
         :value="keyword"
         focus
         shape="round"
@@ -14,12 +14,39 @@
     <view v-if="!keyword" class="history">
       <view class="section-title">
         <text>最近搜索</text>
-        <text v-if="history.length" class="section-title__more" @tap="clearHistory">清空</text>
+        <text
+          v-if="history.length"
+          class="section-title__more section-title__more--action"
+          hover-class="facet-chip--hover"
+          @tap="clearHistory"
+        >清空</text>
       </view>
       <view v-if="history.length" class="chip-row">
-        <text v-for="item in history" :key="item" class="chip" @tap="apply(item)">{{ item }}</text>
+        <view
+          v-for="item in history"
+          :key="item"
+          class="facet-chip"
+          hover-class="facet-chip--hover"
+          hover-stay-time="90"
+          @tap="apply(item)"
+        >{{ item }}</view>
       </view>
-      <view v-else class="text-muted">还没有搜索记录</view>
+      <view v-else class="text-muted">还没有搜索记录，先从下面的建议试试。</view>
+
+      <view v-if="suggestions.length" class="section-title">
+        <text>试试搜索</text>
+        <text class="section-title__more">来自内置图鉴</text>
+      </view>
+      <view v-if="suggestions.length" class="chip-row">
+        <view
+          v-for="name in suggestions"
+          :key="name"
+          class="facet-chip"
+          hover-class="facet-chip--hover"
+          hover-stay-time="90"
+          @tap="apply(name)"
+        >{{ name }}</view>
+      </view>
     </view>
 
     <template v-if="keyword">
@@ -39,17 +66,24 @@
             @tap="goResult(entry.path)"
           >
             <view class="entry-card__badge entry-card__badge--soft">
-              <t-icon :name="entry.icon" size="34rpx" color="#2f6bff" />
+              <c-icon :name="entry.icon" size="34rpx" color="#2f6bff" />
             </view>
             <view class="entry-card__body">
               <view class="entry-card__title">{{ entry.name }}</view>
               <view class="entry-card__desc entry-card__desc--last">{{ entry.desc }}</view>
             </view>
-            <t-icon name="chevron-right" size="32rpx" color="#c2c9d6" />
+            <c-icon name="chevron-right" size="32rpx" color="#c2c9d6" />
           </view>
         </view>
       </view>
-      <t-empty v-if="!result.total" description="没有找到相关内容" />
+      <view v-if="!result.total" class="ct-empty">
+        <view class="ct-empty__icon">⌕</view>
+        <view class="ct-empty__title">没有找到「{{ keyword }}」</view>
+        <view class="ct-empty__text">试试更短的关键词，或清空后从建议里再搜一次。</view>
+        <view class="ct-actions">
+          <view class="ct-btn ct-btn--ghost" hover-class="ct-btn--hover" @tap="clear">清空关键词</view>
+        </view>
+      </view>
     </template>
   </view>
 </template>
@@ -85,6 +119,18 @@ const result = computed(() => {
     },
     keyword.value
   );
+});
+
+// 建议词直接取内置图鉴的条目名，保证点下去一定有结果，不臆造热度
+const suggestions = computed(() => {
+  const types = ['qibo', 'character', 'spirit', 'item', 'enemy', 'region'];
+  const names = [];
+  for (const type of types) {
+    const pool = (catalog.value[type] || {}).items || [];
+    const hit = pool.filter((entry) => entry.name)[0];
+    if (hit && names.indexOf(hit.name) < 0) names.push(hit.name);
+  }
+  return names;
 });
 
 function reload() {

@@ -108,16 +108,18 @@ export function searchAll(source, keyword) {
       })
       .slice(0, 20);
     if (!hits.length) return;
-    groups.push({
-      title: catalog.label,
-      items: hits.map((item) => ({
+    // 无详情路由的类型（成就/词条）过滤后可能为空，此时不渲染空分组标题
+    const items = hits
+      .map((item) => ({
         id: item.id,
         name: item.name,
         desc: item.summary || item.category || '图鉴条目',
         icon: 'bookmark',
         path: catalog.detailPath ? `${catalog.detailPath}?id=${item.id}` : ''
-      })).filter((entry) => entry.path)
-    });
+      }))
+      .filter((entry) => entry.path);
+    if (!items.length) return;
+    groups.push({ title: catalog.label, items });
   });
   if (sections.length) {
     groups.push({

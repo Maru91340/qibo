@@ -1,7 +1,7 @@
 export const CHARACTER_NOTICE = '仅「艾妮丝」来自公开前瞻，其余为示例条目，公测后以官方角色替换。';
 
 export const characterFilters = {
-  roles: ['全部', '输出', '副C', '辅助', '控制', '坦克'],
+  roles: ['全部', '输出', '副C', '辅助', '控制', '坦克', '待核实'],
   rarities: ['全部', '五星', '四星']
 };
 

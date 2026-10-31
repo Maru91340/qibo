@@ -1,9 +1,9 @@
 export const QIBO_NOTICE = '仅「森彩灵蝶」来自公开前瞻，其余为示例条目，公测后以官方图鉴替换。';
 
 export const qiboFilters = {
-  kinds: ['全部', '收藏型', '实用派'],
+  kinds: ['全部', '收藏型', '实用派', 'BWIKI收录'],
   usages: ['全部', '战斗', '家园生产', '探索'],
-  rarities: ['全部', '普通', '稀有', '闪光', '星彩']
+  rarities: ['全部', '普通', '稀有', '闪光', '星彩', '未知']
 };
 
 export const qibos = [

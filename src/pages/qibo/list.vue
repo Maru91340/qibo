@@ -1,7 +1,7 @@
 <template>
   <view class="page" :class="{ 'theme-dark': isDark }">
     <view class="filter-bar card">
-      <t-search
+      <cx-input
         :value="keyword"
         shape="round"
         placeholder="搜奇波名称、栖息地、技能"
@@ -9,43 +9,25 @@
         @clear="keyword = ''"
       />
       <scroll-view class="filter-row" scroll-x enable-flex>
-        <t-check-tag
-          v-for="option in filters.kinds"
-          :key="option"
-          :checked="option === kind"
-          variant="light"
-          size="large"
-          :content="option"
-          @change="kind = option"
-        />
+        <view class="facet-chip" :class="{ 'facet-chip--active': option === kind }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="kind = option">
+        {{ option }}
+      </view>
       </scroll-view>
       <scroll-view class="filter-row" scroll-x enable-flex>
-        <t-check-tag
-          v-for="option in filters.usages"
-          :key="option"
-          :checked="option === usage"
-          variant="light"
-          size="large"
-          :content="option"
-          @change="usage = option"
-        />
+        <view class="facet-chip" :class="{ 'facet-chip--active': option === usage }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="usage = option">
+        {{ option }}
+      </view>
       </scroll-view>
       <scroll-view class="filter-row" scroll-x enable-flex>
-        <t-check-tag
-          v-for="option in filters.rarities"
-          :key="option"
-          :checked="option === rarity"
-          variant="light"
-          size="large"
-          :content="option"
-          @change="rarity = option"
-        />
+        <view class="facet-chip" :class="{ 'facet-chip--active': option === rarity }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="rarity = option">
+        {{ option }}
+      </view>
       </scroll-view>
       <view class="element-row">
         <view
           v-for="option in elementOptions"
           :key="option.key"
-          class="element-pill"
+          class="element-pill" hover-class="tap-hover"
           :class="{ 'element-pill--active': option.key === element }"
           @tap="element = option.key"
         >
@@ -70,8 +52,8 @@
         <view class="entry-card__body">
           <view class="entry-card__title">
             <text>{{ item.name }}</text>
-            <t-tag v-if="!item.verified" size="small" variant="light" theme="warning">待核实</t-tag>
-            <t-tag size="small" variant="light" theme="primary">{{ item.rarity }}</t-tag>
+            <text class="mini-tag mini-tag--warn">待核实</text>
+            <text class="mini-tag">{{ item.rarity }}</text>
           </view>
           <view class="entry-card__desc">{{ item.desc }}</view>
           <view class="chip-row">
@@ -80,11 +62,11 @@
             <text class="chip chip--ghost">{{ item.habitat }}</text>
           </view>
         </view>
-        <t-icon name="chevron-right" size="32rpx" color="#c2c9d6" />
+        <c-icon name="chevron-right" size="32rpx" color="#c2c9d6" />
       </view>
     </view>
 
-    <t-empty v-if="!list.length" description="没有符合条件的奇波，试试放宽筛选" />
+    <view class="cx-empty"><view class="cx-empty__icon">🐾</view><view class="cx-empty__text">没有符合条件的奇波，试试放宽筛选</view></view>
     <view class="footnote">{{ notice }}</view>
   </view>
 </template>

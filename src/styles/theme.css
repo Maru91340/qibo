@@ -13,6 +13,11 @@ page {
   --ok-soft: #e5f6ec;
   --danger: #c93b3b;
   --danger-soft: #fdecec;
+  --warn: #c77700;
+  --warn-ink: #a35f00;
+  --warn-soft: #fff4e6;
+  --reward: #a06b00;
+  --reward-soft: #fdf3d8;
   --radius-lg: 24rpx;
   --radius-md: 16rpx;
   --shadow-card: 0 8rpx 32rpx rgba(31, 61, 158, 0.08);
@@ -31,6 +36,7 @@ page {
 /* 深色主题：挂在页面根节点，变量向下覆盖 */
 .theme-dark {
   --brand-soft: #22304f;
+  --brand-deep: #9db8ff;
   --brand-bright: #7ea4ff;
   --ink: #e9edf8;
   --ink-2: #aab4cd;
@@ -43,6 +49,11 @@ page {
   --ok-soft: #16351f;
   --danger: #f8837b;
   --danger-soft: #3a1c1c;
+  --warn: #ffb45c;
+  --warn-ink: #ffcf8a;
+  --warn-soft: #3a2a12;
+  --reward: #e8c15a;
+  --reward-soft: #33290f;
   --shadow-card: 0 8rpx 32rpx rgba(0, 0, 0, 0.4);
   --td-brand-color: #5b8bff;
   --td-brand-color-1: #22304f;
@@ -101,6 +112,21 @@ page {
   font-size: 24rpx;
   font-weight: 400;
   color: var(--ink-3);
+}
+
+/* 可点的「更多 / 清空」文字动作：补齐 64rpx 触控热区 */
+.section-title__more--action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 64rpx;
+  margin-right: -12rpx;
+  padding: 0 12rpx;
+  border-radius: 999rpx;
+  transition: transform 0.16s ease, background 0.2s ease;
+}
+
+.section-title__more--action:active {
+  transform: scale(0.94);
 }
 
 .grid-2 {
@@ -174,11 +200,13 @@ page {
   display: flex;
   align-items: center;
   gap: 8rpx;
-  padding: 6rpx 16rpx 6rpx 6rpx;
+  min-height: 64rpx;
+  padding: 0 16rpx 0 6rpx;
   border-radius: 999rpx;
   background: var(--soft);
   color: var(--ink-2);
   font-size: 22rpx;
+  transition: transform 0.16s ease, background 0.2s ease, color 0.2s ease;
 }
 
 .element-pill--active {
@@ -413,4 +441,125 @@ page {
 
 .entry-card--hover {
   transform: scale(0.98);
+}
+
+/* 通用按压反馈：任何可点元素都可直接 hover-class="tap-hover" */
+.tap-hover {
+  transform: scale(0.97);
+  opacity: 0.92;
+  transition: transform 0.16s ease, opacity 0.16s ease;
+}
+
+/* ===== 自绘组件共享样式（替代 tdesign，双端一致） ===== */
+.cx-notice {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 16rpx 22rpx;
+  border-radius: 18rpx;
+  background: var(--brand-soft);
+  border: 1rpx solid var(--line);
+}
+
+.cx-notice__icon {
+  font-size: 28rpx;
+}
+
+.cx-notice__text {
+  flex: 1;
+  min-width: 0;
+  color: var(--ink-2);
+  font-size: 23rpx;
+  line-height: 1.5;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cx-notice__more {
+  color: var(--brand);
+  font-size: 23rpx;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.cx-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14rpx;
+  padding: 90rpx 0 40rpx;
+}
+
+.cx-empty__icon {
+  width: 110rpx;
+  height: 110rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--soft);
+  font-size: 52rpx;
+}
+
+.cx-empty__text {
+  color: var(--ink-3);
+  font-size: 25rpx;
+}
+
+.mini-tag--ok {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+.cx-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 84rpx;
+  border-radius: 999rpx;
+  font-size: 27rpx;
+  font-weight: 600;
+  transition: transform 0.16s ease;
+}
+
+.cx-btn--primary {
+  background: var(--brand);
+  color: #ffffff;
+  box-shadow: 0 8rpx 20rpx rgba(47, 107, 255, 0.3);
+}
+
+.cx-btn--outline {
+  background: var(--card-bg);
+  color: var(--brand);
+  border: 1rpx solid var(--brand);
+}
+
+.cx-btn--ghost {
+  background: transparent;
+  color: var(--ink-2);
+}
+
+.cx-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(10, 14, 30, 0.55);
+  display: flex;
+  align-items: flex-end;
+}
+
+.cx-sheet {
+  width: 100%;
+  max-height: 72vh;
+  box-sizing: border-box;
+  padding: 28rpx 28rpx calc(28rpx + env(safe-area-inset-bottom));
+  border-radius: 32rpx 32rpx 0 0;
+  background: var(--card-bg);
+  animation: sheet-up 0.24s ease both;
+}
+
+@keyframes sheet-up {
+  from { transform: translateY(12%); opacity: 0.6; }
+  to { transform: translateY(0); opacity: 1; }
 }

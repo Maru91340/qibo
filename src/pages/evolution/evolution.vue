@@ -9,7 +9,7 @@
       <view
         v-for="option in elementOptions"
         :key="option.key"
-        class="facet-chip"
+        class="facet-chip" hover-class="facet-chip--hover"
         :class="{ 'facet-chip--active': option.key === element }"
         @tap="element = option.key"
       >
@@ -22,7 +22,7 @@
         <view class="ev-dot" :style="{ background: group.color }" />
         {{ group.label }}系
       </view>
-      <view v-for="qibo in group.items" :key="qibo.id" class="ev-chain" @tap="goQibo(qibo.id)">
+      <view v-for="qibo in group.items" :key="qibo.id" class="ev-chain" hover-class="tap-hover" @tap="goQibo(qibo.id)">
         <view class="ev-chain__top">
           <text class="ev-chain__name">{{ qibo.name }}</text>
           <text v-if="!qibo.verified" class="mini-tag mini-tag--warn">待核实</text>
@@ -134,8 +134,8 @@ onShareAppMessage(() => ({ title: '进化图谱 · 蓝色星原助手', path: '/
 .mini-tag {
   padding: 2rpx 12rpx;
   border-radius: 8rpx;
-  background: #fff4e6;
-  color: #c77700;
+  background: var(--warn-soft);
+  color: var(--warn-ink);
   font-size: 20rpx;
 }
 

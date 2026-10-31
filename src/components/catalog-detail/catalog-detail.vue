@@ -5,9 +5,9 @@
         <view class="hero__inner">
           <view class="head__top">
             <image
-              v-if="item.icon && !iconBroken"
+              v-if="bigIcon && !iconBroken"
               class="head__img"
-              :src="item.icon"
+              :src="bigIcon"
               mode="aspectFill"
               @error="iconBroken = true"
             />
@@ -51,7 +51,7 @@
       </view>
 
       <view class="detail__foot">
-        <view class="foot-btn" @tap="goBack">返回列表</view>
+        <view class="foot-btn" hover-class="tap-hover" @tap="goBack">返回列表</view>
       </view>
 
       <view class="footnote">{{ notice }}</view>
@@ -59,7 +59,7 @@
     <view v-else class="cl-missing">
       <view class="cl-missing__icon">∅</view>
       <view class="cl-missing__text">未找到该条目，可能已被更新替换</view>
-      <view class="cl-missing__back" @tap="goBack">返回列表</view>
+      <view class="cl-missing__back" hover-class="tap-hover" @tap="goBack">返回列表</view>
     </view>
   </view>
 </template>
@@ -81,6 +81,11 @@ const props = defineProps({
 
 const catalog = ref({ items: [], notice: '' });
 const iconBroken = ref(false);
+// 详情页用 240px 大图（BWIKI 缩略图支持改前缀尺寸），失败回退 120px 原图
+const bigIcon = computed(() => {
+  const icon = item.value && item.value.icon;
+  return icon ? icon.replace('/120px-', '/240px-') : '';
+});
 
 const item = computed(() => (catalog.value.items || []).filter((entry) => entry.id === props.id)[0] || null);
 const notice = computed(() => catalog.value.notice || '');
@@ -117,10 +122,11 @@ let unsubscribe = onCatalogUpdate(reload);
 <style>
 .head__img {
   flex: none;
-  width: 96rpx;
-  height: 96rpx;
-  border-radius: 30rpx;
-  background: rgba(255, 255, 255, 0.85);
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 32rpx;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8rpx 20rpx rgba(10, 14, 38, 0.28);
 }
 
 .cl-missing {
@@ -149,10 +155,14 @@ let unsubscribe = onCatalogUpdate(reload);
 }
 
 .cl-missing__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64rpx;
   margin-top: 10rpx;
-  padding: 14rpx 48rpx;
+  padding: 0 48rpx;
   border-radius: 34rpx;
-  background: #2f6bff;
+  background: var(--brand);
   color: #fff;
   font-size: 25rpx;
 }

@@ -48,6 +48,13 @@ export const sections = [
   { key: 'explore', group: 'tool', title: '地图探索', desc: '区域点位清单', icon: 'bookmark', accent: '#8a93a8', path: '/pages/explore/explore' }
 ];
 
+// 尚未开发的占位页；其余首页入口均视为可用，首页据此显示「建设中」角标
+const PLACEHOLDER_PATHS = [];
+
+sections.forEach((item) => {
+  item.ready = PLACEHOLDER_PATHS.indexOf(item.path) < 0;
+});
+
 export const banners = [
   {
     id: 'release',

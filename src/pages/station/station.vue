@@ -13,7 +13,7 @@
       <view
         v-for="entry in group.items"
         :key="entry.id"
-        class="st-item"
+        class="st-item" hover-class="tap-hover"
         @tap="goQibo(entry.id)"
       >
         <view class="st-item__badge" :style="{ color: entry.color, background: entry.tint }">

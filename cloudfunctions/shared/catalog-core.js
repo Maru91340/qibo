@@ -265,7 +265,7 @@ function normalizeEntries(payload) {
   };
 }
 
-const ENTRY_TYPES = ['spirit', 'item', 'equipment', 'material', 'food', 'fishing', 'enemy', 'dungeon', 'building', 'achievement', 'region', 'affix'];
+const ENTRY_TYPES = ['spirit', 'item', 'equipment', 'material', 'food', 'fishing', 'enemy', 'dungeon', 'building', 'achievement', 'region', 'affix', 'guide'];
 
 const NORMALIZERS = {
   meta: (payload) => normalizeMeta(payload),

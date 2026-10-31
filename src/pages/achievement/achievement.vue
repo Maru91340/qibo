@@ -243,18 +243,18 @@ onShareAppMessage(() => ({ title: '成就图鉴 · 蓝色星原助手', path: '/
   padding: 2rpx 12rpx;
   border-radius: 8rpx;
   background: var(--brand-soft);
-  color: var(--brand);
+  color: var(--brand-deep);
   font-size: 20rpx;
 }
 
 .mini-tag--cup {
-  background: #fdf3d8;
-  color: #a06b00;
+  background: var(--reward-soft);
+  color: var(--reward);
 }
 
 .mini-tag--warn {
-  background: #fff4e6;
-  color: #c77700;
+  background: var(--warn-soft);
+  color: var(--warn-ink);
 }
 
 .ac-item__cond {

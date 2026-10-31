@@ -16,4 +16,6 @@ export default {
 
 <style>
 @import './styles/theme.css';
+@import './styles/content.css';
+@import './styles/tools.css';
 </style>

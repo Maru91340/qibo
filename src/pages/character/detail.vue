@@ -40,7 +40,7 @@
         <view v-for="skill in item.skills" :key="skill.name" class="skill">
           <view class="skill__head">
             <text class="skill__name">{{ skill.name }}</text>
-            <t-tag size="small" variant="light" theme="primary">{{ skill.type }}</t-tag>
+            <text class="mini-tag">{{ skill.type }}</text>
           </view>
           <view class="skill__desc">{{ skill.desc }}</view>
         </view>
@@ -62,19 +62,19 @@
       </view>
 
       <view class="detail__foot">
-        <t-button
-          block
-          :theme="inTeam ? 'default' : 'primary'"
-          :variant="inTeam ? 'outline' : 'base'"
+        <view
+          class="cx-btn"
+          :class="inTeam ? 'cx-btn--outline' : 'cx-btn--primary'"
+          hover-class="tap-hover"
           @tap="toggleTeam"
         >
           {{ inTeam ? '移出队伍' : '编入队伍' }}
-        </t-button>
+        </view>
       </view>
 
       <view class="footnote">{{ notice }}</view>
     </template>
-    <t-empty v-else description="未找到该角色" />
+    <view class="cx-empty"><view class="cx-empty__icon">🐾</view><view class="cx-empty__text">未找到该角色</view></view>
   </view>
 </template>
 

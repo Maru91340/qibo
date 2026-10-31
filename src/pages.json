@@ -5,11 +5,7 @@
       "style": {
         "navigationBarTitleText": "蓝色星原",
         "mp-weixin": {
-          "usingComponents": {
-            "t-search": "tdesign-miniprogram/search/search",
-            "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar",
-            "t-icon": "tdesign-miniprogram/icon/icon"
-          }
+          "usingComponents": {}
         }
       }
     },
@@ -19,11 +15,6 @@
         "navigationBarTitleText": "奇波图鉴",
         "mp-weixin": {
           "usingComponents": {
-            "t-search": "tdesign-miniprogram/search/search",
-            "t-check-tag": "tdesign-miniprogram/check-tag/check-tag",
-            "t-tag": "tdesign-miniprogram/tag/tag",
-            "t-empty": "tdesign-miniprogram/empty/empty",
-            "t-icon": "tdesign-miniprogram/icon/icon"
           }
         }
       }
@@ -33,11 +24,7 @@
       "style": {
         "navigationBarTitleText": "奇波详情",
         "mp-weixin": {
-          "usingComponents": {
-            "t-button": "tdesign-miniprogram/button/button",
-            "t-empty": "tdesign-miniprogram/empty/empty",
-            "t-icon": "tdesign-miniprogram/icon/icon"
-          }
+          "usingComponents": {}
         }
       }
     },
@@ -47,11 +34,6 @@
         "navigationBarTitleText": "角色图鉴",
         "mp-weixin": {
           "usingComponents": {
-            "t-search": "tdesign-miniprogram/search/search",
-            "t-check-tag": "tdesign-miniprogram/check-tag/check-tag",
-            "t-tag": "tdesign-miniprogram/tag/tag",
-            "t-empty": "tdesign-miniprogram/empty/empty",
-            "t-icon": "tdesign-miniprogram/icon/icon"
           }
         }
       }
@@ -61,11 +43,7 @@
       "style": {
         "navigationBarTitleText": "角色详情",
         "mp-weixin": {
-          "usingComponents": {
-            "t-tag": "tdesign-miniprogram/tag/tag",
-            "t-button": "tdesign-miniprogram/button/button",
-            "t-empty": "tdesign-miniprogram/empty/empty"
-          }
+          "usingComponents": {}
         }
       }
     },
@@ -84,10 +62,6 @@
         "navigationBarTitleText": "队伍编成",
         "mp-weixin": {
           "usingComponents": {
-            "t-icon": "tdesign-miniprogram/icon/icon",
-            "t-button": "tdesign-miniprogram/button/button",
-            "t-empty": "tdesign-miniprogram/empty/empty",
-            "t-popup": "tdesign-miniprogram/popup/popup"
           }
         }
       }
@@ -97,11 +71,7 @@
       "style": {
         "navigationBarTitleText": "搜索",
         "mp-weixin": {
-          "usingComponents": {
-            "t-search": "tdesign-miniprogram/search/search",
-            "t-empty": "tdesign-miniprogram/empty/empty",
-            "t-icon": "tdesign-miniprogram/icon/icon"
-          }
+          "usingComponents": {}
         }
       }
     },
@@ -432,7 +402,7 @@
     {
       "path": "pages/ridu/ridu",
       "style": {
-        "navigationBarTitleText": "日杜尘影",
+        "navigationBarTitleText": "日渡尘影",
         "mp-weixin": {
           "usingComponents": {}
         }

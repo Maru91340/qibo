@@ -13,7 +13,7 @@
               <view class="banner__desc">{{ item.desc }}</view>
               <view class="banner__cta">
                 <text>立即查看</text>
-                <t-icon name="chevron-right" size="28rpx" color="#ffffff" />
+                <c-icon name="chevron-right" size="28rpx" color="#ffffff" />
               </view>
             </view>
           </view>
@@ -30,7 +30,7 @@
     </view>
 
     <view class="searchbar">
-      <t-search
+      <cx-input
         :value="keyword"
         shape="round"
         placeholder="搜奇波、角色、灵子、物品、成就"
@@ -39,7 +39,11 @@
       />
     </view>
 
-    <t-notice-bar :content="notice" theme="warning" prefix-icon="info-circle" />
+    <view class="cx-notice" hover-class="tap-hover" @tap="go('/pages/guide/guide')">
+      <text class="cx-notice__icon">📢</text>
+      <text class="cx-notice__text">{{ notice }}</text>
+      <text class="cx-notice__more">详情›</text>
+    </view>
 
     <view v-for="group in groups" :key="group.key" class="home-group">
       <view class="section-title">
@@ -61,10 +65,10 @@
           <view class="section-card__veil" />
           <view class="section-card__top">
             <view class="section-card__icon" :style="{ color: item.accent, background: item.tint }">
-              <t-icon :name="item.icon" size="40rpx" :color="item.accent" />
+              <text class="section-card__emoji">{{ item.emoji }}</text>
             </view>
             <view class="section-card__arrow">
-              <t-icon name="chevron-right" size="26rpx" color="#97a0b5" />
+              <c-icon name="chevron-right" size="26rpx" color="#97a0b5" />
             </view>
           </view>
           <view class="section-card__title">{{ item.title }}</view>
@@ -80,7 +84,8 @@
           @tap="go(item.path)"
         >
           <text class="row-cell__title">{{ item.title }}</text>
-          <text class="row-cell__tag">建设中</text>
+          <text class="row-cell__tag row-cell__tag--ready" v-if="item.ready">可用</text>
+          <text class="row-cell__tag" v-else>建设中</text>
         </view>
       </view>
     </view>
@@ -121,6 +126,18 @@ const groups = computed(() => {
 
 const BANNER_THEMES = ['night', 'dawn', 'amber'];
 
+// 每个板块专属图标（emoji 双端一致渲染，青少年向视觉）
+const SECTION_EMOJI = {
+  qibo: '🐾', character: '🥇', spirit: '💎', item: '🎒', equipment: '🗡️',
+  material: '🧬', food: '🍚', fishing: '🎣', enemy: '👾', dungeon: '🏰',
+  building: '🏗️', achievement: '🏆', region: '🗺️',
+  element: '🔄', affix: '⚔️', evolution: '⏳', station: '🏠', search: '🔍',
+  team: '🛡️', beast: '🐉', tutorial: '📚', guide: '🧭', story: '📜',
+  versus: '⚡', ridu: '🌙', wallpaper: '🖼️', codes: '🎁', subscribe: '🔔',
+  wiki: '📖', about: '💙', settings: '⚙️', compare: '⚖️', cultivation: '📈',
+  pity: '🎯', simulator: '🎲', rebate: '💰', explore: '🧭'
+};
+
 function hashIndex(key, length) {
   let hash = 0;
   const text = String(key || '');
@@ -141,6 +158,7 @@ function loadMeta() {
   );
   sections.value = (meta.sections || []).map((item, index) =>
     Object.assign({}, item, {
+      emoji: SECTION_EMOJI[item.key] || '✦',
       tint: tint(item.accent || '#2f6bff'),
       accentGradient: `linear-gradient(90deg, ${hexFade(item.accent || '#2f6bff', 0)}, ${item.accent || '#2f6bff'} 38%, ${hexFade(item.accent || '#2f6bff', 0.72)})`,
       art: arts.length ? arts[hashIndex(item.key || index, arts.length)] : ''
@@ -183,7 +201,6 @@ onUnload(() => unsubscribe && unsubscribe());
 <style>
 .banner-wrap {
   position: relative;
-  padding-top: 8rpx;
 }
 
 .banner {
@@ -282,25 +299,32 @@ onUnload(() => unsubscribe && unsubscribe());
 }
 
 .banner__desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
   margin-top: 12rpx;
   max-width: 440rpx;
+  height: 76rpx;
   font-size: 24rpx;
   line-height: 1.6;
   opacity: 0.88;
 }
 
 .banner__cta {
-  align-self: flex-start;
+  position: absolute;
+  left: 40rpx;
+  bottom: 30rpx;
   display: inline-flex;
   align-items: center;
   gap: 6rpx;
-  margin-top: 22rpx;
-  padding: 12rpx 26rpx;
+  padding: 12rpx 28rpx;
   border-radius: 999rpx;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1rpx solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.92);
+  color: #1f3d9e;
   font-size: 24rpx;
-  font-weight: 600;
+  font-weight: 700;
+  box-shadow: 0 6rpx 16rpx rgba(10, 14, 38, 0.3);
 }
 
 .banner__dots {
@@ -314,14 +338,14 @@ onUnload(() => unsubscribe && unsubscribe());
   width: 12rpx;
   height: 12rpx;
   border-radius: 50%;
-  background: #c9d2e8;
+  background: var(--line);
   transition: all 0.3s ease;
 }
 
 .banner__dot--active {
   width: 34rpx;
   border-radius: 999rpx;
-  background: #2f6bff;
+  background: var(--brand);
 }
 
 .searchbar {
@@ -401,6 +425,11 @@ onUnload(() => unsubscribe && unsubscribe());
   border-radius: 24rpx;
 }
 
+.section-card__emoji {
+  font-size: 44rpx;
+  line-height: 1;
+}
+
 .section-card__arrow {
   display: flex;
   align-items: center;
@@ -439,10 +468,16 @@ onUnload(() => unsubscribe && unsubscribe());
   display: inline-flex;
   align-items: center;
   gap: 10rpx;
-  padding: 12rpx 22rpx;
+  min-height: 64rpx;
+  padding: 0 24rpx;
   border-radius: 32rpx;
   background: var(--soft);
   border: 1rpx solid var(--line);
+  transition: transform 0.16s ease;
+}
+
+.row-cell:active {
+  transform: scale(0.97);
 }
 
 .row-cell__title {
@@ -451,7 +486,11 @@ onUnload(() => unsubscribe && unsubscribe());
 }
 
 .row-cell__tag {
-  font-size: 19rpx;
+  font-size: 20rpx;
   color: var(--ink-3);
+}
+
+.row-cell__tag--ready {
+  color: var(--ok);
 }
 </style>

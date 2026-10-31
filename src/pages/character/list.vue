@@ -1,7 +1,7 @@
 <template>
   <view class="page" :class="{ 'theme-dark': isDark }">
     <view class="filter-bar card">
-      <t-search
+      <cx-input
         :value="keyword"
         shape="round"
         placeholder="搜角色、定位、配队思路"
@@ -9,32 +9,20 @@
         @clear="keyword = ''"
       />
       <scroll-view class="filter-row" scroll-x enable-flex>
-        <t-check-tag
-          v-for="option in filters.roles"
-          :key="option"
-          :checked="option === role"
-          variant="light"
-          size="large"
-          :content="option"
-          @change="role = option"
-        />
+        <view class="facet-chip" :class="{ 'facet-chip--active': option === role }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="role = option">
+        {{ option }}
+      </view>
       </scroll-view>
       <scroll-view class="filter-row" scroll-x enable-flex>
-        <t-check-tag
-          v-for="option in filters.rarities"
-          :key="option"
-          :checked="option === rarity"
-          variant="light"
-          size="large"
-          :content="option"
-          @change="rarity = option"
-        />
+        <view class="facet-chip" :class="{ 'facet-chip--active': option === rarity }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="rarity = option">
+        {{ option }}
+      </view>
       </scroll-view>
       <view class="element-row">
         <view
           v-for="option in elementOptions"
           :key="option.key"
-          class="element-pill"
+          class="element-pill" hover-class="tap-hover"
           :class="{ 'element-pill--active': option.key === element }"
           @tap="element = option.key"
         >
@@ -59,20 +47,20 @@
         <view class="entry-card__body">
           <view class="entry-card__title">
             <text>{{ item.name }}</text>
-            <t-tag v-if="!item.verified" size="small" variant="light" theme="warning">示例</t-tag>
-            <t-tag size="small" variant="light" theme="primary">{{ item.rarity }}</t-tag>
-            <t-tag size="small" variant="light" theme="success">{{ item.role }}</t-tag>
+            <text class="mini-tag mini-tag--warn">示例</text>
+            <text class="mini-tag">{{ item.rarity }}</text>
+            <text class="mini-tag mini-tag--ok">{{ item.role }}</text>
           </view>
           <view class="entry-card__desc">{{ item.desc }}</view>
           <view class="chip-row">
             <text v-for="team in item.teams" :key="team" class="chip chip--ghost">{{ team }}</text>
           </view>
         </view>
-        <t-icon name="chevron-right" size="32rpx" color="#c2c9d6" />
+        <c-icon name="chevron-right" size="32rpx" color="#c2c9d6" />
       </view>
     </view>
 
-    <t-empty v-if="!list.length" description="没有符合条件的角色" />
+    <view class="cx-empty"><view class="cx-empty__icon">🐾</view><view class="cx-empty__text">没有符合条件的角色</view></view>
     <view class="footnote">{{ notice }}</view>
   </view>
 </template>

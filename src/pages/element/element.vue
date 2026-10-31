@@ -11,7 +11,7 @@
       <view
         v-for="option in toolkit.elements"
         :key="option.key"
-        class="element-pill"
+        class="element-pill" hover-class="tap-hover"
         :class="{ 'element-pill--active': option.key === current }"
         @tap="current = option.key"
       >

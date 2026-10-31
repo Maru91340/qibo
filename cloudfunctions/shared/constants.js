@@ -7,7 +7,9 @@ const CATALOG_TYPES = Object.freeze([
   'spirit', 'item', 'equipment', 'material', 'food', 'fishing',
   'enemy', 'dungeon', 'building', 'achievement', 'region',
   // P0 信息查询：战斗词条
-  'affix'
+  'affix',
+  // P1 玩法指南：BWIKI 攻略一图流
+  'guide'
 ]);
 const MANIFEST_ID = 'published';
 const SCHEMA_VERSION = 'qbxzs-catalog/v1';

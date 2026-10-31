@@ -3,7 +3,7 @@
     <view class="team-head card">
       <view class="team-head__row">
         <view class="team-head__name">{{ team.name }}</view>
-        <text class="team-head__edit" @tap="rename">改名</text>
+        <text class="team-head__edit" hover-class="tap-hover" @tap="rename">改名</text>
       </view>
       <view class="team-head__meta">
         <text>{{ team.members.length }}/{{ MAX_MEMBERS }} 角色</text>
@@ -28,18 +28,18 @@
 
     <view class="slots">
       <template v-for="slot in memberViews" :key="slot.key">
-        <view v-if="slot.data" class="slot slot--filled" @tap="goDetail('character', slot.data.id)">
+        <view v-if="slot.data" class="slot slot--filled" hover-class="tap-hover" @tap="goDetail('character', slot.data.id)">
           <view class="slot__badge" :style="{ color: slot.data.elementColor, background: slot.data.elementTint }">
             {{ slot.data.elementName }}
           </view>
           <view class="slot__name">{{ slot.data.name }}</view>
           <view class="slot__role">{{ slot.data.role }}</view>
-          <view class="slot__remove" @tap.stop="removeMember(slot.data.id)">
-            <t-icon name="close" size="26rpx" color="#97a0b5" />
+          <view class="slot__remove" hover-class="tap-hover" @tap.stop="removeMember(slot.data.id)">
+            <c-icon name="close" size="26rpx" color="#97a0b5" />
           </view>
         </view>
-        <view v-else class="slot slot--empty" @tap="openPicker('character')">
-          <t-icon name="add" size="44rpx" color="#c2c9d6" />
+        <view v-else class="slot slot--empty" hover-class="tap-hover" @tap="openPicker('character')">
+          <c-icon name="add" size="44rpx" color="#c2c9d6" />
           <text class="slot__hint">添加角色</text>
         </view>
       </template>
@@ -52,18 +52,18 @@
 
     <view class="slots">
       <template v-for="slot in qiboViews" :key="slot.key">
-        <view v-if="slot.data" class="slot slot--filled" @tap="goDetail('qibo', slot.data.id)">
+        <view v-if="slot.data" class="slot slot--filled" hover-class="tap-hover" @tap="goDetail('qibo', slot.data.id)">
           <view class="slot__badge" :style="{ color: slot.data.elementColor, background: slot.data.elementTint }">
             {{ slot.data.elementName }}
           </view>
           <view class="slot__name">{{ slot.data.name }}</view>
           <view class="slot__role">{{ slot.data.role }}</view>
-          <view class="slot__remove" @tap.stop="removeQibo(slot.data.id)">
-            <t-icon name="close" size="26rpx" color="#97a0b5" />
+          <view class="slot__remove" hover-class="tap-hover" @tap.stop="removeQibo(slot.data.id)">
+            <c-icon name="close" size="26rpx" color="#97a0b5" />
           </view>
         </view>
-        <view v-else class="slot slot--empty" @tap="openPicker('qibo')">
-          <t-icon name="add" size="44rpx" color="#c2c9d6" />
+        <view v-else class="slot slot--empty" hover-class="tap-hover" @tap="openPicker('qibo')">
+          <c-icon name="add" size="44rpx" color="#c2c9d6" />
           <text class="slot__hint">添加奇波</text>
         </view>
       </template>
@@ -73,32 +73,34 @@
       <view class="panel__title">编队检查</view>
       <view class="checks">
         <view v-for="check in checks" :key="check.label" class="check" :class="{ 'check--ok': check.ok }">
-          <t-icon :name="check.ok ? 'check-circle-filled' : 'close-circle'" size="30rpx" />
+          <c-icon :name="check.ok ? 'check-circle-filled' : 'close-circle'" size="30rpx" />
           <text>{{ check.label }}</text>
         </view>
       </view>
     </view>
 
     <view class="actions">
-      <t-button theme="primary" variant="outline" size="medium" @tap="openPicker('character')">
+      <view class="cx-btn cx-btn--outline" hover-class="tap-hover" @tap="openPicker('character')">
         继续添加角色
-      </t-button>
-      <t-button theme="default" variant="text" size="medium" @tap="clearTeam">清空队伍</t-button>
+      </view>
+      <view class="cx-btn cx-btn--ghost" hover-class="tap-hover" @tap="clearTeam">清空队伍</view>
     </view>
 
-    <t-empty v-if="!team.members.length" description="还没有编入角色，先去角色图鉴挑几位" />
+    <view class="cx-empty"><view class="cx-empty__icon">🐾</view><view class="cx-empty__text">还没有编入角色，先去角色图鉴挑几位</view></view>
 
-    <t-popup :visible="pickerVisible" placement="bottom" @visible-change="onPopupChange">
+    <view v-if="pickerVisible" class="cx-overlay" @tap="pickerVisible = false">
+      <view class="cx-sheet" @tap.stop>
       <view class="picker">
         <view class="picker__head">
           <text class="picker__title">{{ pickerType === 'qibo' ? '选择出战奇波' : '选择角色' }}</text>
-          <text class="picker__close" @tap="pickerVisible = false">完成</text>
+          <text class="picker__close" hover-class="tap-hover" @tap="pickerVisible = false">完成</text>
         </view>
         <scroll-view class="picker__list" scroll-y>
           <view
             v-for="item in pickerItems"
             :key="item.id"
             class="picker__item"
+            hover-class="tap-hover"
             :class="{ 'picker__item--off': item.disabled }"
             @tap="pickItem(item)"
           >
@@ -109,12 +111,13 @@
               <view class="picker__name">{{ item.name }}</view>
               <view class="picker__desc">{{ item.desc }}</view>
             </view>
-            <t-icon v-if="item.added" name="check" size="34rpx" color="#2f6bff" />
-            <t-icon v-else name="add-circle" size="34rpx" color="#c2c9d6" />
+            <c-icon v-if="item.added" name="check" size="34rpx" color="#2f6bff" />
+            <c-icon v-else name="add-circle" size="34rpx" color="#c2c9d6" />
           </view>
         </scroll-view>
       </view>
-    </t-popup>
+          </view>
+    </view>
   </view>
 </template>
 
@@ -172,8 +175,8 @@ function withElement(item) {
     role: item.role || item.kind,
     desc: item.title || item.habitat,
     elementName: element.name || '—',
-    elementColor: element.color || '#5a6480',
-    elementTint: element.tint || '#f2f4f9'
+    elementColor: element.color || 'var(--ink-2)',
+    elementTint: element.tint || 'var(--soft)'
   };
 }
 
@@ -317,7 +320,10 @@ onShareAppMessage(() => ({ title: `我的蓝色星原队伍：${team.value.name}
 }
 
 .team-head__edit {
-  padding: 6rpx 20rpx;
+  display: inline-flex;
+  align-items: center;
+  min-height: 64rpx;
+  padding: 0 20rpx;
   border-radius: 999rpx;
   background: var(--brand-soft);
   color: var(--brand-deep);
@@ -392,7 +398,7 @@ onShareAppMessage(() => ({ title: `我的蓝色星原队伍：${team.value.name}
 .slot--empty {
   justify-content: center;
   gap: 10rpx;
-  border: 2rpx dashed #d8e0f0;
+  border: 2rpx dashed var(--line);
   background: var(--soft);
   box-shadow: none;
 }
@@ -431,13 +437,13 @@ onShareAppMessage(() => ({ title: `我的蓝色星原队伍：${team.value.name}
 
 .slot__remove {
   position: absolute;
-  top: 10rpx;
-  right: 10rpx;
+  top: 4rpx;
+  right: 4rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40rpx;
-  height: 40rpx;
+  width: 64rpx;
+  height: 64rpx;
   border-radius: 50%;
   background: var(--soft);
 }
@@ -490,6 +496,10 @@ onShareAppMessage(() => ({ title: `我的蓝色星原队伍：${team.value.name}
 }
 
 .picker__close {
+  display: inline-flex;
+  align-items: center;
+  min-height: 64rpx;
+  padding: 0 12rpx;
   color: var(--brand);
   font-size: 26rpx;
 }

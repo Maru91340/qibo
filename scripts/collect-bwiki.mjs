@@ -48,6 +48,23 @@ function clip(value, max) {
   return text.length > max ? `${text.slice(0, max - 1)}…` : text;
 }
 
+async function postRetry(params, attempt = 0) {
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'User-Agent': UA, 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(params)
+    });
+    const text = await res.text();
+    if (!text.trim().startsWith('{')) throw new Error(`HTTP ${res.status}`);
+    return JSON.parse(text);
+  } catch (error) {
+    if (attempt >= 3) throw error;
+    await sleep(4000 * (attempt + 1));
+    return postRetry(params, attempt + 1);
+  }
+}
+
 async function ask(query, attempt = 0) {
   const body = new URLSearchParams({ action: 'ask', format: 'json', query });
   try {
@@ -219,6 +236,67 @@ async function resolveIcons(rows) {
   return map;
 }
 
+// BWIKI 真实条目扩展源：奇波/角色（ SMW 字段较少，图片从页面 images 取）/ 攻略一图流
+const WIKI_SOURCES = [
+  { type: 'qiboWiki', category: '奇波', label: '奇波', props: ['名称', '稀有度', '元素', '简介'], imgPick: /icon pet|pet/i },
+  { type: 'charWiki', category: '角色', label: '角色', props: ['名称', '稀有度', '元素', '简介'], imgPick: /icon char|char|icon/i },
+  { type: 'guideWiki', category: '攻略', label: '攻略', props: ['名称', '简介'], imgPick: /一图流|图|panel|png/i }
+];
+
+function wikiEntry(type, row, imgUrl) {
+  const name = row['名称'] || row.title;
+  const ele = String(row['元素'] || '');
+  return {
+    id: `${type.slice(0, 2)}-${slug(type, name).split('-')[1]}`,
+    name: clip(name, 30),
+    category: 'BWIKI',
+    rarity: clip(row['稀有度'] || '', 20),
+    tags: ele.split(/[、,，]/).map((t) => t.trim()).filter(Boolean).slice(0, 4),
+    summary: clip(row['简介'] || row['描述'] || '', 100) || '暂无简介，详见 BWIKI 页面。',
+    desc: clip(row['简介'] || row['描述'] || '', 118) || '暂无简介，详见 BWIKI 页面。',
+    fields: [],
+    sections: [],
+    icon: imgUrl || '',
+    verified: true
+  };
+}
+
+// 页面内嵌图片：prop=images 取候选文件名，再走 imageinfo 换 240px 缩略图
+async function resolvePageImages(titles, pickRe) {
+  const map = {};
+  if (!titles.length) return map;
+  const cands = {};
+  try {
+    // 页面 images 查询也分批，避免 207 个标题一次请求被截断
+    for (let b = 0; b < titles.length; b += 20) {
+      const json = await postRetry({ action: 'query', format: 'json', prop: 'images', imlimit: '30', titles: titles.slice(b, b + 20).join('|') });
+      Object.values((json.query || {}).pages || {}).forEach((page) => {
+        const files = (page.images || []).map((i) => i.title);
+        const hit = files.find((f) => pickRe.test(f) && !/bg|logo|tag|product|skill/i.test(f)) || files.find((f) => /png|jpg/i.test(f));
+        if (hit) cands[page.title] = hit;
+      });
+      await sleep(1200);
+    }
+    const names = [...new Set(Object.values(cands))];
+    for (let i = 0; i < names.length; i += 50) {
+      const j2 = await postRetry({ action: 'query', format: 'json', prop: 'imageinfo', iiprop: 'url', iiurlwidth: '240', titles: names.slice(i, i + 50).join('|') });
+      const norm = new Map(((j2.query || {}).normalized || []).map((n) => [n.from, n.to]));
+      const urlByCanon = {};
+      Object.values((j2.query || {}).pages || {}).forEach((page) => {
+        const info = page.imageinfo && page.imageinfo[0];
+        if (info) urlByCanon[page.title] = info.thumburl || info.url || '';
+      });
+      Object.entries(cands).forEach(([title, file]) => {
+        const canon = norm.get(file) || file;
+        if (urlByCanon[canon]) map[title] = urlByCanon[canon];
+      });
+    }
+  } catch (error) {
+    console.warn(`✖ 页面图片解析: ${error.message}`);
+  }
+  return map;
+}
+
 function makeNotice(label, date) {
   return `${label}数据采集自 BWIKI（wiki.biligame.com/ap），抓取于 ${date}；公测后以官方版本为准。`;
 }
@@ -255,6 +333,28 @@ async function main() {
       report.types[source.type] = payload.items.length;
       report.types[`${source.type}_icons`] = iconCount;
       console.log(`✔ ${source.type}: ${payload.items.length} 条（图片 ${iconCount}）`);
+    } catch (error) {
+      report.errors.push({ type: source.type, message: error.message });
+      console.warn(`✖ ${source.type}: ${error.message}（保留上一次结果）`);
+    }
+    await sleep(4500);
+  }
+
+  // BWIKI 真实条目扩展源
+  for (const source of WIKI_SOURCES) {
+    try {
+      const rows = await queryCategory(source.category, source.props);
+      const imgMap = await resolvePageImages(rows.map((r) => r.title), source.imgPick);
+      const seenWiki = new Set();
+      const items = rows
+        .map((row) => wikiEntry(source.type, row, imgMap[row.title]))
+        .filter((item) => item.name && !seenWiki.has(item.id) && seenWiki.add(item.id));
+      const withIcon = items.filter((item) => item.icon).length;
+      if (!items.length) throw new Error('SMW 返回 0 条');
+      next.types[source.type] = { notice: makeNotice(source.label, today()), items };
+      report.types[source.type] = items.length;
+      report.types[`${source.type}_icons`] = withIcon;
+      console.log(`✔ ${source.type}: ${items.length} 条（图片 ${withIcon}）`);
     } catch (error) {
       report.errors.push({ type: source.type, message: error.message });
       console.warn(`✖ ${source.type}: ${error.message}（保留上一次结果）`);

@@ -5,7 +5,7 @@ import { bundledCatalog } from '../data/catalog.js';
 export const CATALOG_TYPES = [
   'meta', 'element', 'qibo', 'character',
   'spirit', 'item', 'equipment', 'material', 'food', 'fishing', 'enemy',
-  'dungeon', 'building', 'achievement', 'region', 'affix'
+  'dungeon', 'building', 'achievement', 'region', 'affix', 'guide'
 ];
 const CACHE_KEY = 'qbxzs:catalog-cache';
 const UPDATE_EVENT = 'catalog:updated';

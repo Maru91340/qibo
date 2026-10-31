@@ -57,25 +57,25 @@
       <view class="panel card">
         <view class="panel__title">能力与玩法</view>
         <view v-for="skill in item.skills" :key="skill" class="skill">
-          <t-icon name="star" size="30rpx" color="#2f6bff" />
+          <c-icon name="star" size="30rpx" color="#2f6bff" />
           <text class="skill__name">{{ skill }}</text>
         </view>
       </view>
 
       <view class="detail__foot">
-        <t-button
-          block
-          :theme="inTeam ? 'default' : 'primary'"
-          :variant="inTeam ? 'outline' : 'base'"
+        <view
+          class="cx-btn"
+          :class="inTeam ? 'cx-btn--outline' : 'cx-btn--primary'"
+          hover-class="tap-hover"
           @tap="toggleTeam"
         >
           {{ inTeam ? '移出出战奇波' : '设为出战奇波' }}
-        </t-button>
+        </view>
       </view>
 
       <view class="footnote">{{ notice }}</view>
     </template>
-    <t-empty v-else description="未找到该奇波" />
+    <view class="cx-empty"><view class="cx-empty__icon">🐾</view><view class="cx-empty__text">未找到该奇波</view></view>
   </view>
 </template>
 
@@ -165,7 +165,7 @@ onShareAppMessage(() => ({
 }
 
 .stage:last-child .stage__dot {
-  background: #2f6bff;
+  background: var(--brand);
   color: #fff;
 }
 

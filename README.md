@@ -1,21 +1,23 @@
 # 蓝色星原助手（qbxzs）
 
-微信小程序：奇波图鉴 / 角色图鉴 / 元素克制 / 队伍编成。
+微信小程序：奇波/角色/物品等图鉴、元素克制、队伍编成、教程与剧情内容、壁纸/福利码/订阅等运营页，以及对比/养成/保底/模拟/返利/地图工具。
 技术栈：uni-app（Vue 3 + vite）+ TDesign 小程序组件库 + 微信云开发（云函数 + 云数据库）。
+当前 53 个路由全部可走通（0 个占位页），并已完成 B11 全量走查（53 页浅/深色、字号与触控下限）；P2 工具页统一复用 `tool-shell` 组件 + `styles/tools.css`，未公开数值统一标注「公测后开放 / 待核实」。
 
 ## 目录结构
 
 ```
 src/                     小程序源码（uni-app）
-  pages.json             8 条路由 + 每个页面用到的 t-* 组件注册
+  pages.json             53 条路由 + 每个页面用到的 t-* 组件注册
   manifest.json          appid、分包、少代码注入等小程序配置
   App.vue                启动时 initCloud() + prefetchCatalog()
   config/cloud.js        CLOUD_ENV_ID（待填）与云函数名
   services/cloud.js      wx.cloud 封装：未配置/未部署时自动降级为内置资料
   services/content.js    资料读取 + 版本比对 + 本地缓存 + 更新事件
-  data/                  内置资料（meta/element/qibo/character）+ catalog 聚合
+  data/                  内置资料（meta/element/qibo/character/content/tools）+ catalog 聚合
   utils/                 query（筛选/搜索）、team（本地队伍）、format
-  styles/theme.css       全局主题变量与公共样式
+  components/            catalog-list/detail、content-list/detail、tool-shell（easycom）
+  styles/                theme.css 全局主题变量 + content.css / tools.css 共享件
 cloudfunctions/          云函数源码（CJS）
   shared/                constants / catalog-core（纯校验）/ cloud（SDK 封装）+ tests
   getCatalog/            公开读：manifest + content

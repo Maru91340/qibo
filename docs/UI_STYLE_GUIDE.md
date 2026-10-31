@@ -6,10 +6,11 @@
 
 - 唯一来源：`src/styles/theme.css` 的 CSS 自定义属性（`page` 选择器浅色值 + `.theme-dark` 深色覆盖）。页面局部样式必须引用 `var(--…)`，发现硬编码近似色时收敛到 Token，不新增第四个近似值。
 - 覆盖类别：
-  - Color：`--brand #2f6bff`、`--brand-deep #1f3d9e`、`--brand-soft #eaf0ff`、`--ink`（标题）/`--ink-2`（正文）/`--ink-3`（弱化）三级文字、`--bg #f3f5fb` 页面底、`--card-bg` 卡片底、`--soft` 输入/筛選底、`--line` 边框。
+  - Color：`--brand #2f6bff`、`--brand-deep`（浅色 `#1f3d9e`，深色提亮 `#9db8ff`，用于 chip/badge 文字）、`--brand-soft #eaf0ff`、`--ink`（标题）/`--ink-2`（正文）/`--ink-3`（弱化）三级文字、`--bg #f3f5fb` 页面底、`--card-bg` 卡片底、`--soft` 输入/筛選底、`--line` 边框。
+  - State：`--warn / --warn-ink / --warn-soft`（待核实、警告）、`--reward / --reward-soft`（成就点数、奖励）；深色下自动换成暖色高亮，不得再写 `#fff4e6` / `#c77700` 一类硬编码。
   - Radius：卡片 24rpx（`--radius-lg`）、小件 16rpx（`--radius-md`）、chips/按钮胶囊 999rpx。
   - Shadow：卡片 `0 8rpx 32rpx rgba(31,61,158,.08)`，深色主题换纯黑投影；轮播用 `0 16rpx 40rpx rgba(31,61,158,.22)`。
-  - State：可点卡片按压 `scale(.96–.985)` + `transition: transform .16s ease`，用 `hover-class` 实现。
+  - State：可点卡片按压 `scale(.96–.985)` + `transition: transform .16s ease`，用 `hover-class` 实现；找不到专用按压类时统一用 `.tap-hover`。
 - 深色主题：根节点 `:class="{ 'theme-dark': isDark }"`（`useTheme()`，`src/utils/theme.js`），新页面/新组件必须绑定；深色下不要硬编码白底/黑字，一律走变量。
 
 ## 设计基调
@@ -32,10 +33,20 @@
 - 「未分类」条目不得外露：徽章降级取首个标签或稀有度，摘要剥除「未分类 ·」前缀。
 - 图片一律 BWIKI 120px 缩略图热链（`patchwiki.biligame.com`），不落主包；必须有文字徽章回退。
 
+## 通用范式（工具页骨架）
+
+- 所有 P2 工具页（对比/养成/保底/星结/返利/地图）必须复用 `src/components/tool-shell/tool-shell.vue`：hero（eyebrow/标题/说明/标签）+ 页面 slot + 统一「公测后开放」说明 + 本地记录脚注；页面只传 `title/sub/tags/hero/note`，不复制整页模板。
+- 工具页内控件统一走 `src/styles/tools.css` 的 `.tool-panel` / `.tool-field` / `.tool-stepper` / `.tool-picker__item` / `.tool-result` / `.tool-empty` / `.tool-check` / `.tool-ladder` / `.tool-point`；按钮/标签继续复用 `content.css` 的 `.ct-btn` / `.ct-tag`。
+- 每页必须具备：输入区 + 结果区 + 空态（未选择/无结果/已达成）+ 深色适配；可点控件有 `hover-class` 按压反馈。
+- 诚实底线：未公开的官方数值、概率、返利规则与地图坐标不得臆造；结果区写明「公测后开放」或「待核实」，模拟类页面必须说明「自定概率 · 非官方」。
+- 工具数据集中在 `src/data/tools.js`，引用 `character.js` 与 `manual-catalogs.js` 的 region 数据派生，不另造一套角色/地区。
+
 ## 字号与触控下限
 
 - 正文/标签最小 `20rpx`；chips/按钮最小 `64rpx` 高（触控热区不足时用 padding 补足）；列表标题 ≥26rpx。
-- 单页渲染超过 150 条的长列表需加分页或 `visibleCount` 增量渲染（当前物品 300 条待处理，见优化计划 B2）。
+- 文字型动作（「清空 / 全部 ›」）用 `.section-title__more--action`（min-height 64rpx + 左右 padding），不要直接给 `<text>` 绑 `@tap`。
+- 通用按压反馈用 `hover-class="tap-hover"`；已有专用类（`facet-chip--hover` / `entry-card--hover` / `ct-btn--hover`）优先用专用类。
+- 单页渲染超过 150 条的长列表需加分页或 `visibleCount` 增量渲染（当前物品 300 条已做 60/页）。
 
 ## 筛选反馈与空态
 
