@@ -42,7 +42,7 @@
         </view>
       </view>
 
-      <view class="panel card">
+      <view v-if="item.skills && item.skills.length" class="panel card">
         <view class="panel__title">技能组</view>
         <view v-for="skill in item.skills" :key="skill.name" class="skill">
           <view class="skill__head">
@@ -51,6 +51,17 @@
           </view>
           <view class="skill__desc">{{ skill.desc }}</view>
         </view>
+      </view>
+
+      <view v-if="guidePoster" class="panel card">
+        <view class="panel__title">官方一图流</view>
+        <image
+          class="guide-poster"
+          :src="guidePoster"
+          mode="widthFix"
+          @error="posterError = true"
+        />
+        <view class="panel__desc">来自 BWIKI 的官方一图流（配装/配队速览）；公测后以最新版本为准。</view>
       </view>
 
       <view class="panel card">
@@ -104,6 +115,13 @@ const inTeam = ref(false);
 const item = computed(() =>
   decorateWithElement(findById(catalog.value.items, id.value), toolkit.value.elementMap)
 );
+const posterError = ref(false);
+const guidePoster = computed(() => {
+  if (posterError.value) return '';
+  const guides = getCatalog('guide').data.items || [];
+  const hit = guides.filter((g) => g.name === (item.value ? item.value.name + '一图流' : ''))[0];
+  return hit ? hit.icon : '';
+});
 const notice = computed(() => catalog.value.notice || '');
 const elementNotice = computed(() => toolkit.value.notice);
 

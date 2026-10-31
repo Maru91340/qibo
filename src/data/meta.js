@@ -61,14 +61,14 @@ export const banners = [
     tag: '版本动态',
     title: '公测定档前瞻',
     desc: '定档信息、福利与保底规则整理，先看一步。',
-    path: '/pages/qibo/list'
+    path: '/pages/codes/codes'
   },
   {
     id: 'camp',
     tag: '玩法',
     title: '奇波营地大作战',
     desc: '捉宠、骑乘解谜与家园自动劳作怎么玩。',
-    path: '/pages/qibo/list'
+    path: '/pages/guide/guide'
   },
   {
     id: 'team',

@@ -26,11 +26,11 @@
 
       <view class="panel card">
         <view class="panel__title">基础信息</view>
-        <view class="kv__row">
+        <view v-if="item.habitat && item.habitat !== '详见 BWIKI'" class="kv__row">
           <text class="kv__key">栖息地</text>
           <text class="kv__value">{{ item.habitat }}</text>
         </view>
-        <view class="kv__row">
+        <view v-if="item.kind !== 'BWIKI收录'" class="kv__row">
           <text class="kv__key">定位</text>
           <text class="kv__value">{{ item.kind }}</text>
         </view>
