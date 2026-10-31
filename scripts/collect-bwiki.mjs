@@ -9,6 +9,7 @@ const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OUTPUT = join(projectRoot, 'src/data/generated/catalogs.json');
 const LOG_FILE = join(projectRoot, 'src/data/generated/collect-log.jsonl');
 const SKILL_CACHE = join(projectRoot, 'src/data/generated/skill-cache.json');
+const DESC_CACHE = join(projectRoot, 'src/data/generated/desc-cache.json');
 const API = 'https://wiki.biligame.com/ap/api.php';
 const UA = 'Mozilla/5.0 (compatible; qbxzs-data/1.0; +local)';
 const MAX_ITEMS = 300;
@@ -367,6 +368,12 @@ async function main() {
         entry.item.icon = (file && iconMap[file]) || '';
       });
       const finalItems = deduped.map((entry) => entry.item);
+      // desc-cache 继承：collect-desc.mjs 抓取的描述/获取方式，仅对 SMW 无描述的条目回填
+      const prevDesc = existsSync(DESC_CACHE) ? JSON.parse(readFileSync(DESC_CACHE, 'utf8')) : {};
+      finalItems.forEach((item) => {
+        const cachedDesc = prevDesc[item.name] && prevDesc[item.name].desc;
+        if (cachedDesc && (!item.desc || item.desc === '暂无简介，详见 BWIKI 页面。')) item.desc = cachedDesc;
+      });
       const payload = { notice: makeNotice(source.category, today()), items: finalItems.slice(0, MAX_ITEMS) };
       const iconCount = payload.items.filter((item) => item.icon).length;
       next.types[source.type] = payload;
@@ -453,6 +460,8 @@ async function main() {
       ((previous.types && previous.types[source.type] && previous.types[source.type].items) || []).forEach((prev) => {
         if (prev.icon) previousIcons[prev.name] = prev.icon;
       });
+      // desc-cache 继承：collect-desc.mjs 抓取的描述/获取方式，仅对模板字段为空的条目回填
+      const prevDesc = existsSync(DESC_CACHE) ? JSON.parse(readFileSync(DESC_CACHE, 'utf8')) : {};
       const seenWiki = new Set();
       const items = rows
         .map((row) => {
@@ -460,6 +469,8 @@ async function main() {
           if (source.type === 'charWiki' && roleMap[row.title]) entry.role = roleMap[row.title];
           if (!entry.icon && aggMap[row.title]) entry.icon = aggMap[row.title];
           if (!entry.icon && previousIcons[entry.name]) entry.icon = previousIcons[entry.name];
+          const cachedDesc = prevDesc[entry.name] && prevDesc[entry.name].desc;
+          if (cachedDesc && (!entry.desc || entry.desc === '暂无简介，详见 BWIKI 页面。')) entry.desc = cachedDesc;
           return entry;
         })
         .filter((item) => item.name && !seenWiki.has(item.id) && seenWiki.add(item.id));
