@@ -2,7 +2,13 @@ const includesKeyword = (item, fields, kw) =>
   fields
     .map((field) => {
       const value = item[field];
-      return Array.isArray(value) ? value.join(' ') : value;
+      if (Array.isArray(value)) {
+        // 对象数组（技能等）：展开 name/type/desc 文本
+        return value
+          .map((v) => (typeof v === 'string' ? v : [v.name, v.type, v.desc].filter(Boolean).join(' ')))
+          .join(' ');
+      }
+      return value;
     })
     .join(' ')
     .toLowerCase()
@@ -62,7 +68,7 @@ export const SEARCHABLE_CATALOGS = [
 ];
 
 function searchGeneric(items, kw) {
-  return (items || []).filter((item) => includesKeyword(item, ['name', 'summary', 'desc', 'category', 'rarity'], kw)
+  return (items || []).filter((item) => includesKeyword(item, ['name', 'summary', 'desc', 'category', 'rarity', 'skills'], kw)
     || (item.tags || []).join(' ').toLowerCase().indexOf(kw) >= 0);
 }
 

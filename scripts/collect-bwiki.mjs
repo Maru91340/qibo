@@ -387,10 +387,14 @@ async function main() {
       const imgMap = await resolvePageImages(rows.map((r) => r.title), source.imgPick);
       // 聚合页补充：词条自身无图时，用聚合页表格里的缩略图兜底
       // 角色技能组：从角色页 HTML 的 hero-skill 结构提取（名称+类型+描述）
-      let skillMap = {};
-      let roleMap = {};
-      // 上轮技能缓存继承：限流时覆盖不回退
+      // 上轮缓存继承：skillMap/roleMap 先全量填入，仅对需重抓的条目覆盖
       const prevSkills = existsSync(SKILL_CACHE) ? JSON.parse(readFileSync(SKILL_CACHE, 'utf8')) : {};
+      const skillMap = {};
+      const roleMap = {};
+      Object.entries(prevSkills).forEach(([name, cached]) => {
+        if (cached.skills && cached.skills.length) skillMap[name] = cached.skills;
+        if (cached.role) roleMap[name] = cached.role;
+      });
       if (source.type === 'charWiki' || source.type === 'qiboWiki') {
         try {
           const pageTitles = rows.map((r) => r.title);
@@ -411,15 +415,9 @@ async function main() {
                 if (attempt === 0) await sleep(9000);
               }
             }
-            if (!html) {
-              if (prevSkills[t]) skillMap[t] = prevSkills[t].skills || [];
-              continue;
-            }
+            if (!html) continue;
             const sIdx = html.indexOf('id="技能"');
-            if (sIdx < 0) {
-              if (prevSkills[t]) skillMap[t] = prevSkills[t].skills || [];
-              continue;
-            }
+            if (sIdx < 0) continue;
             const seg = html.slice(sIdx, sIdx + 20000);
             const skills = [];
             const re = source.type === 'charWiki'
@@ -435,7 +433,7 @@ async function main() {
             }
             if (skills.length) {
               skillMap[t] = skills.slice(0, 6);
-              prevSkills[t] = { skills: skills.slice(0, 6) };
+              prevSkills[t] = { skills: skills.slice(0, 6), role: roleMap[t] || '' };
             }
             if (source.type === 'charWiki') {
               // 战斗定位：hero-battle-tag-name 第一个标签
