@@ -12,7 +12,11 @@ export const compareDimensions = [
   { key: 'stats', label: '基础数值' }
 ];
 
-export const compareCharacters = characters.map((item) => ({
+// 对比池：示例 + BWIKI 真实角色（与角色图鉴同源）
+import { bundledCatalog } from './catalog.js';
+const allCharacters = (bundledCatalog.character.items || []);
+
+export const compareCharacters = allCharacters.map((item) => ({
   id: item.id,
   name: item.name,
   title: item.title,

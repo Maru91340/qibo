@@ -32,6 +32,25 @@
       </view>
     </view>
 
+    <view class="stat-strip card">
+      <view class="stat-strip__item">
+        <text class="stat-strip__num">{{ stat.qibo }}</text>
+        <text class="stat-strip__label">奇波</text>
+      </view>
+      <view class="stat-strip__item">
+        <text class="stat-strip__num">{{ stat.character }}</text>
+        <text class="stat-strip__label">角色</text>
+      </view>
+      <view class="stat-strip__item">
+        <text class="stat-strip__num">{{ stat.images }}</text>
+        <text class="stat-strip__label">官方图</text>
+      </view>
+      <view class="stat-strip__item">
+        <text class="stat-strip__num">{{ stat.total }}</text>
+        <text class="stat-strip__label">图鉴条目</text>
+      </view>
+    </view>
+
     <view class="searchbar">
       <cx-input
         :value="keyword"
@@ -113,6 +132,17 @@ const keyword = ref('');
 const bannerIndex = ref(0);
 const notice = ref('');
 const footer = ref('');
+
+const stat = computed(() => {
+  const count = (t) => ((getCatalog(t).data || {}).items || []).length;
+  const catTypes = ['spirit', 'item', 'equipment', 'material', 'food', 'fishing', 'enemy', 'dungeon', 'building', 'achievement', 'region', 'guide'];
+  let images = 0;
+  catTypes.forEach((t) => {
+    ((getCatalog(t).data || {}).items || []).forEach((it) => { if (it.icon) images += 1; });
+  });
+  const total = catTypes.reduce((sum, t) => sum + count(t), 0) + count('qibo') + count('character');
+  return { qibo: count('qibo'), character: count('character'), images, total };
+});
 
 const groups = computed(() => {
   const order = ['catalog', 'query', 'content', 'tool'];
@@ -502,5 +532,30 @@ onUnload(() => unsubscribe && unsubscribe());
   text-align: center;
   color: var(--ink-3);
   font-size: 22rpx;
+}
+
+.stat-strip {
+  display: flex;
+  padding: 20rpx 0;
+  margin-bottom: 8rpx;
+}
+
+.stat-strip__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+}
+
+.stat-strip__num {
+  font-size: 32rpx;
+  font-weight: 800;
+  color: var(--brand);
+}
+
+.stat-strip__label {
+  font-size: 21rpx;
+  color: var(--ink-3);
 }
 </style>
