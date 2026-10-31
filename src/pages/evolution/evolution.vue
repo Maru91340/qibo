@@ -1,9 +1,17 @@
 <template>
   <view class="page" :class="{ 'theme-dark': isDark }">
-    <view class="panel card">
-      <view class="panel__title">进化图谱</view>
-      <view class="panel__desc">按元素分组展示奇波进化链；点击任一阶段名称进入奇波详情。</view>
+    <view class="page-hero" :style="{ background: 'linear-gradient(132deg, #262c54 0%, #7f5bff 58%, #7f5bff 100%)' }">
+      <view class="page-hero__inner">
+        <text class="page-hero__eyebrow">信息查询</text>
+        <view class="page-hero__title">进化图谱</view>
+        <view class="page-hero__sub">按元素分组查看奇波进化链，点击进化链进入奇波详情。</view>
+        <view class="page-hero__meta">
+          <text class="page-hero__tag">BWIKI 收录</text>
+          <text class="page-hero__tag">六系元素</text>
+        </view>
+      </view>
     </view>
+
 
     <view class="chip-row ev-elements">
       <view

@@ -1,9 +1,17 @@
 <template>
   <view class="page" :class="{ 'theme-dark': isDark }">
-    <view class="panel card">
-      <view class="panel__title">家园派驻指南</view>
-      <view class="panel__desc">按工种汇总可派驻家园生产的奇波；点击奇波名查看元素、进化阶段与技能详情。</view>
+    <view class="page-hero" :style="{ background: 'linear-gradient(132deg, #262c54 0%, #0aa06e 58%, #7f5bff 100%)' }">
+      <view class="page-hero__inner">
+        <text class="page-hero__eyebrow">信息查询</text>
+        <view class="page-hero__title">家园派驻</view>
+        <view class="page-hero__sub">按工种汇总可派驻家园生产的奇波，点击查看元素与技能详情。</view>
+        <view class="page-hero__meta">
+          <text class="page-hero__tag">工种分组</text>
+          <text class="page-hero__tag">一键跳详情</text>
+        </view>
+      </view>
     </view>
+
 
     <view v-for="group in groups" :key="group.name" class="panel card">
       <view class="panel__title">

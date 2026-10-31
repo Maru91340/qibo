@@ -1,9 +1,10 @@
 <template>
   <view class="page" :class="{ 'theme-dark': isDark }">
-    <view class="tip hero">
-      <view class="hero__inner">
-        <view class="tip__title">元素克制速查</view>
-        <view class="tip__desc">选择一个元素，查看它克制与被克制的关系；表格为全元素两两倍率。</view>
+    <view class="page-hero" :style="{ background: 'linear-gradient(132deg, #262c54 0%, #00b3a4 58%, #7f5bff 100%)' }">
+      <view class="page-hero__inner">
+        <text class="page-hero__eyebrow">信息查询</text>
+        <view class="page-hero__title">元素克制速查</view>
+        <view class="page-hero__sub">选择一个元素，查看它克制与被克制的关系；表格为全元素两两倍率。</view>
       </view>
     </view>
 

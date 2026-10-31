@@ -1,5 +1,16 @@
 <template>
   <view class="page" :class="{ 'theme-dark': isDark }">
+    <view class="page-hero" :style="{ background: 'linear-gradient(132deg, #262c54 0%, #d9a514 58%, #7f5bff 100%)' }">
+      <view class="page-hero__inner">
+        <text class="page-hero__eyebrow">信息查询</text>
+        <view class="page-hero__title">成就图鉴</view>
+        <view class="page-hero__sub">按大类浏览成就与点数统计，点条目展开完成条件。</view>
+        <view class="page-hero__meta">
+          <text class="page-hero__tag">BWIKI 收录</text>
+          <text class="page-hero__tag">点数实时汇总</text>
+        </view>
+      </view>
+    </view>
     <view class="stat-row card">
       <view class="stat">
         <view class="stat__num">{{ items.length }}</view>

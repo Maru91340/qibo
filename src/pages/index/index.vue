@@ -1,5 +1,8 @@
 <template>
   <view class="page" :class="{ 'theme-dark': isDark }">
+    <!-- #ifdef H5 -->
+    <view class="preview-tip">📱 当前为浏览器预览端 · 交付以微信小程序端为准</view>
+    <!-- #endif -->
     <view class="banner-wrap">
       <swiper class="banner" circular autoplay :interval="5000" :duration="400" @change="onBannerChange">
         <swiper-item v-for="(item, index) in banners" :key="item.id">
@@ -492,5 +495,12 @@ onUnload(() => unsubscribe && unsubscribe());
 
 .row-cell__tag--ready {
   color: var(--ok);
+}
+
+.preview-tip {
+  padding: 12rpx 0 4rpx;
+  text-align: center;
+  color: var(--ink-3);
+  font-size: 22rpx;
 }
 </style>

@@ -1,9 +1,17 @@
 <template>
   <view class="page" :class="{ 'theme-dark': isDark }">
-    <view class="panel card af-lead">
-      <view class="panel__title">战斗词条速查</view>
-      <view class="panel__desc">按机制、输出、增益、减益四类整理常见战斗词条释义；点开条目查看作用与叠加方式。</view>
+    <view class="page-hero" :style="{ background: 'linear-gradient(132deg, #262c54 0%, #e0553f 58%, #7f5bff 100%)' }">
+      <view class="page-hero__inner">
+        <text class="page-hero__eyebrow">信息查询</text>
+        <view class="page-hero__title">战斗词条</view>
+        <view class="page-hero__sub">按机制、输出、增益、减益四类整理释义，点开条目看作用与叠加方式。</view>
+        <view class="page-hero__meta">
+          <text class="page-hero__tag">四类词条</text>
+          <text class="page-hero__tag">点击展开</text>
+        </view>
+      </view>
     </view>
+
 
     <view class="chip-row af-cats">
       <view
