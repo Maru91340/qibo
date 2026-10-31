@@ -33,7 +33,7 @@
           :key="option"
           class="facet-chip"
           :class="{ 'facet-chip--active': option === category }"
-          @tap="category = option"
+          hover-class="facet-chip--hover" hover-stay-time="90" @tap="category = option"
         >
           {{ option }}
         </view>
@@ -52,6 +52,8 @@
         :key="entry.id"
         class="ac-item"
         :class="{ 'ac-item--open': openId === entry.id }"
+        hover-class="ac-item--hover"
+        hover-stay-time="90"
         @tap="openId = openId === entry.id ? '' : entry.id"
       >
         <view class="ac-item__head">
@@ -199,24 +201,19 @@ onShareAppMessage(() => ({ title: '成就图鉴 · 蓝色星原助手', path: '/
   margin-top: 16rpx;
 }
 
-.facet-chip {
-  padding: 10rpx 24rpx;
-  border-radius: 30rpx;
-  background: var(--card-bg);
-  border: 1rpx solid var(--line);
-  color: var(--ink-2);
-  font-size: 23rpx;
-}
-
-.facet-chip--active {
-  background: #2f6bff;
-  border-color: #2f6bff;
-  color: #ffffff;
-}
 
 .ac-item {
   padding: 18rpx 0;
   border-bottom: 1rpx solid var(--line);
+  transition: background 0.2s ease;
+}
+
+.ac-item--hover {
+  background: var(--soft);
+}
+
+.ac-item__detail {
+  animation: cl-fade-in 0.22s ease both;
 }
 
 .ac-item:last-child {

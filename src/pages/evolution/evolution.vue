@@ -99,20 +99,6 @@ onShareAppMessage(() => ({ title: '进化图谱 · 蓝色星原助手', path: '/
   padding: 4rpx 0;
 }
 
-.facet-chip {
-  padding: 10rpx 24rpx;
-  border-radius: 30rpx;
-  background: var(--card-bg);
-  border: 1rpx solid var(--line);
-  color: var(--ink-2);
-  font-size: 23rpx;
-}
-
-.facet-chip--active {
-  background: #2f6bff;
-  border-color: #2f6bff;
-  color: #ffffff;
-}
 
 .ev-dot {
   display: inline-block;

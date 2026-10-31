@@ -50,7 +50,9 @@
     </view>
 
     <view class="entry-list">
-      <view v-for="item in list" :key="item.id" class="entry-card card" @tap="goDetail(item.id)">
+      <view v-for="item in list" :key="item.id" class="entry-card card"
+        hover-class="entry-card--hover"
+        hover-stay-time="90" @tap="goDetail(item.id)">
         <view class="entry-card__badge" :style="{ color: item.elementColor, background: item.elementTint }">
           {{ item.elementName }}
         </view>

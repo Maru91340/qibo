@@ -278,14 +278,14 @@ onUnload(() => unsubscribe && unsubscribe());
 }
 
 .matrix__cell--strong {
-  background: #e5f6ec;
-  color: #16813f;
+  background: var(--ok-soft);
+  color: var(--ok);
   font-weight: 600;
 }
 
 .matrix__cell--weak {
-  background: #fdecec;
-  color: #c93b3b;
+  background: var(--danger-soft);
+  color: var(--danger);
   font-weight: 600;
 }
 
@@ -315,7 +315,7 @@ onUnload(() => unsubscribe && unsubscribe());
 }
 
 .legend__swatch--strong {
-  background: #e5f6ec;
+  background: var(--ok-soft);
 }
 
 .legend__swatch--neutral {
@@ -323,7 +323,7 @@ onUnload(() => unsubscribe && unsubscribe());
 }
 
 .legend__swatch--weak {
-  background: #fdecec;
+  background: var(--danger-soft);
 }
 
 .team-line {

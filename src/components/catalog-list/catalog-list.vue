@@ -27,7 +27,7 @@
               :key="option"
               class="facet-chip"
               :class="{ 'facet-chip--active': option === row.active }"
-              @tap="setFacet(row.key, option)"
+              hover-class="facet-chip--hover" hover-stay-time="90" @tap="setFacet(row.key, option)"
             >
               {{ option }}
             </view>
@@ -334,20 +334,6 @@ let unsubscribe = onCatalogUpdate(reload);
   padding: 6rpx 20rpx 20rpx;
 }
 
-.facet-chip {
-  padding: 10rpx 24rpx;
-  border-radius: 30rpx;
-  background: var(--card-bg);
-  border: 1rpx solid var(--line);
-  color: var(--ink-2);
-  font-size: 23rpx;
-}
-
-.facet-chip--active {
-  background: #2f6bff;
-  border-color: #2f6bff;
-  color: #ffffff;
-}
 
 .mini-tag {
   padding: 2rpx 12rpx;

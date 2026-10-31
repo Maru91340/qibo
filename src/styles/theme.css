@@ -9,6 +9,10 @@ page {
   --line: #e8ebf3;
   --card-bg: #ffffff;
   --soft: #f2f4f9;
+  --ok: #16813f;
+  --ok-soft: #e5f6ec;
+  --danger: #c93b3b;
+  --danger-soft: #fdecec;
   --radius-lg: 24rpx;
   --radius-md: 16rpx;
   --shadow-card: 0 8rpx 32rpx rgba(31, 61, 158, 0.08);
@@ -35,6 +39,10 @@ page {
   --line: #273046;
   --card-bg: #1c2233;
   --soft: #232b40;
+  --ok: #55d98a;
+  --ok-soft: #16351f;
+  --danger: #f8837b;
+  --danger-soft: #3a1c1c;
   --shadow-card: 0 8rpx 32rpx rgba(0, 0, 0, 0.4);
   --td-brand-color: #5b8bff;
   --td-brand-color-1: #22304f;
@@ -365,4 +373,44 @@ page {
   color: var(--ink-3);
   font-size: 26rpx;
   letter-spacing: 2rpx;
+}
+
+/* ===== 共享交互件（B3 收敛：筛选 chip 全局统一） ===== */
+.facet-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 64rpx;
+  padding: 0 28rpx;
+  border-radius: 999rpx;
+  background: var(--card-bg);
+  border: 1rpx solid var(--line);
+  color: var(--ink-2);
+  font-size: 24rpx;
+  transition: transform 0.16s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.facet-chip--active {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.facet-chip--hover {
+  transform: scale(0.94);
+}
+
+/* 展开详情入场动画（成就/词条手风琴共用） */
+@keyframes cl-fade-in {
+  from { opacity: 0; transform: translateY(-8rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 可点条目行按压反馈（全局可用） */
+.entry-card {
+  transition: transform 0.16s ease;
+}
+
+.entry-card--hover {
+  transform: scale(0.98);
 }

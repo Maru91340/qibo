@@ -34,6 +34,8 @@
             v-for="entry in group.items"
             :key="entry.id"
             class="entry-card card"
+        hover-class="entry-card--hover"
+        hover-stay-time="90"
             @tap="goResult(entry.path)"
           >
             <view class="entry-card__badge entry-card__badge--soft">

@@ -457,7 +457,7 @@ onShareAppMessage(() => ({ title: `我的蓝色星原队伍：${team.value.name}
 }
 
 .check--ok {
-  color: #16813f;
+  color: var(--ok);
 }
 
 .actions {
