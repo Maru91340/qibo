@@ -27,7 +27,7 @@ function mapRole(raw) {
 }
 
 // BWIKI 真实条目（中文元素名 → 元素 key）
-const ELE_KEY = { 火: 'flame', 焰: 'flame', 水: 'flow', 流: 'flow', 冰: 'frost', 霜: 'frost', 雷: 'bolt', 电: 'bolt', 木: 'grove', 草: 'grove', 地: 'grove', 林: 'grove', 光: 'astral', 星: 'astral', 辉: 'astral', 风: 'bolt' };
+const ELE_KEY = { 火: 'flame', 焰: 'flame', 水: 'flow', 流: 'flow', 冰: 'frost', 霜: 'frost', 雷: 'bolt', 电: 'bolt', 木: 'grove', 草: 'grove', 地: 'earth', 林: 'grove', 光: 'astral', 星: 'astral', 辉: 'astral', 风: 'wind', 暗: 'dark' };
 function wikiEle(tags) {
   for (const tag of tags || []) {
     if (ELE_KEY[tag]) return ELE_KEY[tag];
