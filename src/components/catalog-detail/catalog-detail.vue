@@ -10,6 +10,7 @@
               :src="bigIcon"
               mode="aspectFill"
               @error="iconBroken = true"
+              @tap="preview(bigIcon)"
             />
             <view v-else class="head__dot" :style="{ background: accent, color: '#fff' }">
               {{ badgeText }}
@@ -116,6 +117,11 @@ function goBack() {
 }
 
 reload();
+function preview(src) {
+  if (!src) return;
+  uni.previewImage({ urls: [src] });
+}
+
 let unsubscribe = onCatalogUpdate(reload);
 </script>
 

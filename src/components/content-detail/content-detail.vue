@@ -25,6 +25,7 @@
           :src="section.image"
           mode="widthFix"
           @error="imgError = true"
+          @tap="preview(section.image)"
         />
         <view v-if="section.text" class="panel__desc panel__desc--first">{{ section.text }}</view>
         <view v-if="section.steps && section.steps.length" class="detail-steps">
@@ -99,6 +100,11 @@ const updatedAt = CONTENT_UPDATED_AT;
 const notice = CONTENT_NOTICE;
 const item = computed(() => findContentItem(props.type, props.id));
 const imgError = ref(false);
+
+function preview(src) {
+  if (!src) return;
+  uni.previewImage({ urls: [src] });
+}
 const related = computed(() => relatedContent(props.type, item.value));
 const heroBg = computed(
   () => `linear-gradient(135deg, #1f3d9e 0%, ${props.accent} 58%, #7f5bff 100%)`

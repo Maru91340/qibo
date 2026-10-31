@@ -60,6 +60,7 @@
           :src="guidePoster"
           mode="widthFix"
           @error="posterError = true"
+          @tap="preview(guidePoster)"
         />
         <view class="panel__desc">来自 BWIKI 的官方一图流（配装/配队速览）；公测后以最新版本为准。</view>
       </view>
@@ -122,6 +123,11 @@ const guidePoster = computed(() => {
   const hit = guides.filter((g) => g.name === (item.value ? item.value.name + '一图流' : ''))[0];
   return hit ? hit.icon : '';
 });
+
+function preview(src) {
+  if (!src) return;
+  uni.previewImage({ urls: [src] });
+}
 const notice = computed(() => catalog.value.notice || '');
 // 头像三级回退：240px → 120px 原图 → 隐藏（元素圆点兜底）
 const iconError = ref(false);

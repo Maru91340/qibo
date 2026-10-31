@@ -33,6 +33,14 @@
       </view>
       <view v-for="qibo in group.items" :key="qibo.id" class="ev-chain" hover-class="tap-hover" @tap="goQibo(qibo.id)">
         <view class="ev-chain__top">
+          <image
+            v-if="qibo.icon && !brokenIcons[qibo.id]"
+            class="ev-chain__img"
+            :src="qibo.icon"
+            mode="aspectFill"
+            lazy-load
+            @error="brokenIcons[qibo.id] = true"
+          />
           <text class="ev-chain__name">{{ qibo.name }}</text>
           <text v-if="!qibo.verified" class="mini-tag mini-tag--warn">待核实</text>
           <text class="ev-chain__arrow">›</text>
@@ -69,6 +77,7 @@ import { getCatalog, onCatalogUpdate } from '@/services/content.js';
 import { createElementToolkit } from '@/data/element.js';
 
 const element = ref('all');
+const brokenIcons = ref({});
 const catalog = ref({ items: [], notice: '' });
 const toolkit = ref(createElementToolkit(getCatalog('element').data));
 
@@ -155,6 +164,14 @@ onShareAppMessage(() => ({ title: '进化图谱 · 蓝色星原助手', path: '/
   align-items: center;
   gap: 12rpx;
   margin-bottom: 14rpx;
+}
+
+.ev-chain__img {
+  flex: none;
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 16rpx;
+  background: var(--soft);
 }
 
 .ev-chain__name {
