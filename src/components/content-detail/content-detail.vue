@@ -19,6 +19,13 @@
           <text>{{ section.title }}</text>
           <text class="section-index">{{ pad(index + 1) }}</text>
         </view>
+        <image
+          v-if="section.image && !imgError"
+          class="section-image"
+          :src="section.image"
+          mode="widthFix"
+          @error="imgError = true"
+        />
         <view v-if="section.text" class="panel__desc panel__desc--first">{{ section.text }}</view>
         <view v-if="section.steps && section.steps.length" class="detail-steps">
           <view v-for="(step, stepIndex) in section.steps" :key="step" class="ct-step">
@@ -78,7 +85,7 @@
 import { useTheme } from '@/utils/theme.js';
 
 const { isDark } = useTheme();
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { CONTENT_NOTICE, CONTENT_UPDATED_AT, findContentItem, relatedContent } from '@/data/content.js';
 
 const props = defineProps({
@@ -91,6 +98,7 @@ const props = defineProps({
 const updatedAt = CONTENT_UPDATED_AT;
 const notice = CONTENT_NOTICE;
 const item = computed(() => findContentItem(props.type, props.id));
+const imgError = ref(false);
 const related = computed(() => relatedContent(props.type, item.value));
 const heroBg = computed(
   () => `linear-gradient(135deg, #1f3d9e 0%, ${props.accent} 58%, #7f5bff 100%)`
@@ -119,6 +127,14 @@ function openRelated(entry) {
 </script>
 
 <style>
+.section-image {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 24rpx;
+}
+
 .detail-hero {
   box-shadow: 0 16rpx 40rpx rgba(31, 61, 158, 0.26);
 }

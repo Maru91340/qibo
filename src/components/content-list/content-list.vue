@@ -147,6 +147,7 @@ function hashIndex(key, length) {
 }
 
 function coverOf(item) {
+  if (item.image) return item.image;
   return arts.length ? arts[hashIndex(item.id, arts.length)] : '';
 }
 

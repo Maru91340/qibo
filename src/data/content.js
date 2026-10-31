@@ -1,6 +1,25 @@
+import generated from './generated/catalogs.json';
+
 export const CONTENT_UPDATED_AT = '2026-10-31';
 export const CONTENT_NOTICE =
   '内容为站内功能教程与公开资料整理，公测前数值、名称与剧情细节可能变动；标注「待核实」的条目请以官方信息为准。';
+
+// BWIKI 官方角色一图流（采集脚本每 30 分钟自动更新，17 张带官方图）
+
+const guideItems = ((generated.types || {}).guideWiki || {}).items
+  ? generated.types.guideWiki.items.map((entry) => ({
+      id: entry.id,
+      title: entry.name,
+      category: '一图流',
+      summary: entry.summary || `${entry.name.replace('一图流', '')}的官方一图流速览。`,
+      tags: ['一图流', '官方图'],
+      verified: true,
+      image: entry.icon || '',
+      sections: entry.icon
+        ? [{ title: '官方一图流', text: '下图来自 BWIKI，可放大查看；公测后以官方最新版本为准。', image: entry.icon }]
+        : []
+    }))
+  : [];
 
 const tutorialItems = [
   {
@@ -360,7 +379,7 @@ export const contentCollections = {
     title: '教程合集',
     subtitle: '站内功能与玩法教程，每篇 3 分钟读完',
     categories: ['全部', '入门', '图鉴', '组队', '家园', '战斗', '工具'],
-    items: tutorialItems
+    items: tutorialItems.concat(guideItems)
   },
   story: {
     title: '剧情读物',
