@@ -486,14 +486,8 @@ async function main() {
     next.types.guideWiki.items.forEach((g) => {
       if (g.icon) guideIcon[g.name.replace(/一图流$/, '')] = g.icon;
     });
-    let patched = 0;
-    next.types.charWiki.items.forEach((c) => {
-      if (!c.icon && guideIcon[c.name]) { c.icon = guideIcon[c.name]; patched += 1; }
-    });
-    if (patched) {
-      report.types.charWiki_icons = next.types.charWiki.items.filter((i) => i.icon).length;
-      console.log(`✔ charWiki 图标补充: +${patched}（一图流映射）`);
-    }
+    // 一图流海报不再写入 icon（海报裁剪当头像观感错乱）；详情页经 guidePoster 按名匹配独立展示
+    console.log(`✔ charWiki 一图流海报 ${Object.keys(guideIcon).length} 张保留于 guide 目录（详情页展示）`);
   }
 
   // 材料图鉴由物品数据派生，避免再发一次请求。
