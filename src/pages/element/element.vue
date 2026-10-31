@@ -101,6 +101,50 @@
       </view>
     </view>
 
+    <view class="panel card">
+      <view class="panel__title">双属性克制查询</view>
+      <view class="panel__desc">选择攻击方的两个元素，查看对九系防守方的叠加倍率（数据来自 BWIKI 官方双属性表）。</view>
+      <view class="dual-picker">
+        <text class="dual-picker__label">攻击位一</text>
+        <view class="dual-picker__chips">
+          <view
+            v-for="option in nineElements"
+            :key="'a' + option.key"
+            class="facet-chip"
+            :class="{ 'facet-chip--active': dualA === option.key }"
+            hover-class="facet-chip--hover"
+            hover-stay-time="90"
+            @tap="dualA = option.key"
+          >
+            {{ option.label }}
+          </view>
+        </view>
+      </view>
+      <view class="dual-picker">
+        <text class="dual-picker__label">攻击位二</text>
+        <view class="dual-picker__chips">
+          <view
+            v-for="option in nineElements"
+            :key="'b' + option.key"
+            class="facet-chip"
+            :class="{ 'facet-chip--active': dualB === option.key }"
+            hover-class="facet-chip--hover"
+            hover-stay-time="90"
+            @tap="dualB = option.key"
+          >
+            {{ option.label }}
+          </view>
+        </view>
+      </view>
+      <view v-if="dualRow" class="dual-result">
+        <view v-for="cell in dualRow" :key="cell.key" class="dual-cell" :class="cell.cls">
+          <text class="dual-cell__def">{{ cell.defLabel }}</text>
+          <text class="dual-cell__val">{{ cell.val }}x</text>
+        </view>
+      </view>
+      <view v-else class="panel__desc">请选择两个不同的攻击元素。</view>
+    </view>
+
     <view class="footnote">{{ notice }}</view>
   </view>
 </template>
@@ -112,10 +156,27 @@ const { isDark } = useTheme();
 import { computed, ref, watch } from 'vue';
 import { onLoad, onShow, onUnload } from '@dcloudio/uni-app';
 import { getCatalog, onCatalogUpdate } from '@/services/content.js';
-import { createElementToolkit, STRONG_RATIO, WEAK_RATIO } from '@/data/element.js';
+import { createElementToolkit, dualCounters, STRONG_RATIO, WEAK_RATIO } from '@/data/element.js';
 import { load, summarize } from '@/utils/team.js';
 
 const toolkit = ref(createElementToolkit(getCatalog('element').data));
+
+const nineElements = computed(() => toolkit.value.elements.filter((e) => e.key !== 'unknown'));
+const dualA = ref('flame');
+const dualB = ref('wind');
+const dualRow = computed(() => {
+  const defList = toolkit.value.elements.filter((e) => e.key !== 'unknown');
+  if (!dualA.value || !dualB.value || dualA.value === dualB.value) return null;
+  const key = [dualA.value, dualB.value].sort().join('+');
+  const vals = dualCounters[key];
+  if (!vals) return null;
+  return defList.map((def, i) => ({
+    key: def.key,
+    defLabel: def.label,
+    val: vals[i],
+    cls: vals[i] > 1 ? 'dual-cell--strong' : vals[i] < 1 ? 'dual-cell--weak' : ''
+  }));
+});
 const current = ref((toolkit.value.elements[0] || {}).key);
 const teamElements = ref([]);
 
@@ -339,5 +400,69 @@ onUnload(() => unsubscribe && unsubscribe());
   background: var(--brand-soft);
   color: var(--brand-deep);
   font-size: 24rpx;
+}
+.dual-picker {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  margin-top: 18rpx;
+}
+
+.dual-picker__label {
+  flex-shrink: 0;
+  width: 120rpx;
+  color: var(--ink-2);
+  font-size: 23rpx;
+  padding-top: 14rpx;
+}
+
+.dual-picker__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.dual-result {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14rpx;
+  margin-top: 22rpx;
+}
+
+.dual-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  padding: 16rpx 0;
+  border-radius: var(--radius-md);
+  background: var(--soft);
+}
+
+.dual-cell--strong {
+  background: var(--ok-soft);
+}
+
+.dual-cell--weak {
+  background: var(--danger-soft);
+}
+
+.dual-cell__def {
+  color: var(--ink-2);
+  font-size: 22rpx;
+}
+
+.dual-cell__val {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.dual-cell--strong .dual-cell__val {
+  color: var(--ok);
+}
+
+.dual-cell--weak .dual-cell__val {
+  color: var(--danger);
 }
 </style>
