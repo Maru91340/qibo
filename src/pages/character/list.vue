@@ -9,12 +9,12 @@
         @clear="keyword = ''"
       />
       <scroll-view class="filter-row" scroll-x enable-flex>
-        <view class="facet-chip" :class="{ 'facet-chip--active': option === role }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="role = option">
+        <view v-for="option in filters.roles" :key="option" class="facet-chip" :class="{ 'facet-chip--active': option === role }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="role = option">
         {{ option }}
       </view>
       </scroll-view>
       <scroll-view class="filter-row" scroll-x enable-flex>
-        <view class="facet-chip" :class="{ 'facet-chip--active': option === rarity }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="rarity = option">
+        <view v-for="option in filters.rarities" :key="option" class="facet-chip" :class="{ 'facet-chip--active': option === rarity }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="rarity = option">
         {{ option }}
       </view>
       </scroll-view>
@@ -42,7 +42,15 @@
       <view v-for="item in visibleList" :key="item.id" class="entry-card card"
         hover-class="entry-card--hover"
         hover-stay-time="90" @tap="goDetail(item.id)">
-        <view class="entry-card__badge" :style="{ color: item.elementColor, background: item.elementTint }">
+        <image
+          v-if="item.icon && !brokenIcons[item.id]"
+          class="entry-card__img"
+          :src="item.icon"
+          mode="aspectFill"
+          lazy-load
+          @error="brokenIcons[item.id] = true"
+        />
+        <view v-else class="entry-card__badge" :style="{ color: item.elementColor, background: item.elementTint }">
           {{ item.elementName }}
         </view>
         <view class="entry-card__body">
@@ -89,6 +97,7 @@ const element = ref('all');
 const teamCount = ref(0);
 
 const catalog = ref({ items: [], filters: {}, notice: '' });
+const brokenIcons = ref({});
 const elementToolkit = ref(createElementToolkit(getCatalog('element').data));
 
 const filters = computed(() => catalog.value.filters || {});

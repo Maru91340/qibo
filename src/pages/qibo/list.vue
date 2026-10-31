@@ -9,17 +9,17 @@
         @clear="keyword = ''"
       />
       <scroll-view class="filter-row" scroll-x enable-flex>
-        <view class="facet-chip" :class="{ 'facet-chip--active': option === kind }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="kind = option">
+        <view v-for="option in filters.kinds" :key="option" class="facet-chip" :class="{ 'facet-chip--active': option === kind }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="kind = option">
         {{ option }}
       </view>
       </scroll-view>
       <scroll-view class="filter-row" scroll-x enable-flex>
-        <view class="facet-chip" :class="{ 'facet-chip--active': option === usage }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="usage = option">
+        <view v-for="option in filters.usages" :key="option" class="facet-chip" :class="{ 'facet-chip--active': option === usage }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="usage = option">
         {{ option }}
       </view>
       </scroll-view>
       <scroll-view class="filter-row" scroll-x enable-flex>
-        <view class="facet-chip" :class="{ 'facet-chip--active': option === rarity }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="rarity = option">
+        <view v-for="option in filters.rarities" :key="option" class="facet-chip" :class="{ 'facet-chip--active': option === rarity }" hover-class="facet-chip--hover" hover-stay-time="90" @tap="rarity = option">
         {{ option }}
       </view>
       </scroll-view>
@@ -47,7 +47,15 @@
       <view v-for="item in visibleList" :key="item.id" class="entry-card card"
         hover-class="entry-card--hover"
         hover-stay-time="90" @tap="goDetail(item.id)">
-        <view class="entry-card__badge" :style="{ color: item.elementColor, background: item.elementTint }">
+        <image
+          v-if="item.icon && !brokenIcons[item.id]"
+          class="entry-card__img"
+          :src="item.icon"
+          mode="aspectFill"
+          lazy-load
+          @error="brokenIcons[item.id] = true"
+        />
+        <view v-else class="entry-card__badge" :style="{ color: item.elementColor, background: item.elementTint }">
           {{ item.elementName }}
         </view>
         <view class="entry-card__body">
@@ -94,6 +102,7 @@ const usage = ref('全部');
 const rarity = ref('全部');
 const element = ref('all');
 const teamCount = ref(0);
+const brokenIcons = ref({});
 
 const catalog = ref({ items: [], filters: {}, notice: '' });
 const elementToolkit = ref(createElementToolkit(getCatalog('element').data));

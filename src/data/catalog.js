@@ -83,7 +83,7 @@ export const bundledCatalog = {
   qibo: {
     notice: `示例条目 7 只 + BWIKI 真实收录 ${wikiQiboItems.length} 只；公测后以官方图鉴替换。`,
     filters: qiboFilters,
-    items: qibos.concat(wikiQiboItems)
+    items: wikiQiboItems.concat(qibos)
   },
   character: {
     notice: `示例条目 + BWIKI 真实收录 ${wikiCharItems.length} 名；公测后以官方图鉴替换。`,

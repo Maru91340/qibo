@@ -243,6 +243,34 @@ const WIKI_SOURCES = [
   { type: 'guideWiki', category: '攻略', label: '攻略', props: ['名称', '简介'], imgPick: /一图流|图|panel|png/i }
 ];
 
+
+// 聚合页图标补充：解析指定 wiki 页面的缩略图与相邻词条名配对（覆盖无内嵌图的词条）
+async function aggregateIcons(pageName, attempt = 0) {
+  const map = {};
+  try {
+    const res = await fetch(`https://wiki.biligame.com/ap/${encodeURIComponent(pageName)}`, { headers: { 'User-Agent': UA } });
+    if (res.status === 567 || res.status === 429) throw new Error(`HTTP ${res.status} 限流`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const html = await res.text();
+    const re = /src="(https:\/\/patchwiki[^"]*thumb[^"]+)"[\s\S]{0,600}?<a[^>]*href="\/ap\/([^"]+)"[^>]*>/g;
+    for (const m of html.matchAll(re)) {
+      const name = decodeURIComponent(m[2]).replace(/_/g, ' ').trim();
+      if (name && !map[name]) map[name] = m[1];
+    }
+  } catch (error) {
+    if (attempt < 2) {
+      await sleep(8000 * (attempt + 1));
+      return aggregateIcons(pageName, attempt + 1);
+    }
+    console.warn(`✖ 聚合页图标（${pageName}）: ${error.message}`);
+  }
+  return map;
+}
+
+function stripHtml(value) {
+  return String(value || '').replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+}
+
 function wikiEntry(type, row, imgUrl) {
   const name = row['名称'] || row.title;
   const ele = String(row['元素'] || '');
@@ -252,8 +280,8 @@ function wikiEntry(type, row, imgUrl) {
     category: 'BWIKI',
     rarity: clip(row['稀有度'] || '', 20),
     tags: ele.split(/[、,，]/).map((t) => t.trim()).filter(Boolean).slice(0, 4),
-    summary: clip(row['简介'] || row['描述'] || '', 100) || '暂无简介，详见 BWIKI 页面。',
-    desc: clip(row['简介'] || row['描述'] || '', 118) || '暂无简介，详见 BWIKI 页面。',
+    summary: clip(stripHtml(row['简介'] || row['描述'] || ''), 100) || '暂无简介，详见 BWIKI 页面。',
+    desc: clip(stripHtml(row['简介'] || row['描述'] || ''), 118) || '暂无简介，详见 BWIKI 页面。',
     fields: [],
     sections: [],
     icon: imgUrl || '',
@@ -345,9 +373,22 @@ async function main() {
     try {
       const rows = await queryCategory(source.category, source.props);
       const imgMap = await resolvePageImages(rows.map((r) => r.title), source.imgPick);
+      // 聚合页补充：词条自身无图时，用聚合页表格里的缩略图兜底
+      const aggPage = source.type === 'qiboWiki' ? '奇波' : source.type === 'charWiki' ? '角色图鉴' : '';
+      const aggMap = aggPage ? await aggregateIcons(aggPage) : {};
+      // 上一轮同名词目的图标继承：聚合页限流时图标覆盖不回退
+      const previousIcons = {};
+      ((previous.types && previous.types[source.type] && previous.types[source.type].items) || []).forEach((prev) => {
+        if (prev.icon) previousIcons[prev.name] = prev.icon;
+      });
       const seenWiki = new Set();
       const items = rows
-        .map((row) => wikiEntry(source.type, row, imgMap[row.title]))
+        .map((row) => {
+          const entry = wikiEntry(source.type, row, imgMap[row.title]);
+          if (!entry.icon && aggMap[row.title]) entry.icon = aggMap[row.title];
+          if (!entry.icon && previousIcons[entry.name]) entry.icon = previousIcons[entry.name];
+          return entry;
+        })
         .filter((item) => item.name && !seenWiki.has(item.id) && seenWiki.add(item.id));
       const withIcon = items.filter((item) => item.icon).length;
       if (!items.length) throw new Error('SMW 返回 0 条');
