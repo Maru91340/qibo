@@ -88,7 +88,7 @@ export const bundledCatalog = {
   character: {
     notice: `示例条目 + BWIKI 真实收录 ${wikiCharItems.length} 名；公测后以官方图鉴替换。`,
     filters: characterFilters,
-    items: characters.concat(wikiCharItems)
+    items: wikiCharItems.concat(characters)
   },
   guide: collected('guideWiki') || { notice: '攻略一图流待采集。', items: [] },
   spirit: collected('spirit') || EMPTY,

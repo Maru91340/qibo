@@ -56,7 +56,7 @@
         <view class="entry-card__body">
           <view class="entry-card__title">
             <text>{{ item.name }}</text>
-            <text class="mini-tag mini-tag--warn">示例</text>
+            <text v-if="!item.verified" class="mini-tag mini-tag--warn">待核实</text>
             <text class="mini-tag">{{ item.rarity }}</text>
             <text class="mini-tag mini-tag--ok">{{ item.role }}</text>
           </view>
