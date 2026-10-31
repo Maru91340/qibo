@@ -6,7 +6,7 @@ import { buildSeedBundle, CATALOG_TYPES, projectRoot, SEED_FILE } from './bundle
 const { bundle, manifest, catalog } = buildSeedBundle();
 
 mkdirSync(dirname(SEED_FILE), { recursive: true });
-writeFileSync(SEED_FILE, `${JSON.stringify(bundle, null, 2)}\n`);
+writeFileSync(SEED_FILE, `${JSON.stringify(bundle)}\n`);
 
 console.log(`已导出内置资料 -> ${SEED_FILE.slice(projectRoot.length + 1)}`);
 console.log(`版本 ${manifest.version} · ${(statSync(SEED_FILE).size / 1024).toFixed(1)} KB`);

@@ -440,7 +440,7 @@ async function main() {
     }
   }
 
-  writeFileSync(OUTPUT, JSON.stringify(next, null, 2));
+  writeFileSync(OUTPUT, JSON.stringify(next));
   const logLine = JSON.stringify({ ...report, cloud: 'skipped: no CLOUD_ENV_ID' });
   mkdirSync(dirname(LOG_FILE), { recursive: true });
   writeFileSync(LOG_FILE, `${logLine}\n`, { flag: 'a' });
