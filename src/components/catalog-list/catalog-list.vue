@@ -145,7 +145,16 @@ function hexFade(hex, alpha) {
 }
 // 稀有度配色：徽章色条 + 标签
 const RARITY_COLORS = { SSR: '#b56cff', SR: '#3f8cff', R: '#8a93a8', UR: '#ff5b7f', 五星: '#ffb02e', 四星: '#8a6cff', 三星: '#3f8cff', 未知: '#8a93a8' };
-const rarityColor = computed(() => (item) => RARITY_COLORS[item.rarity] || props.accent);
+// 元素配色：敌人/副本/地区等按标签首个元素着色，一眼分辨属性
+const ELE_TAG_COLORS = { 火: '#ff7a45', 焰: '#ff7a45', 水: '#2f9bff', 流: '#2f9bff', 冰: '#4fd2e8', 霜: '#4fd2e8', 雷: '#f2b50c', 电: '#f2b50c', 风: '#7ec8ff', 木: '#28b37a', 草: '#28b37a', 地: '#a0714f', 光: '#8a6cff', 暗: '#7a5cc9', 星: '#8a6cff' };
+function tagColor(item) {
+  for (const tag of item.tags || []) {
+    if (ELE_TAG_COLORS[tag]) return ELE_TAG_COLORS[tag];
+    for (const ch of tag) if (ELE_TAG_COLORS[ch]) return ELE_TAG_COLORS[ch];
+  }
+  return '';
+}
+const rarityColor = computed(() => (item) => tagColor(item) || RARITY_COLORS[item.rarity] || props.accent);
 const items = computed(() => catalog.value.items || []);
 const notice = computed(() => catalog.value.notice || '');
 const total = computed(() => items.value.length);

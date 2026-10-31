@@ -588,3 +588,13 @@ page {
   color: var(--ink-3);
   font-size: 22rpx;
 }
+
+/* 奇波/角色详情 hero 官方图（qibo/character detail 共用） */
+.head__img {
+  flex: none;
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 32rpx;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8rpx 20rpx rgba(10, 14, 38, 0.28);
+}

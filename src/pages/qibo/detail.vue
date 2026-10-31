@@ -61,7 +61,7 @@
         </template>
       </view>
 
-      <view class="panel card">
+      <view v-if="item.skills && item.skills.length" class="panel card">
         <view class="panel__title">能力与玩法</view>
         <view v-for="skill in item.skills" :key="skill" class="skill">
           <c-icon name="star" size="30rpx" color="#2f6bff" />
