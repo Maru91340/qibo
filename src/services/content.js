@@ -1,6 +1,6 @@
 import { callCloudFunction } from './cloud.js';
 import { CATALOG_FUNCTIONS } from '../config/cloud.js';
-import { bundledCatalog } from '../data/catalog.js';
+import { bundledCatalog, CATALOG_VERSION } from '../data/catalog.js';
 
 export const CATALOG_TYPES = [
   'meta', 'element', 'qibo', 'character',
@@ -22,6 +22,11 @@ function entry(type) {
 }
 
 export function getCatalog(type) {
+  // 内置资料升级后自动丢弃过期云端缓存（否则旧缓存会一直压制新数据）
+  if (uni.getStorageSync('qbxzs:cache-bv') !== CATALOG_VERSION) {
+    clearCatalogCache();
+    uni.setStorageSync('qbxzs:cache-bv', CATALOG_VERSION);
+  }
   const stored = entry(type);
   return {
     data: stored ? stored.content : bundledCatalog[type],

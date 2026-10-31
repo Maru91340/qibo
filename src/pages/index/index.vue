@@ -51,6 +51,27 @@
       </view>
     </view>
 
+    <view v-if="recentItems.length" class="recent-strip card">
+      <view class="recent-strip__head">
+        <text class="recent-strip__title">🕐 最近浏览</text>
+        <text class="recent-strip__more" hover-class="tap-hover" @tap="go('/pages/favorites/favorites')">全部</text>
+      </view>
+      <scroll-view scroll-x enable-flex class="recent-strip__row">
+        <view
+          v-for="rec in recentItems"
+          :key="rec.type + rec.id"
+          class="recent-strip__cell"
+          hover-class="tap-hover"
+          hover-stay-time="90"
+          @tap="goRecent(rec)"
+        >
+          <image v-if="rec.icon" class="recent-strip__img" :src="rec.icon" mode="aspectFill" />
+          <view v-else class="recent-strip__glyph">{{ (rec.name || '?').slice(0, 1) }}</view>
+          <text class="recent-strip__name">{{ rec.name }}</text>
+        </view>
+      </scroll-view>
+    </view>
+
     <view class="searchbar">
       <cx-input
         :value="keyword"
@@ -118,15 +139,18 @@
 
 <script setup>
 import { useTheme } from '@/utils/theme.js';
+import { listRecent } from '@/utils/recent.js';
+import { favPath } from '@/utils/favorites.js';
 
 const { isDark } = useTheme();
 import { computed, ref } from 'vue';
-import { onLoad, onUnload, onShareAppMessage } from '@dcloudio/uni-app';
+import { onLoad, onShow, onUnload, onShareAppMessage } from '@dcloudio/uni-app';
 import { getCatalog, catalogNotice, onCatalogUpdate } from '@/services/content.js';
 import { APP_VERSION, GAME_NAME } from '@/config/app.js';
 import { tint } from '@/utils/format.js';
 
 const banners = ref([]);
+const recentItems = ref([]);
 const sections = ref([]);
 const keyword = ref('');
 const bannerIndex = ref(0);
@@ -178,6 +202,14 @@ function hashIndex(key, length) {
   return length ? hash % length : 0;
 }
 
+function loadRecents() {
+  recentItems.value = listRecent().slice(0, 8);
+}
+
+function goRecent(rec) {
+  uni.navigateTo({ url: favPath(rec) });
+}
+
 function loadMeta() {
   const meta = getCatalog('meta').data || {};
   // 灵子图鉴图标作为轮播立绘与功能卡装饰图；重采后自动跟随更新
@@ -225,7 +257,8 @@ function go(path) {
 }
 
 let unsubscribe = null;
-onLoad(() => loadMeta());
+onLoad(() => { loadMeta(); loadRecents(); });
+onShow(() => loadRecents());
 onShareAppMessage(() => ({ title: '蓝色星原助手 · 奇波/角色图鉴与队伍编成', path: '/pages/index/index' }));
 unsubscribe = onCatalogUpdate(loadMeta);
 onUnload(() => unsubscribe && unsubscribe());

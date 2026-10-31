@@ -48,7 +48,16 @@
 
     <view class="list-head">
       <text>命中 {{ list.length }} 条{{ titleSuffix }}</text>
-      <text class="text-muted">共 {{ total }} 条</text>
+      <view class="sort-row">
+        <text
+          v-for="option in sortOptions"
+          :key="option.key"
+          class="sort-chip"
+          :class="{ 'sort-chip--on': sortKey === option.key }"
+          hover-class="tap-hover"
+          @tap="sortKey = option.key"
+        >{{ option.label }}</text>
+      </view>
     </view>
 
     <view class="entry-list">
@@ -220,7 +229,34 @@ const list = computed(() => {
   });
 });
 
-const visibleList = computed(() => list.value.slice(0, visibleCount.value));
+// 排序：默认（采集顺序）/ 稀有度 / 星级
+const RARITY_ORDER = ['UR', 'SSR', 'SR', 'R', '五星', '四星', '三星', '未知'];
+const sortKey = ref('default');
+const sortOptions = computed(() => {
+  const hasRarity = list.value.some((item) => item.rarity);
+  const hasStar = list.value.some((item) => /\d星/.test(item.rarity || '') || (item.fields || []).some((f) => f.label === '星数'));
+  const opts = [{ key: 'default', label: '默认' }];
+  if (hasRarity) opts.push({ key: 'rarity', label: '稀有度' });
+  if (hasStar) opts.push({ key: 'star', label: '星级' });
+  return opts;
+});
+const starOf = (item) => {
+  const m = (item.rarity || '').match(/(\d)星/);
+  if (m) return parseInt(m[1], 10);
+  const f = (item.fields || []).filter((x) => x.label === '星数')[0];
+  return f ? parseInt(f.value, 10) || 0 : 0;
+};
+const rarityRank = (item) => {
+  const idx = RARITY_ORDER.indexOf(item.rarity);
+  return idx >= 0 ? RARITY_ORDER.length - idx : 0;
+};
+const sortedList = computed(() => {
+  const arr = list.value.slice();
+  if (sortKey.value === 'rarity') arr.sort((a, b) => rarityRank(b) - rarityRank(a));
+  if (sortKey.value === 'star') arr.sort((a, b) => starOf(b) - starOf(a));
+  return arr;
+});
+const visibleList = computed(() => sortedList.value.slice(0, visibleCount.value));
 
 function bump(map, value) {
   if (!value) return;
@@ -439,6 +475,24 @@ let unsubscribe = onCatalogUpdate(reload);
 
 .fav-star--on {
   color: #ffb02e;
+}
+
+.sort-row {
+  display: flex;
+  gap: 10rpx;
+}
+
+.sort-chip {
+  padding: 4rpx 16rpx;
+  border-radius: 999rpx;
+  background: var(--soft);
+  color: var(--ink-2);
+  font-size: 21rpx;
+}
+
+.sort-chip--on {
+  background: var(--brand);
+  color: #fff;
 }
 
 .mini-tag {
