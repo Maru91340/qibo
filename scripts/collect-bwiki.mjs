@@ -276,10 +276,10 @@ function stripHtml(value) {
   return String(value || '').replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 }
 
-function wikiEntry(type, row, imgUrl) {
+function wikiEntry(type, row, imgUrl, skills) {
   const name = row['名称'] || row.title;
   const ele = String(row['元素'] || '');
-  return {
+  const entry = {
     id: `${type.slice(0, 2)}-${slug(type, name).split('-')[1]}`,
     name: clip(name, 30),
     category: 'BWIKI',
@@ -292,6 +292,8 @@ function wikiEntry(type, row, imgUrl) {
     icon: imgUrl || '',
     verified: true
   };
+  if (type === 'charWiki' && skills && skills.length) entry.skills = skills;
+  return entry;
 }
 
 // 页面内嵌图片：prop=images 取候选文件名，再走 imageinfo 换 240px 缩略图
@@ -379,6 +381,46 @@ async function main() {
       const rows = await queryCategory(source.category, source.props);
       const imgMap = await resolvePageImages(rows.map((r) => r.title), source.imgPick);
       // 聚合页补充：词条自身无图时，用聚合页表格里的缩略图兜底
+      // 角色技能组：从角色页 HTML 的 hero-skill 结构提取（名称+类型+描述）
+      let skillMap = {};
+      if (source.type === 'charWiki') {
+        try {
+          const pageTitles = rows.map((r) => r.title);
+          for (let pi = 0; pi < pageTitles.length; pi += 1) {
+            const t = pageTitles[pi];
+            // serial + backoff on 567/429
+            let html = '';
+            for (let attempt = 0; attempt < 2; attempt += 1) {
+              try {
+                const r = await fetch(`https://wiki.biligame.com/ap/${encodeURIComponent(t)}`, { headers: { 'User-Agent': UA } });
+                if (r.status === 567 || r.status === 429) throw new Error('HTTP ' + r.status + ' limit');
+                html = r.ok ? await r.text() : '';
+                break;
+              } catch (err) {
+                if (attempt === 0) await sleep(9000);
+              }
+            }
+            if (!html) { console.warn('skip char page: ' + t); continue; }
+            const sIdx = html.indexOf('id="技能"');
+            if (sIdx < 0) continue;
+            const seg = html.slice(sIdx, sIdx + 20000);
+            const skills = [];
+            const re = /hero-skill-name">([^<]{2,20})<\/span>[\s\S]{0,2000}?hero-skill-desc[a-z-]*"[^>]*>([\s\S]{10,300}?)<\/(?:div|span|p)>/g;
+            for (const m of seg.matchAll(re)) {
+              let desc = m[2].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+              // 类型从描述前缀【普攻】等提取
+              let stype = '';
+              const tm = desc.match(/^【([^】]{1,6})】/);
+              if (tm) { stype = tm[1]; desc = desc.replace(/^【[^】]{1,6}】/, '').trim(); }
+              if (desc) skills.push({ name: m[1], type: stype || '技能', desc: desc.slice(0, 118) });
+            }
+            if (skills.length) skillMap[t] = skills.slice(0, 6);
+            await sleep(2200);
+          }
+        } catch (error) {
+          console.warn(`✖ 角色技能解析: ${error.message}`);
+        }
+      }
       const aggPage = source.type === 'qiboWiki' ? '奇波' : source.type === 'charWiki' ? '角色图鉴' : '';
       const aggMap = aggPage ? await aggregateIcons(aggPage) : {};
       // 上一轮同名词目的图标继承：聚合页限流时图标覆盖不回退
@@ -389,13 +431,15 @@ async function main() {
       const seenWiki = new Set();
       const items = rows
         .map((row) => {
-          const entry = wikiEntry(source.type, row, imgMap[row.title]);
+          const entry = wikiEntry(source.type, row, imgMap[row.title], skillMap && skillMap[row.title]);
           if (!entry.icon && aggMap[row.title]) entry.icon = aggMap[row.title];
           if (!entry.icon && previousIcons[entry.name]) entry.icon = previousIcons[entry.name];
           return entry;
         })
         .filter((item) => item.name && !seenWiki.has(item.id) && seenWiki.add(item.id));
       const withIcon = items.filter((item) => item.icon).length;
+      const withSkills = items.filter((item) => item.skills && item.skills.length).length;
+      if (withSkills) report.types[`${source.type}_skills`] = withSkills;
       if (!items.length) throw new Error('SMW 返回 0 条');
       next.types[source.type] = { notice: makeNotice(source.label, today()), items };
       report.types[source.type] = items.length;

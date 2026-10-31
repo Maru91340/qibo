@@ -54,7 +54,7 @@ function mapWikiChar(payload) {
     role: '待核实',
     rarity: (item.rarity || '未知').replace('5星', '五星').replace('4星', '四星').replace('3星', '三星') || '未知',
     desc: item.desc || item.summary || '',
-    skills: [],
+    skills: item.skills || [],
     teams: [],
     verified: true,
     icon: item.icon || ''
