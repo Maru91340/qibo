@@ -54,6 +54,27 @@
         <view class="panel__desc">{{ section.text }}</view>
       </view>
 
+      <view v-if="related.length" class="panel card">
+        <view class="panel__title">
+          <text>同类条目</text>
+          <text class="related-count">{{ related.length }} 条</text>
+        </view>
+        <scroll-view scroll-x enable-flex class="related-row">
+          <view
+            v-for="rel in related"
+            :key="rel.id"
+            class="related-card"
+            hover-class="related-card--hover"
+            hover-stay-time="90"
+            @tap="goRelated(rel.id)"
+          >
+            <image v-if="rel.icon && !brokenIcons[rel.id]" class="related-card__img" :src="rel.icon" mode="aspectFill" lazy-load @error="brokenIcons[rel.id] = true" />
+            <view v-else class="related-card__glyph">{{ (rel.name || '?').slice(0, 1) }}</view>
+            <text class="related-card__name">{{ rel.name }}</text>
+          </view>
+        </scroll-view>
+      </view>
+
       <view class="detail__foot">
         <view class="foot-btn" hover-class="tap-hover" @tap="goBack">返回列表</view>
       </view>
@@ -141,10 +162,75 @@ function preview(src) {
   uni.previewImage({ urls: [src] });
 }
 
+const brokenIcons = ref({});
+const related = computed(() => {
+  const it = item.value;
+  if (!it || !it.category || it.category === '其他') return [];
+  return (catalog.value.items || [])
+    .filter((entry) => entry.id !== it.id && entry.category === it.category)
+    .slice(0, 8);
+});
+function goRelated(rid) {
+  uni.redirectTo({ url: `/pages/${props.type}/detail?id=${rid}` });
+}
+
 let unsubscribe = onCatalogUpdate(reload);
 </script>
 
 <style>
+.related-count {
+  font-size: 22rpx;
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+.related-row {
+  white-space: nowrap;
+}
+
+.related-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+  width: 120rpx;
+  margin-right: 18rpx;
+  transition: transform 0.16s ease;
+}
+
+.related-card--hover {
+  transform: scale(0.95);
+}
+
+.related-card__img {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 24rpx;
+  background: var(--soft);
+}
+
+.related-card__glyph {
+  width: 96rpx;
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24rpx;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.related-card__name {
+  max-width: 116rpx;
+  color: var(--ink);
+  font-size: 22rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .head__img {
   flex: none;
   width: 128rpx;

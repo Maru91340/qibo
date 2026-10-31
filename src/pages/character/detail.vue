@@ -65,6 +65,27 @@
         <view class="panel__desc">来自 BWIKI 的官方一图流（配装/配队速览）；公测后以最新版本为准。</view>
       </view>
 
+      <view v-if="related.length" class="panel card">
+        <view class="panel__title">
+          <text>同元素角色</text>
+          <text class="related-count">{{ related.length }} 名</text>
+        </view>
+        <scroll-view scroll-x enable-flex class="related-row">
+          <view
+            v-for="rel in related"
+            :key="rel.id"
+            class="related-card"
+            hover-class="related-card--hover"
+            hover-stay-time="90"
+            @tap="goRelated(rel.id)"
+          >
+            <image v-if="rel.icon && !brokenIcons[rel.id]" class="related-card__img" :src="rel.icon" mode="aspectFill" lazy-load @error="brokenIcons[rel.id] = true" />
+            <view v-else class="related-card__glyph">{{ rel.name.slice(0, 1) }}</view>
+            <text class="related-card__name">{{ rel.name }}</text>
+          </view>
+        </scroll-view>
+      </view>
+
       <view class="panel card">
         <view class="panel__title">元素相克参考</view>
         <view class="counter">
@@ -124,6 +145,18 @@ const guidePoster = computed(() => {
   const hit = guides.filter((g) => g.name === (item.value ? item.value.name + '一图流' : ''))[0];
   return hit ? hit.icon : '';
 });
+
+const brokenIcons = ref({});
+const related = computed(() => {
+  const it = item.value;
+  if (!it) return [];
+  return (catalog.value.items || [])
+    .filter((entry) => entry.id !== it.id && entry.element === it.element)
+    .slice(0, 8);
+});
+function goRelated(rid) {
+  uni.redirectTo({ url: '/pages/character/detail?id=' + rid });
+}
 
 function preview(src) {
   if (!src) return;
