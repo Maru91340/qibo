@@ -292,7 +292,10 @@ function wikiEntry(type, row, imgUrl, skills) {
     icon: imgUrl || '',
     verified: true
   };
-  if (type === 'charWiki' && skills && skills.length) entry.skills = skills;
+  if (type === 'charWiki') {
+    entry.role = '待核实';
+    if (skills && skills.length) entry.skills = skills;
+  }
   return entry;
 }
 
@@ -383,6 +386,7 @@ async function main() {
       // 聚合页补充：词条自身无图时，用聚合页表格里的缩略图兜底
       // 角色技能组：从角色页 HTML 的 hero-skill 结构提取（名称+类型+描述）
       let skillMap = {};
+      let roleMap = {};
       if (source.type === 'charWiki') {
         try {
           const pageTitles = rows.map((r) => r.title);
@@ -415,6 +419,9 @@ async function main() {
               if (desc) skills.push({ name: m[1], type: stype || '技能', desc: desc.slice(0, 118) });
             }
             if (skills.length) skillMap[t] = skills.slice(0, 6);
+            // 战斗定位：hero-battle-tag-name 第一个标签
+            const tm2 = html.match(/hero-battle-tag-name"[^>]*>[\s\S]{0,80}?<span[^>]*>([^<]{2,10})<\/span>/);
+            if (tm2) roleMap[t] = tm2[1];
             await sleep(2200);
           }
         } catch (error) {
@@ -432,6 +439,7 @@ async function main() {
       const items = rows
         .map((row) => {
           const entry = wikiEntry(source.type, row, imgMap[row.title], skillMap && skillMap[row.title]);
+          if (source.type === 'charWiki' && roleMap[row.title]) entry.role = roleMap[row.title];
           if (!entry.icon && aggMap[row.title]) entry.icon = aggMap[row.title];
           if (!entry.icon && previousIcons[entry.name]) entry.icon = previousIcons[entry.name];
           return entry;

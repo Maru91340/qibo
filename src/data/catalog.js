@@ -14,6 +14,18 @@ function collected(type) {
   return payload && payload.items && payload.items.length ? payload : null;
 }
 
+// BWIKI 战斗定位 → 现有筛选词
+function mapRole(raw) {
+  const r = String(raw || '');
+  if (!r || r === '待核实') return '待核实';
+  if (/输出/.test(r)) return '输出';
+  if (/减益|增益|辅助|治疗|护盾/.test(r)) return '辅助';
+  if (/控制/.test(r)) return '控制';
+  if (/坦克|防御|生存/.test(r)) return '坦克';
+  if (/调谐/.test(r)) return '辅助';
+  return '待核实';
+}
+
 // BWIKI 真实条目（中文元素名 → 元素 key）
 const ELE_KEY = { 火: 'flame', 焰: 'flame', 水: 'flow', 流: 'flow', 冰: 'frost', 霜: 'frost', 雷: 'bolt', 电: 'bolt', 木: 'grove', 草: 'grove', 地: 'grove', 林: 'grove', 光: 'astral', 星: 'astral', 辉: 'astral', 风: 'bolt' };
 function wikiEle(tags) {
@@ -51,7 +63,7 @@ function mapWikiChar(payload) {
     name: item.name,
     title: 'BWIKI收录',
     element: wikiEle(item.tags),
-    role: '待核实',
+    role: mapRole(item.role),
     rarity: (item.rarity || '未知').replace('5星', '五星').replace('4星', '四星').replace('3星', '三星') || '未知',
     desc: item.desc || item.summary || '',
     skills: item.skills || [],
