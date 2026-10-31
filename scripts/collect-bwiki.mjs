@@ -394,8 +394,11 @@ async function main() {
       if (source.type === 'charWiki' || source.type === 'qiboWiki') {
         try {
           const pageTitles = rows.map((r) => r.title);
-          for (let pi = 0; pi < pageTitles.length; pi += 1) {
-            const t = pageTitles[pi];
+          // 缓存命中即跳过：技能已满额的条目不再重抓页面（省时限流）
+          const needTitles = pageTitles.filter((t) => !(prevSkills[t] && (prevSkills[t].skills || []).length >= 3));
+          console.log(`skill pages: ${pageTitles.length} total, ${pageTitles.length - needTitles.length} cached, ${needTitles.length} to fetch`);
+          for (let pi = 0; pi < needTitles.length; pi += 1) {
+            const t = needTitles[pi];
             // serial + backoff on 567/429
             let html = '';
             for (let attempt = 0; attempt < 2; attempt += 1) {
