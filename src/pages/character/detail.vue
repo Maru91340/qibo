@@ -4,7 +4,14 @@
       <view class="head hero">
         <view class="hero__inner">
           <view class="head__top">
-            <view class="head__dot" :style="{ background: item.elementColor }">{{ item.elementName }}</view>
+            <image
+              v-if="item.icon && !iconError"
+              class="head__img"
+              :src="bigIcon"
+              mode="aspectFill"
+              @error="iconError = true"
+            />
+            <view v-else class="head__dot" :style="{ background: item.elementColor }">{{ item.elementName }}</view>
             <view class="head__text">
               <view class="head__name">{{ item.name }}</view>
               <view class="head__sub">{{ item.title }} · {{ item.role }} · {{ item.rarity }}</view>

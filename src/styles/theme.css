@@ -563,3 +563,28 @@ page {
   from { transform: translateY(12%); opacity: 0.6; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+/* 列表加载更多（增量渲染共用） */
+.cl-more {
+  margin: 24rpx 0 8rpx;
+  padding: 22rpx 0;
+  text-align: center;
+  border-radius: 999rpx;
+  border: 1rpx solid var(--line);
+  background: var(--card-bg);
+  color: var(--brand);
+  font-size: 25rpx;
+  font-weight: 600;
+  transition: transform 0.16s ease;
+}
+
+.cl-more--hover {
+  transform: scale(0.98);
+}
+
+.cl-more--end {
+  border: none;
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 22rpx;
+}

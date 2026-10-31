@@ -33,12 +33,13 @@
     </view>
 
     <view class="list-head">
-      <text>共 {{ list.length }} 名角色</text>
+      <text>命中 {{ list.length }} 名角色</text>
+      <text class="text-muted">共 {{ totalCount }} 名 · 数据源 BWIKI</text>
       <text v-if="teamCount" class="text-muted">已编入 {{ teamCount }} 名</text>
     </view>
 
     <view class="entry-list">
-      <view v-for="item in list" :key="item.id" class="entry-card card"
+      <view v-for="item in visibleList" :key="item.id" class="entry-card card"
         hover-class="entry-card--hover"
         hover-stay-time="90" @tap="goDetail(item.id)">
         <view class="entry-card__badge" :style="{ color: item.elementColor, background: item.elementTint }">
@@ -60,6 +61,11 @@
       </view>
     </view>
 
+    <view v-if="list.length > visibleCount" class="cl-more" hover-class="cl-more--hover" hover-stay-time="90" @tap="visibleCount += 60">
+      加载更多（已显示 {{ visibleCount }} / {{ list.length }} 条）
+    </view>
+    <view v-else-if="list.length > 60" class="cl-more cl-more--end">已加载全部 {{ list.length }} 条</view>
+
     <view class="cx-empty"><view class="cx-empty__icon">🐾</view><view class="cx-empty__text">没有符合条件的角色</view></view>
     <view class="footnote">{{ notice }}</view>
   </view>
@@ -69,7 +75,7 @@
 import { useTheme } from '@/utils/theme.js';
 
 const { isDark } = useTheme();
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { onLoad, onShow, onUnload } from '@dcloudio/uni-app';
 import { getCatalog, onCatalogUpdate } from '@/services/content.js';
 import { createElementToolkit } from '@/data/element.js';
@@ -93,22 +99,29 @@ const elementOptions = computed(() => [
   ...elementToolkit.value.elements
 ]);
 
+// 增量渲染：默认 60 条，筛选变化重置
+const visibleCount = ref(60);
+const totalCount = computed(() => (catalog.value.items || []).length);
 const list = computed(() =>
-  decorateWithElement(
-    filterCharacters(catalog.value.items, {
-      keyword: keyword.value,
-      role: role.value,
-      rarity: rarity.value,
-      element: element.value
-    }),
-    elementToolkit.value.elementMap
-  )
+  filterCharacters(catalog.value.items, {
+    keyword: keyword.value,
+    role: role.value,
+    rarity: rarity.value,
+    element: element.value
+  })
+);
+const visibleList = computed(() =>
+  list.value.slice(0, visibleCount.value).map((item) => decorateWithElement(item, elementToolkit.value.elementMap))
 );
 
 function reload() {
   catalog.value = getCatalog('character').data || { items: [], filters: {}, notice: '' };
   elementToolkit.value = createElementToolkit(getCatalog('element').data);
 }
+
+watch([keyword, role, rarity, element], () => {
+  visibleCount.value = 60;
+});
 
 function onKeywordChange(event) {
   keyword.value = event.detail.value;

@@ -4,7 +4,14 @@
       <view class="head hero">
         <view class="hero__inner">
           <view class="head__top">
-            <view class="head__dot" :style="{ background: item.elementColor }">{{ item.elementName }}</view>
+            <image
+              v-if="item.icon && !iconError"
+              class="head__img"
+              :src="bigIcon"
+              mode="aspectFill"
+              @error="iconError = true"
+            />
+            <view v-else class="head__dot" :style="{ background: item.elementColor }">{{ item.elementName }}</view>
             <view class="head__text">
               <view class="head__name">{{ item.name }}</view>
               <view class="head__sub">{{ item.kind }} · {{ item.rarity }}形态</view>
@@ -98,6 +105,12 @@ const inTeam = ref(false);
 const item = computed(() =>
   decorateWithElement(findById(catalog.value.items, id.value), toolkit.value.elementMap)
 );
+// BWIKI 缩略图升 240px；加载失败回退 120px 原图
+const iconError = ref(false);
+const bigIcon = computed(() => {
+  const icon = item.value && item.value.icon;
+  return icon ? icon.replace('/120px-', '/240px-') : '';
+});
 const notice = computed(() => catalog.value.notice || '');
 
 function reload() {
