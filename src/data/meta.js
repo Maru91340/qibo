@@ -26,6 +26,7 @@ export const sections = [
   { key: 'affix', group: 'query', title: '战斗词条', desc: '机制/输出/增益/减益释义', icon: 'bookmark', accent: '#8a93a8', path: '/pages/affix/affix', accent: '#e0553f' },
   { key: 'evolution', group: 'query', title: '进化图谱', desc: '按元素查看奇波进化链', icon: 'time', path: '/pages/evolution/evolution', accent: '#7f5bff' },
   { key: 'station', group: 'query', title: '家园派驻', desc: '按工种汇总派驻奇波', icon: 'bookmark', accent: '#8a93a8', path: '/pages/station/station', accent: '#0aa06e' },
+  { key: 'favorites', group: 'query', title: '我的收藏', desc: '本机收藏的条目', icon: 'star', path: '/pages/favorites/favorites', accent: '#d9a514' },
   { key: 'search', group: 'query', title: '全局搜索', desc: '一次搜索覆盖全部图鉴', icon: 'search', path: '/pages/search/search', accent: '#2f6bff' },
   { key: 'team', group: 'query', title: '队伍编成', desc: '保存搭配，本地记录不上传', icon: 'secured', path: '/pages/team/team', accent: '#ff8a3d' },
   { key: 'beast', group: 'content', title: '凶兽生态', desc: '凶兽条目图文', icon: 'bookmark', accent: '#8a93a8', path: '/pages/beast/beast' },

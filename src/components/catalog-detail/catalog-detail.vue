@@ -20,6 +20,9 @@
               <view class="head__sub">{{ subtitle }}</view>
             </view>
           </view>
+          <view class="head__fav" hover-class="tap-hover" @tap="toggleFavState">
+            {{ isFavNow ? '★ 已收藏' : '☆ 收藏' }}
+          </view>
           <view class="head__tags">
             <text v-if="item.rarity" class="head__tag">{{ item.rarity }}</text>
             <text v-for="tag in item.tags" :key="tag" class="head__tag">{{ tag }}</text>
@@ -71,6 +74,7 @@ import { useTheme } from '@/utils/theme.js';
 const { isDark } = useTheme();
 import { computed, ref } from 'vue';
 import { getCatalog, onCatalogUpdate } from '@/services/content.js';
+import { isFav, toggleFav } from '@/utils/favorites.js';
 
 const props = defineProps({
   type: { type: String, required: true },
@@ -90,6 +94,17 @@ const bigIcon = computed(() => {
 
 const item = computed(() => (catalog.value.items || []).filter((entry) => entry.id === props.id)[0] || null);
 const notice = computed(() => catalog.value.notice || '');
+// 收藏（本地）
+const isFavNow = ref(false);
+function refreshFav() {
+  isFavNow.value = isFav(props.type, props.id);
+}
+function toggleFavState() {
+  const it = item.value || {};
+  const on = toggleFav({ type: props.type, id: props.id, name: it.name || '', icon: it.icon || '' });
+  isFavNow.value = on;
+  uni.showToast({ title: on ? '已收藏' : '已取消收藏', icon: 'none' });
+}
 const subtitle = computed(() =>
   props.subtitleFields
     .map((field) => item.value && item.value[field])

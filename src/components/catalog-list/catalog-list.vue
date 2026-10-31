@@ -76,6 +76,12 @@
             <text>{{ item.name }}</text>
             <text v-if="!item.verified" class="mini-tag mini-tag--warn">待核实</text>
             <text v-if="item.rarity" class="mini-tag" :style="{ color: rarityColor(item), background: hexTint(rarityColor(item)) }">{{ item.rarity }}</text>
+            <text
+              class="fav-star"
+              :class="{ 'fav-star--on': favSet[item.id] }"
+              hover-class="tap-hover"
+              @tap.stop="toggle(item)"
+            >{{ favSet[item.id] ? '★' : '☆' }}</text>
           </view>
           <view class="entry-card__desc">{{ cleanSummary(item) }}</view>
           <view v-if="item.tags && item.tags.length" class="chip-row">
@@ -107,6 +113,7 @@ import { useTheme } from '@/utils/theme.js';
 const { isDark } = useTheme();
 import { computed, ref, watch } from 'vue';
 import { getCatalog, onCatalogUpdate } from '@/services/content.js';
+import { listFavs, toggleFav } from '@/utils/favorites.js';
 
 const props = defineProps({
   type: { type: String, required: true },
@@ -262,6 +269,19 @@ function onKeywordConfirm() {
   keyword.value = keyword.value.trim();
 }
 
+// 收藏状态（本地）
+const favSet = ref({});
+function refreshFavs() {
+  const map = {};
+  listFavs().forEach((f) => { if (f.type === props.type) map[f.id] = true; });
+  favSet.value = map;
+}
+function toggle(item) {
+  const on = toggleFav({ type: props.type, id: item.id, name: item.name, icon: item.icon || '' });
+  favSet.value = Object.assign({}, favSet.value, { [item.id]: on });
+  uni.showToast({ title: on ? '已收藏' : '已取消收藏', icon: 'none' });
+}
+
 function goDetail(item) {
   const path = props.detailPath || `pages/${props.type}/detail`;
   uni.navigateTo({ url: `${path}?id=${item.id}` });
@@ -269,9 +289,11 @@ function goDetail(item) {
 
 function reload() {
   catalog.value = getCatalog(props.type).data || { items: [], notice: '' };
+  refreshFavs();
 }
 
 reload();
+refreshFavs();
 let unsubscribe = onCatalogUpdate(reload);
 </script>
 
@@ -407,6 +429,17 @@ let unsubscribe = onCatalogUpdate(reload);
   padding: 6rpx 20rpx 20rpx;
 }
 
+
+.fav-star {
+  margin-left: auto;
+  color: var(--ink-3);
+  font-size: 30rpx;
+  transition: transform 0.16s ease;
+}
+
+.fav-star--on {
+  color: #ffb02e;
+}
 
 .mini-tag {
   padding: 2rpx 12rpx;

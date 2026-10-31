@@ -472,6 +472,15 @@
       }
     },
     {
+      "path": "pages/favorites/favorites",
+      "style": {
+        "navigationBarTitleText": "我的收藏",
+        "mp-weixin": {
+          "usingComponents": {}
+        }
+      }
+    },
+    {
       "path": "pages/settings/settings",
       "style": {
         "navigationBarTitleText": "设置",
