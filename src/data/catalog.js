@@ -51,7 +51,7 @@ function mapWikiQibo(payload) {
     forms: [],
     verified: true,
     desc: item.desc || item.summary || '',
-    skills: [],
+    skills: item.skills || [],
     icon: item.icon || ''
   }));
 }

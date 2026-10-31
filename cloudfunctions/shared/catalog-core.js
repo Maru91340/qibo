@@ -162,7 +162,17 @@ function normalizeQibo(payload, context) {
       usage: stringList(item.usage, `${field}.usage`, { max: 8, itemMax: 20 }),
       stages: stringList(item.stages, `${field}.stages`, { max: 8, itemMax: 20 }),
       forms: stringList(item.forms || [], `${field}.forms`, { max: 8, itemMax: 20 }),
-      skills: stringList(item.skills, `${field}.skills`, { max: 12, itemMax: 40 }),
+      // 技能兼容两种形态：字符串数组（示例）或 {name,type,desc} 对象数组（BWIKI 提取）
+      skills: (Array.isArray(item.skills) ? item.skills : []).slice(0, 12).map((skill, skillIndex) => {
+        const skillField = `${field}.skills[${skillIndex}]`;
+        if (typeof skill === 'string') return { name: text(skill, 40, `${skillField}.name`), type: '', desc: '' };
+        if (!isObject(skill)) invalid(`${skillField} must be a string or object`, skillField);
+        return {
+          name: text(skill.name, 40, `${skillField}.name`),
+          type: text(skill.type || '', 20, `${skillField}.type`, { required: false }),
+          desc: text(skill.desc || '', LIMITS.text, `${skillField}.desc`, { required: false })
+        };
+      }),
       verified: item.verified === true
     };
   });

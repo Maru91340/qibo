@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OUTPUT = join(projectRoot, 'src/data/generated/catalogs.json');
 const LOG_FILE = join(projectRoot, 'src/data/generated/collect-log.jsonl');
+const SKILL_CACHE = join(projectRoot, 'src/data/generated/skill-cache.json');
 const API = 'https://wiki.biligame.com/ap/api.php';
 const UA = 'Mozilla/5.0 (compatible; qbxzs-data/1.0; +local)';
 const MAX_ITEMS = 300;
@@ -296,6 +297,7 @@ function wikiEntry(type, row, imgUrl, skills) {
     entry.role = '待核实';
     if (skills && skills.length) entry.skills = skills;
   }
+  if (type === 'qiboWiki' && skills && skills.length) entry.skills = skills;
   return entry;
 }
 
@@ -387,7 +389,9 @@ async function main() {
       // 角色技能组：从角色页 HTML 的 hero-skill 结构提取（名称+类型+描述）
       let skillMap = {};
       let roleMap = {};
-      if (source.type === 'charWiki') {
+      // 上轮技能缓存继承：限流时覆盖不回退
+      const prevSkills = existsSync(SKILL_CACHE) ? JSON.parse(readFileSync(SKILL_CACHE, 'utf8')) : {};
+      if (source.type === 'charWiki' || source.type === 'qiboWiki') {
         try {
           const pageTitles = rows.map((r) => r.title);
           for (let pi = 0; pi < pageTitles.length; pi += 1) {
@@ -404,12 +408,20 @@ async function main() {
                 if (attempt === 0) await sleep(9000);
               }
             }
-            if (!html) { console.warn('skip char page: ' + t); continue; }
+            if (!html) {
+              if (prevSkills[t]) skillMap[t] = prevSkills[t].skills || [];
+              continue;
+            }
             const sIdx = html.indexOf('id="技能"');
-            if (sIdx < 0) continue;
+            if (sIdx < 0) {
+              if (prevSkills[t]) skillMap[t] = prevSkills[t].skills || [];
+              continue;
+            }
             const seg = html.slice(sIdx, sIdx + 20000);
             const skills = [];
-            const re = /hero-skill-name">([^<]{2,20})<\/span>[\s\S]{0,2000}?hero-skill-desc[a-z-]*"[^>]*>([\s\S]{10,300}?)<\/(?:div|span|p)>/g;
+            const re = source.type === 'charWiki'
+              ? /hero-skill-name">([^<]{2,20})<\/span>[\s\S]{0,2000}?hero-skill-desc[a-z-]*"[^>]*>([\s\S]{10,300}?)<\/(?:div|span|p)>/g
+              : /skill-name">([^<]{2,20})<\/span>[\s\S]{0,1500}?skill-desc[a-z-]*"[^>]*>([\s\S]{10,300}?)<\/(?:div|span|p)>/g;
             for (const m of seg.matchAll(re)) {
               let desc = m[2].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
               // 类型从描述前缀【普攻】等提取
@@ -418,11 +430,16 @@ async function main() {
               if (tm) { stype = tm[1]; desc = desc.replace(/^【[^】]{1,6}】/, '').trim(); }
               if (desc) skills.push({ name: m[1], type: stype || '技能', desc: desc.slice(0, 118) });
             }
-            if (skills.length) skillMap[t] = skills.slice(0, 6);
-            // 战斗定位：hero-battle-tag-name 第一个标签
-            const tm2 = html.match(/hero-battle-tag-name"[^>]*>[\s\S]{0,80}?<span[^>]*>([^<]{2,10})<\/span>/);
-            if (tm2) roleMap[t] = tm2[1];
-            await sleep(2200);
+            if (skills.length) {
+              skillMap[t] = skills.slice(0, 6);
+              prevSkills[t] = { skills: skills.slice(0, 6) };
+            }
+            if (source.type === 'charWiki') {
+              // 战斗定位：hero-battle-tag-name 第一个标签
+              const tm2 = html.match(/hero-battle-tag-name"[^>]*>[\s\S]{0,80}?<span[^>]*>([^<]{2,10})<\/span>/);
+              if (tm2) roleMap[t] = tm2[1];
+            }
+            await sleep(3500);
           }
         } catch (error) {
           console.warn(`✖ 角色技能解析: ${error.message}`);
@@ -448,6 +465,8 @@ async function main() {
       const withIcon = items.filter((item) => item.icon).length;
       const withSkills = items.filter((item) => item.skills && item.skills.length).length;
       if (withSkills) report.types[`${source.type}_skills`] = withSkills;
+      // 持久化技能缓存（供下轮限流兜底）
+      try { writeFileSync(SKILL_CACHE, JSON.stringify(prevSkills)); } catch (e) { /* ignore */ }
       if (!items.length) throw new Error('SMW 返回 0 条');
       next.types[source.type] = { notice: makeNotice(source.label, today()), items };
       report.types[source.type] = items.length;

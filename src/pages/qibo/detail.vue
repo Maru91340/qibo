@@ -63,9 +63,12 @@
 
       <view v-if="item.skills && item.skills.length" class="panel card">
         <view class="panel__title">能力与玩法</view>
-        <view v-for="skill in item.skills" :key="skill" class="skill">
-          <c-icon name="star" size="30rpx" color="#2f6bff" />
-          <text class="skill__name">{{ skill }}</text>
+        <view v-for="skill in item.skills" :key="skill.name" class="skill">
+          <view class="skill__head">
+            <text class="skill__name">{{ skill.name }}</text>
+            <text v-if="skill.type" class="mini-tag">{{ skill.type }}</text>
+          </view>
+          <view class="skill__desc">{{ skill.desc }}</view>
         </view>
       </view>
 
@@ -189,6 +192,28 @@ onShareAppMessage(() => ({
 .stage__name {
   color: var(--ink-2);
   font-size: 22rpx;
+}
+
+.skill__head {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.mini-tag {
+  padding: 2rpx 12rpx;
+  border-radius: 8rpx;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 20rpx;
+}
+
+.skill__desc {
+  margin-top: 6rpx;
+  padding-left: 42rpx;
+  color: var(--ink-2);
+  font-size: 23rpx;
+  line-height: 1.6;
 }
 
 .skill {
