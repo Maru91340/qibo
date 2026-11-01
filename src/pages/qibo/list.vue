@@ -200,11 +200,12 @@ onUnload(() => unsubscribe && unsubscribe());
 }
 
 .sort-chip {
-  padding: 4rpx 16rpx;
+  padding: 18rpx 20rpx;
+  line-height: 1;
   border-radius: 999rpx;
   background: var(--soft);
   color: var(--ink-2);
-  font-size: 21rpx;
+  font-size: 22rpx;
 }
 
 .sort-chip--on {
