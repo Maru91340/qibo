@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>奇波详情页重设计 · 线框图与配色（pkg-qibo 分包）</title>
+<style>
+  :root {
+    --brand: #2f6bff; --brand-deep: #1f3d9e; --brand-soft: #eaf0ff;
+    --bg: #f3f5fb; --card: #ffffff; --line: #e8ebf3;
+    --ink: #1a2138; --ink2: #5a6480; --ink3: #97a0b5; --soft: #f2f4f9;
+    --g-s: #f2b50c; --g-a: #8a6cff; --g-b: #2f9bff; --g-c: #52c7b8; --g-d: #9aa2b1;
+    --warn: #c77700; --ok: #16813f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #dde3f0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--ink); padding: 24px; }
+  .wrap { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+  .phone { width: 375px; background: var(--bg); border-radius: 28px; padding: 14px 12px 24px; box-shadow: 0 12px 40px rgba(31,61,158,.18); }
+  .phone h3 { text-align: center; font-size: 14px; color: var(--brand-deep); margin-bottom: 10px; }
+  .note { max-width: 560px; background: var(--card); border-radius: 16px; padding: 16px 20px; }
+  .note h2 { font-size: 15px; margin: 10px 0 6px; color: var(--brand-deep); }
+  .note p, .note li { font-size: 12px; color: var(--ink2); line-height: 1.7; }
+  .sw { display: inline-block; width: 18px; height: 18px; border-radius: 6px; vertical-align: -4px; margin: 0 4px 0 10px; }
+  .hero { background: linear-gradient(132deg, #28b37a 0%, rgba(255,255,255,.12) 140%); border-radius: 16px; padding: 14px; color: #fff; display: flex; gap: 12px; }
+  .hero .avatar { width: 96px; height: 96px; border-radius: 14px; background: rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; font-size: 34px; }
+  .hero .name { font-size: 18px; font-weight: 800; display: flex; gap: 8px; align-items: center; }
+  .hero .no { font-size: 10px; border: 1px solid rgba(255,255,255,.5); background: rgba(255,255,255,.16); padding: 1px 6px; border-radius: 5px; }
+  .chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+  .chip { font-size: 10px; background: rgba(255,255,255,.18); padding: 1px 8px; border-radius: 999px; }
+  .rating { margin-left: auto; background: rgba(255,255,255,.2); border-radius: 10px; padding: 8px 10px; text-align: center; }
+  .rating .lb { font-size: 9px; opacity: .85; }
+  .rating .v { font-size: 16px; font-weight: 800; color: var(--g-a); }
+  .rating .s { font-size: 12px; font-weight: 700; }
+  .sec { display: flex; align-items: center; gap: 6px; margin: 14px 2px 8px; }
+  .sec .bar { width: 4px; height: 16px; background: var(--brand); border-radius: 2px; }
+  .sec .cn { font-size: 14px; font-weight: 700; }
+  .sec .en { font-size: 9px; color: var(--ink3); letter-spacing: 1px; }
+  .card { background: var(--card); border-radius: 14px; padding: 12px; margin-bottom: 10px; box-shadow: 0 4px 14px rgba(31,42,68,.05); }
+  .card .t { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .card .t small { font-weight: 400; color: var(--ink3); font-size: 10px; margin-left: 6px; }
+  .six { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+  .six .tile { border: 1px solid var(--line); border-radius: 10px; background: var(--soft); text-align: center; padding: 8px 4px; font-size: 10px; color: var(--ink2); }
+  .six .tile b { display: block; font-size: 13px; color: var(--ink); margin-top: 2px; }
+  .six .tile .g { font-weight: 800; margin-left: 4px; }
+  .six .hi-s { background: rgba(242,176,12,.14); border-color: rgba(242,176,12,.4); }
+  .six .hi-a { background: rgba(138,108,255,.14); border-color: rgba(138,108,255,.35); }
+  .seg2 { display: flex; gap: 6px; background: var(--soft); border-radius: 10px; padding: 3px; margin-bottom: 8px; }
+  .seg2 .on { flex: 1; text-align: center; font-size: 12px; padding: 5px 0; border-radius: 8px; color: var(--ink2); }
+  .seg2 .on.act { background: var(--brand); color: #fff; font-weight: 700; }
+  .skill { display: flex; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+  .skill:last-of-type { border-bottom: none; }
+  .skill .ico { width: 44px; height: 44px; border-radius: 10px; background: rgba(40,179,122,.15); display: flex; align-items: center; justify-content: center; font-size: 20px; position: relative; flex: none; }
+  .skill .ico em { position: absolute; right: -5px; bottom: -5px; font-style: normal; background: var(--brand); color: #fff; font-size: 8px; padding: 1px 5px; border-radius: 5px; }
+  .skill .bd { flex: 1; min-width: 0; }
+  .skill .nm { font-size: 13px; font-weight: 700; }
+  .skill .tag { font-size: 9px; padding: 1px 6px; border-radius: 4px; margin-left: 4px; }
+  .tag.sp { background: var(--brand-soft); color: var(--brand); }
+  .skill .mt { font-size: 9px; color: var(--ink3); margin: 3px 0; }
+  .skill .lv { display: flex; gap: 4px; margin-bottom: 4px; }
+  .skill .lv span { font-size: 9px; border: 1px solid var(--line); color: var(--ink2); border-radius: 999px; padding: 1px 7px; }
+  .skill .lv span.act { background: var(--brand); color: #fff; border-color: var(--brand); }
+  .skill .ds { font-size: 10px; color: var(--ink2); line-height: 1.5; }
+  .fold { font-size: 10px; color: var(--brand-deep); margin-top: 4px; }
+  .trait-c { border: 1px solid rgba(242,176,12,.35); background: linear-gradient(160deg, rgba(242,176,12,.14), #fff 60%); }
+  .trait-c .nm { font-weight: 800; font-size: 13px; }
+  .trait-c .bd { font-size: 9px; background: #fff4e6; color: #a35f00; padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
+  .trait-c p { font-size: 11px; color: var(--ink2); margin-top: 5px; line-height: 1.55; }
+  .genes { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-bottom: 6px; }
+  .gene { border: 1px solid var(--line); background: var(--soft); border-radius: 8px; text-align: center; padding: 6px 2px; font-size: 9px; color: var(--ink2); position: relative; }
+  .gene b { font-size: 14px; color: var(--ink); }
+  .gene .sc { color: var(--brand-deep); font-size: 8px; }
+  .gene .ti { display: inline-block; margin-top: 2px; padding: 0 5px; border-radius: 4px; font-weight: 700; }
+  .gene .zy { background: rgba(138,108,255,.14); color: var(--g-a); }
+  .gene.empty { border-style: dashed; background: transparent; color: var(--ink3); }
+  .gene .fl { position: absolute; top: -7px; left: 4px; background: var(--warn); color: #fff; font-size: 8px; padding: 0 5px; border-radius: 4px; }
+  .kv { font-size: 11px; color: var(--ink2); line-height: 1.9; }
+  .kv b { display: inline-block; width: 84px; color: var(--ink3); font-weight: 400; }
+  .evo { display: flex; align-items: center; gap: 4px; }
+  .evo .nd { width: 64px; text-align: center; border: 1px solid var(--line); background: var(--soft); border-radius: 8px; padding: 5px 2px; font-size: 9px; color: var(--ink2); }
+  .evo .nd.cur { border-color: var(--brand); background: var(--brand-soft); }
+  .evo .nd .pic { font-size: 18px; }
+  .evo .ar { font-size: 10px; color: var(--brand); text-align: center; line-height: 1.3; }
+  .evo .ar small { display: block; color: var(--ink3); font-size: 8px; }
+  .btn { background: var(--brand); color: #fff; border-radius: 999px; text-align: center; padding: 12px; font-size: 15px; font-weight: 700; margin-top: 12px; }
+  .ft { text-align: center; font-size: 9px; color: var(--ink3); margin-top: 8px; line-height: 1.6; }
+  .exp { font-size: 10px; color: var(--ink2); }
+  .exp .r { display: flex; border-bottom: 1px dashed var(--line); padding: 2px 0; }
+  .exp .r span { flex: 1; text-align: right; }
+  .exp .r span:first-child { flex: 0 0 30%; text-align: left; font-weight: 700; color: var(--ink); }
+  .atlas .b { display: inline-block; background: #e5f6ec; color: var(--ok); font-size: 9px; padding: 1px 8px; border-radius: 999px; margin: 0 4px 4px 0; }
+  .atlas .row { font-size: 10px; color: var(--ink2); padding: 2px 0; border-bottom: 1px dashed var(--line); display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="phone">
+    <h3>奇波详情（pkg-qibo/detail）· 线框 v1 · 2026-11-13</h3>
+    <div class="hero">
+      <div class="avatar">🦊</div>
+      <div>
+        <div class="name">蓬尾狐 <span class="no">NO.2</span></div>
+        <div class="chips"><span class="chip">木</span><span class="chip">成长期</span><span class="chip">120cm 小</span><span class="chip">异生类·兽形族</span></div>
+      </div>
+      <div class="rating"><div class="lb">资质评分</div><div><span class="v">A</span> <span class="s">11,214</span></div></div>
+    </div>
+
+    <div class="sec"><span class="bar"></span><span class="cn">战斗信息</span><span class="en">BATTLE INFO</span></div>
+    <div class="card">
+      <div class="t">六维能力资质<small>RADAR</small></div>
+      <div class="six">
+        <div class="tile">⚔ 攻击<b>29 <span class="g" style="color:var(--g-d)">D</span></b></div>
+        <div class="tile">❤ 生命<b>1,641 <span class="g" style="color:var(--g-d)">D</span></b></div>
+        <div class="tile">🛡 防御<b>41 <span class="g" style="color:var(--g-d)">D</span></b></div>
+        <div class="tile hi-s">✦ 暴击率 👍<b>41.3% <span class="g" style="color:var(--g-s)">S</span></b></div>
+        <div class="tile">〓 破韧值<b>208 <span class="g" style="color:var(--g-d)">D</span></b></div>
+        <div class="tile">▲ 超限强度<b>28 <span class="g" style="color:var(--g-d)">D</span></b></div>
+      </div>
+      <div class="fold">▾ 资质评分说明</div>
+    </div>
+
+    <div class="card">
+      <div class="t">技能<small>SKILLS</small></div>
+      <div class="seg2"><span class="on act">战斗技能 4</span><span class="on">对决技能 4</span></div>
+      <div class="skill">
+        <div class="ico">🌿<em>Lv.1</em></div>
+        <div class="bd">
+          <div class="nm">蓬尾之息 <span style="color:#28b37a">木</span><span class="tag sp">特技</span></div>
+          <div class="mt">⏱ 24秒 · ⚡ 350</div>
+          <div class="lv"><span class="act">Lv.1</span><span>Lv.2</span><span>Lv.3</span><span>Lv.4</span><span>Lv.5</span></div>
+          <div class="ds">唤出木能光束攻击前方扇形区域，对区域内敌方造成20.2%攻击力的木属性伤害…</div>
+          <div class="fold">战斗机制与数值解析（1 段攻击 · 2 项属性变动）　▾ 展开解析</div>
+        </div>
+      </div>
+      <div class="skill">…</div>
+    </div>
+
+    <div class="card trait-c">
+      <span class="nm">华贵皮毛</span><span class="bd">专属固有特性</span>
+      <p>不受控制效果影响。施放奇波特技后友方全体造成的暴击伤害与超限会心率提高6.5%，持续15秒。</p>
+      <div class="fold">战斗机制与数值解析（2 项属性变动）　▾ 展开解析</div>
+    </div>
+
+    <div class="card">
+      <div class="t">基因技能<small>已装配 4/8</small></div>
+      <div class="genes">
+        <div class="gene"><span class="fl">先天</span><b>开</b> <span class="sc">+512</span><div>开心果</div><span class="ti zy">卓越</span></div>
+        <div class="gene"><b>茁</b> <span class="sc">+512</span><div>茁壮</div><span class="ti zy">卓越</span></div>
+        <div class="gene"><b>机</b> <span class="sc">+512</span><div>机敏</div><span class="ti zy">卓越</span></div>
+        <div class="gene"><b>敏</b> <span class="sc">+512</span><div>敏锐</div><span class="ti zy">卓越</span></div>
+        <div class="gene empty">＋<div>自由位</div></div>
+        <div class="gene empty">＋<div>自由位</div></div>
+        <div class="gene empty">＋<div>自由位</div></div>
+        <div class="gene empty">＋<div>自由位</div></div>
+      </div>
+      <div class="skill" style="border:none;padding-top:0">
+        <div class="bd" style="font-size:10px;color:var(--ink2)">开心果 · 卓越（伤害提升类）<br>战斗开始后，友方全体暴击率提高5%，持续10秒。</div>
+      </div>
+    </div>
+
+    <div class="sec"><span class="bar"></span><span class="cn">基础信息</span><span class="en">BASIC INFO</span></div>
+    <div class="card">
+      <div class="t">基础分类与特征</div>
+      <div class="kv">
+        <div><b>进化阶段</b>成长期</div>
+        <div><b>体型</b>120cm 小</div>
+        <div><b>可捕捉</b>可</div>
+        <div><b>种族与族系</b>异生类·兽形族</div>
+        <div><b>星结回响</b>18% 概率获得 棕木鹿的回响 ×1</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="t">家园<small>基础生产周期: 360秒</small></div>
+      <div class="kv"><div><b>工种</b>耕作 · 初始评分 40–60</div></div>
+      <div class="atlas" style="margin-top:4px">
+        <div class="row"><span>🦴 兽灵之角 <i style="color:var(--warn)">稀有素材</i></span><span>出率 1.92% · 数量 2–2</span></div>
+        <div class="row"><span>🧶 细密软绒 <i>普通素材</i></span><span>出率 9.58% · 数量 2–2</span></div>
+      </div>
+      <div class="fold">▾ 牧场保底与效率机制</div>
+    </div>
+    <div class="card">
+      <div class="t">家族<small>萝冠灵狐系</small></div>
+      <div class="evo">
+        <div class="nd"><div class="pic">🌱</div>小芽狐<br>幼年期</div>
+        <div class="ar">→<small>Lv40</small></div>
+        <div class="nd cur"><div class="pic">🦊</div>蓬尾狐<br>成长期</div>
+        <div class="ar">→<small>Lv60</small></div>
+        <div class="nd"><div class="pic">🌟</div>萝冠灵狐<br>成熟期</div>
+      </div>
+    </div>
+    <div class="card atlas">
+      <div class="t">星临图志<small>ATLAS</small></div>
+      <div>
+        <span class="b">攻击 +16</span><span class="b">物理防御 +8</span><span class="b">生命 +200</span>
+      </div>
+      <div class="row"><span>技能释放：累计释放本奇波主动战斗技能3次</span><span>+10</span></div>
+      <div class="fold">▾ 调查任务全量 / ▾ 图志等级与奖励（10 级）</div>
+    </div>
+    <div class="card">
+      <div class="t">奇波升级经验<small>EXP</small></div>
+      <div class="exp">
+        <div class="r"><span>Lv</span><span>升下级</span><span>累计</span></div>
+        <div class="r"><span>1</span><span>10</span><span>10</span></div>
+        <div class="r"><span>30</span><span>1,330</span><span>8,395</span></div>
+        <div class="r"><span>60</span><span>4,000</span><span>86,725</span></div>
+        <div class="r"><span>100</span><span>0</span><span>446,525</span></div>
+      </div>
+      <div class="fold">▴ 展开全等级（100 级）</div>
+    </div>
+
+    <div class="card" style="text-align:center;color:var(--ink3);font-size:10px">元素相克参考 · 同元素奇波（保留原板块）</div>
+    <div class="btn">设为出战奇波</div>
+    <div class="ft">资料来自 BWIKI 收录与公开 CBT3 编号索引 · 图鉴共 204 条 · 收录不等于官方核实 · 公测后以官方为准</div>
+  </div>
+
+  <div class="note">
+    <h2>配色令牌（亮/暗双主题，暗色走 theme.css 变量自动覆盖）</h2>
+    <p>
+      页面底 <span class="sw" style="background:#f3f5fb"></span>--bg · 卡片 <span class="sw" style="background:#fff;border:1px solid #ddd"></span>--card-bg · 主色 <span class="sw" style="background:#2f6bff"></span>--brand · 分割 <span class="sw" style="background:#e8ebf3"></span>--line
+      <br>六维等级：SSS/S <span class="sw" style="background:#f2b50c"></span>#f2b50c · A <span class="sw" style="background:#8a6cff"></span>#8a6cff · B <span class="sw" style="background:#2f9bff"></span>#2f9bff · C <span class="sw" style="background:#52c7b8"></span>#52c7b8 · D/E/F <span class="sw" style="background:#9aa2b1"></span>#9aa2b1
+      <br>S/A 级 tile 分别叠 14%/14% 金/紫 soft 底；元素色走 element toolkit（color/tint）
+    </p>
+    <h2>层次结构</h2>
+    <p>① Hero（元素渐变 + 编号徽章 + 评分徽章 + 收藏）→ ② 战斗信息（六维 tile 网格 → 技能分段切换 → 专属特性金底卡 → 基因 8 槽位）→ ③ 基础信息（分类 kv → 家园 → 家族横向进化链 → 星临图志 → 升级经验表）→ ④ 保留板块（元素相克 / 同元素奇波 / 出战按钮）→ ⑤ 页脚口径统一为 CBT3 204 条。</p>
+    <h2>交互约定</h2>
+    <p>· 技能 Lv.1–5 分档 chips（默认 Lv.1，逐卡独立记忆）；战斗/对决页签切换<br>· 「战斗机制与数值解析」「评分说明」「牧场机制」「图志等级」「经验全表」均为折叠块，默认收起<br>· 家族节点可点击跳转对应详情（redirectTo 同分包）；技能/六维/基因/掉落图标失败降级为首字占位<br>· 无 CBT3 战斗数据的奇波：战斗信息板块显示「CBT3 战斗数据整理中 · 公测后开放」占位</p>
+    <h2>数据来源</h2>
+    <p>collect-cbt3-pets.mjs 限速采集 ap-cbt3.csxylic.com（robots 允许通用爬虫、仅禁 AI 训练；use=reference；已获项目所有者授权）→ src/data/generated/qibo-combat.json → vite gzip 内联进 pkg-qibo 分包（不进主包与云端 seed）。</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>奇波小助手 · 首页重设计线框图</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #eef1f8; color: #1a2138; padding: 40px 24px 80px;
+  }
+  .doc { max-width: 1240px; margin: 0 auto; }
+  .doc__head { margin-bottom: 28px; }
+  .doc__title { font-size: 26px; font-weight: 700; letter-spacing: 1px; }
+  .doc__sub { margin-top: 8px; font-size: 13px; color: #5a6480; line-height: 1.8; }
+
+  .stage { display: flex; gap: 36px; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
+
+  /* ============ 手机壳 ============ */
+  .phone {
+    width: 375px; border-radius: 44px; background: #10141f;
+    padding: 10px; box-shadow: 0 24px 60px rgba(26, 33, 56, .25);
+    flex: none; position: relative;
+  }
+  .phone__screen {
+    border-radius: 36px; overflow: hidden; background: #f3f5fb;
+    height: 812px; position: relative; display: flex; flex-direction: column;
+  }
+  .col { display: flex; flex-direction: column; gap: 18px; align-items: center; }
+  .col__tag {
+    font-size: 14px; font-weight: 700; padding: 6px 18px; border-radius: 999px;
+    background: #1a2138; color: #fff; letter-spacing: 2px;
+  }
+  .col__tag--lo { background: #97a0b5; }
+  .col__note { font-size: 12px; color: #5a6480; width: 375px; line-height: 1.9; }
+
+  .statusbar {
+    height: 44px; flex: none; display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 24px 0; font-size: 13px; font-weight: 600; color: #fff;
+  }
+  .navbar {
+    height: 44px; flex: none; display: flex; align-items: center; justify-content: center;
+    position: relative; color: #fff; font-size: 16px; font-weight: 600;
+    background: #1f3d9e;
+  }
+  .capsule {
+    position: absolute; right: 12px; top: 9px; width: 88px; height: 28px;
+    border-radius: 999px; background: rgba(255,255,255,.22); border: 1px solid rgba(255,255,255,.35);
+    display: flex; align-items: center; justify-content: space-around; font-size: 12px; color: #fff;
+  }
+
+  .scrollarea { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 0 16px 30px; }
+  .scrollarea::-webkit-scrollbar { width: 0; }
+
+  /* ============ 通用元件（两稿共用） ============ */
+  .searchbar { padding: 4px 0 10px; }
+  .search-pill {
+    height: 40px; border-radius: 999px; background: #fff; border: 1px solid #e8ebf3;
+    display: flex; align-items: center; gap: 8px; padding: 0 16px; font-size: 13px; color: #97a0b5;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero { border-radius: 16px; overflow: hidden; border: 1px solid #e8ebf3; position: relative; }
+  .hero__media {
+    position: relative; width: 100%; height: 197px; /* 16:9 */
+    background: linear-gradient(160deg, #16255f 0%, #1f3d9e 42%, #4b3fa8 78%, #7f5bff 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero__media::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(rgba(255,255,255,.5) 1px, transparent 1px),
+      radial-gradient(rgba(255,255,255,.25) 1px, transparent 1px);
+    background-size: 90px 70px, 130px 100px; background-position: 12px 18px, 60px 50px;
+    opacity: .8;
+  }
+  .hero__art { font-size: 52px; filter: drop-shadow(0 6px 14px rgba(0,0,0,.35)); position: relative; }
+  .hero__veil {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 108px;
+    background: linear-gradient(180deg, rgba(10,14,38,0) 0%, rgba(10,14,38,.78) 88%);
+  }
+  .hero__chip {
+    position: absolute; top: 10px; left: 10px; display: flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 999px; background: rgba(255,255,255,.92);
+    font-size: 11px; font-weight: 700; color: #1f3d9e;
+  }
+  .hero__chip b { color: #c93b3b; font-size: 12px; }
+  .hero__caption { position: absolute; left: 14px; right: 14px; bottom: 10px; color: #fff; }
+  .hero__tagline { font-size: 11px; opacity: .92; letter-spacing: 1px; }
+  .hero__title { font-size: 18px; font-weight: 800; margin-top: 3px; letter-spacing: .5px; }
+  .hero__cta {
+    position: absolute; right: 10px; bottom: 12px; font-size: 11px; font-weight: 600;
+    padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.4);
+  }
+
+  /* ---------- 功能宫格（swiper） ---------- */
+  .navcard {
+    margin-top: 12px; border-radius: 16px; background: #fff; border: 1px solid #e8ebf3;
+    padding: 12px 12px 10px;
+  }
+  .navcard__head { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 8px; }
+  .navcard__title { font-size: 15px; font-weight: 700; }
+  .navcard__hint { font-size: 11px; color: #97a0b5; display: flex; align-items: center; gap: 4px; }
+  .nav-swiper { overflow: hidden; }
+  .nav-track { display: flex; transition: transform .3s ease; }
+  .nav-page { flex: 0 0 100%; display: flex; flex-wrap: wrap; }
+  .nav-cell {
+    width: 25%; padding: 7px 0 4px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    cursor: pointer; border-radius: 10px;
+  }
+  .nav-cell:active { background: #f2f4f9; }
+  .nav-cell__tile {
+    width: 46px; height: 46px; border-radius: 14px; background: #eaf0ff;
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
+  }
+  .nav-cell__title { font-size: 13px; font-weight: 600; color: #5a6480; }
+  .nav-dots { display: flex; gap: 5px; justify-content: center; margin-top: 8px; }
+  .nav-dot {
+    width: 6px; height: 6px; border-radius: 999px; background: #d5daea; transition: all .25s ease; cursor: pointer;
+  }
+  .nav-dot--on { width: 18px; background: #2f6bff; }
+
+  /* ---------- 图鉴速览 ---------- */
+  .section { margin-top: 18px; }
+  .section__head { display: flex; align-items: center; justify-content: space-between; min-height: 40px; }
+  .section__title { font-size: 15px; font-weight: 700; }
+  .section__more { font-size: 12px; color: #2f6bff; font-weight: 500; }
+  .preview-row { display: flex; gap: 8px; }
+  .preview-cell { flex: 1; display: flex; flex-direction: column; align-items: center; }
+  .preview-frame {
+    width: 100%; height: 82px; border-radius: 10px; border: 1px solid #e8ebf3;
+    display: flex; align-items: center; justify-content: center; font-size: 30px;
+  }
+  .preview-name { margin-top: 6px; font-size: 13px; }
+
+  .grad-a { background: linear-gradient(150deg,#f6f8ff,#dfe7ff); }
+  .grad-b { background: linear-gradient(150deg,#f9f4ff,#ecdefc); }
+  .grad-c { background: linear-gradient(150deg,#fff4f4,#ffdfe3); }
+  .grad-d { background: linear-gradient(150deg,#f2fbff,#d8f1fd); }
+
+  /* ---------- 新手必看 / 公告 ---------- */
+  .starter-row {
+    display: flex; align-items: center; gap: 10px; min-height: 52px;
+    border-bottom: 1px solid #eef0f7; cursor: pointer;
+  }
+  .starter-row:last-child { border-bottom: none; }
+  .starter-ico {
+    width: 34px; height: 34px; border-radius: 10px; background: #eaf0ff; flex: none;
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+  }
+  .starter-body { flex: 1; min-width: 0; }
+  .starter-name { font-size: 14px; font-weight: 600; }
+  .starter-desc { font-size: 12px; color: #5a6480; margin-top: 2px; }
+  .starter-arrow { color: #97a0b5; font-size: 16px; }
+
+  .notice {
+    margin-top: 18px; display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px; border-radius: 12px; background: #eaf0ff; border: 1px solid #e0e8ff;
+    font-size: 12px; color: #5a6480;
+  }
+  .notice__more { color: #2f6bff; font-weight: 700; flex: none; }
+  .foot { margin-top: 20px; text-align: center; font-size: 11px; color: #97a0b5; line-height: 1.8; }
+
+  /* ============ 深色高保真稿（独立设计，不机械反色） ============ */
+  .phone--dark { background: #080c14; box-shadow: 0 24px 70px rgba(6, 10, 20, .48); }
+  .phone--dark .phone__screen {
+    color: #edf2ff;
+    background:
+      radial-gradient(circle at 86% 7%, rgba(83, 111, 181, .14), transparent 34%),
+      #111621;
+  }
+  .phone--dark .statusbar,
+  .phone--dark .navbar { background: #151c2b; }
+  .phone--dark .navbar { border-top: 1px solid rgba(255,255,255,.02); }
+  .phone--dark .capsule { background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.19); }
+  .phone--dark .search-pill {
+    color: #9eabc3; background: #1a2232; border-color: #303c55;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.03), 0 5px 15px rgba(0,0,0,.2);
+  }
+  .phone--dark .hero { border-color: #35415b; box-shadow: 0 6px 17px rgba(0,0,0,.24); }
+  .phone--dark .navcard {
+    color: #edf2ff; border-color: #303b52;
+    background: linear-gradient(180deg,#1c2536 0%,#192131 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+  }
+  .phone--dark .navcard__hint { color: #b9c3da; }
+  .phone--dark .nav-cell:active { background: rgba(126,164,255,.08); }
+  .phone--dark .nav-cell__tile,
+  .phone--dark .starter-ico {
+    border: 1px solid rgba(126,164,255,.16);
+    background: linear-gradient(145deg,#273654 0%,#202c44 100%);
+  }
+  .phone--dark .nav-cell__title { color: #b9c3da; }
+  .phone--dark .nav-dot { background: #3c4860; }
+  .phone--dark .nav-dot--on { background: #6f9cff; box-shadow: 0 0 7px rgba(111,156,255,.45); }
+  .phone--dark .section__title,
+  .phone--dark .starter-name,
+  .phone--dark .preview-name { color: #edf2ff; }
+  .phone--dark .section__more,
+  .phone--dark .notice__more { color: #9db8ff; }
+  .phone--dark .preview-frame {
+    border-color: #303b52;
+    background: linear-gradient(160deg,#242f44 0%,#1d2637 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+  }
+  .phone--dark .grad-a,
+  .phone--dark .grad-b,
+  .phone--dark .grad-c,
+  .phone--dark .grad-d { background: linear-gradient(160deg,#242f44 0%,#1d2637 100%); }
+  .phone--dark .starter-row { border-bottom-color: #2a3449; }
+  .phone--dark .starter-desc,
+  .phone--dark .starter-arrow { color: #b9c3da; }
+  .phone--dark .notice {
+    color: #b9c3da; border-color: #31405d;
+    background: linear-gradient(135deg,#202e48 0%,#1d283c 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+  }
+  .phone--dark .foot { color: #8d98b2; }
+
+  .dark-spec {
+    max-width: 560px; width: 100%; color: #edf2ff; border-radius: 18px;
+    padding: 24px; background: #151c2b; border: 1px solid #2b354b;
+    box-shadow: 0 20px 50px rgba(6,10,20,.24);
+  }
+  .dark-spec__eyebrow { color: #9db8ff; font-size: 11px; font-weight: 800; letter-spacing: 2px; }
+  .dark-spec__title { margin-top: 6px; font-size: 18px; font-weight: 800; }
+  .dark-spec__desc { margin-top: 8px; color: #b9c3da; font-size: 12px; line-height: 1.8; }
+  .token-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 18px; }
+  .token {
+    display: flex; align-items: center; gap: 10px; min-height: 54px;
+    padding: 9px 10px; border-radius: 12px; background: #1a2232; border: 1px solid #2b354b;
+  }
+  .token__swatch { width: 30px; height: 30px; flex: none; border-radius: 9px; border: 1px solid rgba(255,255,255,.12); }
+  .token__name { font-size: 12px; font-weight: 700; }
+  .token__value { margin-top: 2px; color: #8d98b2; font-size: 10px; font-family: ui-monospace, monospace; }
+  .dark-rule { margin-top: 18px; padding-top: 16px; border-top: 1px solid #2b354b; }
+  .dark-rule__title { font-size: 13px; font-weight: 800; }
+  .dark-rule ul { margin: 8px 0 0 18px; color: #b9c3da; font-size: 12px; line-height: 1.9; }
+  .dark-rule b { color: #edf2ff; }
+
+  /* ============ 线框稿专属 ============ */
+  .phone--lo .phone__screen { background: #fff; }
+  .lo-statusbar, .lo-navbar { color: #333; background: #f0f0f0; }
+  .lo-statusbar { border-bottom: 1px dashed #c9c9c9; }
+  .lo-block {
+    border: 1.5px solid #9aa3b8; border-radius: 8px; background: #f7f8fb;
+    margin-top: 10px; padding: 10px; position: relative;
+  }
+  .lo-block--fill { background: #e8ebf3; }
+  .lo-num {
+    position: absolute; top: -9px; left: -9px; width: 22px; height: 22px; border-radius: 50%;
+    background: #ff5b4a; color: #fff; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(255,91,74,.4);
+    z-index: 2;
+  }
+  .lo-label { font-size: 12px; font-weight: 700; color: #5a6480; letter-spacing: 1px; }
+  .lo-note { font-size: 11px; color: #97a0b5; margin-top: 2px; line-height: 1.6; }
+  .lo-line { height: 14px; border-radius: 4px; background: #e2e6f0; margin-top: 6px; }
+  .lo-line--40 { width: 40%; } .lo-line--60 { width: 60%; } .lo-line--80 { width: 80%; }
+  .lo-grid { display: flex; flex-wrap: wrap; margin-top: 8px; }
+  .lo-cell {
+    width: 25%; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 6px 0;
+  }
+  .lo-sq { width: 40px; height: 40px; border-radius: 10px; background: #dde3f0; border: 1px dashed #9aa3b8; }
+  .lo-cap { width: 34px; height: 8px; border-radius: 4px; background: #dde3f0; }
+  .lo-dots { display: flex; gap: 5px; justify-content: center; margin-top: 8px; }
+  .lo-dots i { width: 14px; height: 5px; border-radius: 3px; background: #2f6bff; }
+  .lo-dots b { width: 5px; height: 5px; border-radius: 3px; background: #cfd5e4; }
+  .lo-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 18px; color: #2f6bff; font-weight: 700; }
+  .lo-arrow--l { left: 4px; } .lo-arrow--r { right: 4px; }
+
+  /* ============ 标注清单 ============ */
+  .legend { max-width: 560px; width: 100%; }
+  .legend__card { background: #fff; border-radius: 16px; padding: 22px 24px; box-shadow: 0 8px 24px rgba(26,33,56,.06); }
+  .legend__title { font-size: 15px; font-weight: 800; margin-bottom: 14px; letter-spacing: 1px; }
+  .legend__item { display: flex; gap: 12px; padding: 9px 0; border-bottom: 1px dashed #eef0f7; font-size: 13px; line-height: 1.75; }
+  .legend__item:last-child { border-bottom: none; }
+  .legend__num {
+    flex: none; width: 22px; height: 22px; border-radius: 50%; background: #ff5b4a; color: #fff;
+    font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 2px;
+  }
+  .legend__key { font-weight: 700; }
+  .legend__why { color: #5a6480; font-size: 12px; display: block; }
+  .tag-old { display:inline-block; padding:1px 8px; border-radius:6px; background:#fdecec; color:#c93b3b; font-size:11px; font-weight:700; margin-right:6px;}
+  .tag-new { display:inline-block; padding:1px 8px; border-radius:6px; background:#e5f6ec; color:#16813f; font-size:11px; font-weight:700; margin-right:6px;}
+
+  .compare { margin-top: 34px; background: #fff; border-radius: 16px; padding: 24px 26px; box-shadow: 0 8px 24px rgba(26,33,56,.06); }
+  .compare__title { font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eef0f7; line-height: 1.7; vertical-align: top; }
+  th { font-size: 12px; color: #97a0b5; font-weight: 700; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <div class="doc__head">
+    <div class="doc__title">奇波小助手 · 首页重设计</div>
+    <div class="doc__sub">
+      设计目标：对标竞品「横滑分页金刚区」，解决旧版「首页承载 30+ 入口、展开标签墙、公测信息重复」三大问题。<br>
+      第一组为<b>结构线框图 + 浅色高保真稿</b>；第二组为<b>独立设计的深色高保真稿</b>与主题令牌说明。浅色、深色两个宫格都可独立横滑 / 点击指示条体验。
+    </div>
+  </div>
+
+  <div class="stage">
+    <!-- ================= 线框图 ================= -->
+    <div class="col">
+      <div class="col__tag col__tag--lo">① 结构线框图</div>
+      <div class="phone phone--lo">
+        <div class="phone__screen">
+          <div class="statusbar lo-statusbar"><span>14:14</span><span>WiFi ▮</span></div>
+          <div class="navbar lo-navbar">奇波小助手<span class="capsule" style="background:#ddd;border-color:#ccc;color:#555">··· ○</span></div>
+          <div class="scrollarea">
+
+            <div class="lo-block" style="margin-top:8px">
+              <span class="lo-num">1</span>
+              <div class="lo-label">搜索栏（保留）</div>
+              <div class="lo-line lo-line--80" style="margin-top:10px;height:26px;border-radius:999px"></div>
+            </div>
+
+            <div class="lo-block">
+              <span class="lo-num">2</span>
+              <div class="lo-label">主视觉卡 = Banner + 公测倒计时合一</div>
+              <div class="lo-note">16:9 主视觉；左上角倒计时胶囊；底部渐变上叠标题一行 + 「详情›」；整卡可点。原 banner 下方整条公测卡片删除。</div>
+              <div style="position:relative;height:120px;border-radius:8px;background:#e8ebf3;margin-top:8px;overflow:hidden">
+                <div style="position:absolute;top:8px;left:8px;width:92px;height:20px;border-radius:999px;background:#fff;border:1px solid #9aa3b8"></div>
+                <div style="position:absolute;left:0;right:0;bottom:0;height:52px;background:linear-gradient(180deg,transparent,#c9cfdd)"></div>
+                <div style="position:absolute;left:10px;bottom:8px;width:46%;height:12px;border-radius:4px;background:#fff"></div>
+                <div style="position:absolute;right:8px;bottom:8px;width:44px;height:18px;border-radius:999px;background:#fff;border:1px solid #9aa3b8"></div>
+              </div>
+            </div>
+
+            <div class="lo-block">
+              <span class="lo-num">3</span>
+              <div class="lo-label">功能宫格 · 横滑分页（核心改动）</div>
+              <div class="lo-note">每页 4×2 共 8 格，5 页装下全部 38 个板块；底部指示条 + 左右滑动；标题随页切换。</div>
+              <div class="lo-grid">
+                <div class="lo-cell"><div class="lo-sq"></div><div class="lo-cap"></div></div>
+                <div class="lo-cell"><div class="lo-sq"></div><div class="lo-cap"></div></div>
+                <div class="lo-cell"><div class="lo-sq"></div><div class="lo-cap"></div></div>
+                <div class="lo-cell"><div class="lo-sq"></div><div class="lo-cap"></div></div>
+                <div class="lo-cell"><div class="lo-sq"></div><div class="lo-cap"></div></div>
+                <div class="lo-cell"><div class="lo-sq"></div><div class="lo-cap"></div></div>
+                <div class="lo-cell"><div class="lo-sq"></div><div class="lo-cap"></div></div>
+                <div class="lo-cell"><div class="lo-sq"></div><div class="lo-cap"></div></div>
+              </div>
+              <div class="lo-dots"><i></i><b></b><b></b><b></b><b></b></div>
+              <span class="lo-arrow lo-arrow--l">‹</span>
+              <span class="lo-arrow lo-arrow--r">›</span>
+            </div>
+
+            <div class="lo-block">
+              <span class="lo-num">4</span>
+              <div class="lo-label">角色图鉴速览（保留，前置到宫格下方）</div>
+              <div style="display:flex;gap:8px;margin-top:8px">
+                <div style="flex:1;height:66px;border-radius:8px;background:#e8ebf3"></div>
+                <div style="flex:1;height:66px;border-radius:8px;background:#e8ebf3"></div>
+                <div style="flex:1;height:66px;border-radius:8px;background:#e8ebf3"></div>
+                <div style="flex:1;height:66px;border-radius:8px;background:#e8ebf3"></div>
+              </div>
+            </div>
+
+            <div class="lo-block">
+              <span class="lo-num">5</span>
+              <div class="lo-label">奇波图鉴速览（保留）</div>
+              <div style="display:flex;gap:8px;margin-top:8px">
+                <div style="flex:1;height:66px;border-radius:8px;background:#e8ebf3"></div>
+                <div style="flex:1;height:66px;border-radius:8px;background:#e8ebf3"></div>
+                <div style="flex:1;height:66px;border-radius:8px;background:#e8ebf3"></div>
+                <div style="flex:1;height:66px;border-radius:8px;background:#e8ebf3"></div>
+              </div>
+            </div>
+
+            <div class="lo-block">
+              <span class="lo-num">6</span>
+              <div class="lo-label">新手必看（保留 2 条）</div>
+              <div class="lo-line lo-line--60" style="height:18px"></div>
+              <div class="lo-line lo-line--40" style="height:10px"></div>
+              <div class="lo-line lo-line--60" style="height:18px;margin-top:10px"></div>
+              <div class="lo-line lo-line--40" style="height:10px"></div>
+            </div>
+
+            <div class="lo-block" style="padding:8px 10px">
+              <span class="lo-num">7</span>
+              <div class="lo-label" style="font-size:11px">数据口径公告条（保留，薄条）</div>
+            </div>
+
+            <div class="lo-block" style="border:none;background:transparent;text-align:center">
+              <span class="lo-num" style="background:#97a0b5;box-shadow:none">8</span>
+              <div class="lo-note">页脚：版本 + 同步状态（多行，不再挤一行）</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col__note">
+        首屏（iPhone 12/13 844px）：状态栏+导航 ≈132px → 搜索 ≈54px → 主视觉 ≈213px → 宫格第 1 页 ≈170px，<b>首屏正好完整露出「搜索 + 主视觉 + 常用 8 宫格」</b>，图鉴速览标题在底部露出引导下滑。
+      </div>
+    </div>
+
+    <!-- ================= 高保真 ================= -->
+    <div class="col">
+      <div class="col__tag">② 高保真视觉稿（可交互）</div>
+      <div class="phone">
+        <div class="phone__screen">
+          <div class="statusbar" style="background:#1f3d9e"><span>14:14</span><span>WiFi ▮▮</span></div>
+          <div class="navbar">奇波小助手<div class="capsule">···&nbsp;&nbsp;○</div></div>
+          <div class="scrollarea">
+
+            <div class="searchbar">
+              <div class="search-pill"><span>🔍</span>搜奇波、角色、灵子、物品、成就</div>
+            </div>
+
+            <div class="hero">
+              <div class="hero__media">
+                <span class="hero__art">🦙✨</span>
+                <div class="hero__veil"></div>
+                <div class="hero__chip">⏳ 公测倒计时 <b>15 天</b></div>
+                <div class="hero__caption">
+                  <div class="hero__title">11 月 26 日正式公测</div>
+                </div>
+                <div class="hero__cta">详情 ›</div>
+              </div>
+            </div>
+
+            <div class="navcard" data-nav-demo>
+              <div class="navcard__head">
+                <span class="navcard__title" data-nav-title>常用功能</span>
+                <span class="navcard__hint"><span data-nav-num>1</span>/5 · 左右滑动查看更多 ‹›</span>
+              </div>
+              <div class="nav-swiper" data-nav-swiper><div class="nav-track" data-nav-track></div></div>
+              <div class="nav-dots" data-nav-dots></div>
+            </div>
+
+            <div class="section">
+              <div class="section__head"><span class="section__title">角色图鉴预览</span><span class="section__more">查看全部 ›</span></div>
+              <div class="preview-row">
+                <div class="preview-cell"><div class="preview-frame grad-a">🐱</div><span class="preview-name">佩佩</span></div>
+                <div class="preview-cell"><div class="preview-frame grad-b">🧝‍♀️</div><span class="preview-name">兰香子</span></div>
+                <div class="preview-cell"><div class="preview-frame grad-c">👧</div><span class="preview-name">卡塔露</span></div>
+                <div class="preview-cell"><div class="preview-frame grad-d">🧚</div><span class="preview-name">夏儿</span></div>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="section__head"><span class="section__title">奇波图鉴预览</span><span class="section__more">查看全部 ›</span></div>
+              <div class="preview-row">
+                <div class="preview-cell"><div class="preview-frame grad-d">🦙</div><span class="preview-name">绒绒</span></div>
+                <div class="preview-cell"><div class="preview-frame grad-a">🐢</div><span class="preview-name">岩岩</span></div>
+                <div class="preview-cell"><div class="preview-frame grad-b">🦊</div><span class="preview-name">焰焰</span></div>
+                <div class="preview-cell"><div class="preview-frame grad-c">🐧</div><span class="preview-name">冰叮</span></div>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="section__head"><span class="section__title">新手必看</span><span class="section__more">查看全部 ›</span></div>
+              <div class="starter-row">
+                <div class="starter-ico">🔄</div>
+                <div class="starter-body"><div class="starter-name">元素克制怎么查</div><div class="starter-desc">相克矩阵与组队元素覆盖</div></div>
+                <span class="starter-arrow">›</span>
+              </div>
+              <div class="starter-row">
+                <div class="starter-ico">🛡️</div>
+                <div class="starter-body"><div class="starter-name">角色与奇波如何编队</div><div class="starter-desc">3 名角色 + 3 只奇波的搭配与保存</div></div>
+                <span class="starter-arrow">›</span>
+              </div>
+            </div>
+
+            <div class="notice">📢 奇波与角色数据以官方公测公告为准。<span class="notice__more">详情›</span></div>
+            <div class="foot">v1.0.0 · 蓝色星原：旅谣<br>云端资料已同步 17 类 · 2026/11/6</div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col__note">
+        宫格区可以直接<b>鼠标拖拽 / 触摸横滑</b>，也可以点指示条切页 —— 与竞品「左右切换查看更多功能」同款交互。此处展示浅色主题；深色主题在下方作为独立视觉状态设计，而非机械反色。
+      </div>
+    </div>
+
+    <!-- ================= 标注 ================= -->
+    <div class="col legend">
+      <div class="legend__card">
+        <div class="legend__title">编号标注 · 改动说明</div>
+        <div class="legend__item"><span class="legend__num">1</span><div><span class="legend__key">搜索栏</span> — 保留置顶不动。<span class="legend__why">旧版已符合「查询优先」，不折腾。</span></div></div>
+        <div class="legend__item"><span class="legend__num">2</span><div><span class="legend__key">主视觉 + 倒计时合一</span><br><span class="tag-old">旧</span>Banner 写一遍「11.26 公测」，下方公测卡片再写一遍 → 首屏同信息重复两次，白占一卡。<span class="legend__why">新：banner 左上角倒计时胶囊（距公测 N 天 / 今日公测 / 已开启三态），底部渐变上叠一行标题 +「详情›」，整卡可点。省出 ~100rpx 高度给宫格。</span></div></div>
+        <div class="legend__item"><span class="legend__num">3</span><div><span class="legend__key">横滑分页金刚区（对标竞品核心）</span><br><span class="tag-old">旧</span>8 宫格 + 第 8 格「实用工具」页内展开 + 「更多分类」标签墙 → 首页 30+ 入口、展开近一屏、命名互相矛盾。<span class="tag-new">新</span>每页 4×2 = 8 格 × 5 页装下全部 38 板块：P1 常用功能 / P2 更多图鉴 / P3 查询与工具 / P4 攻略与内容 / P5 服务与设置。首页长度恒定，功能再多也不膨胀；标题随页切换，指示条提示可滑。</div></div>
+        <div class="legend__item"><span class="legend__num">4</span><div><span class="legend__key">角色速览</span> — 前置到宫格下方首屏可见位置。<span class="legend__why">图鉴速览是产品核心价值，旧版被展开区推到屏幕外。</span></div></div>
+        <div class="legend__item"><span class="legend__num">5</span><div><span class="legend__key">奇波速览</span> — 保留 4 张真实对象卡。</div></div>
+        <div class="legend__item"><span class="legend__num">6</span><div><span class="legend__key">新手必看</span> — 保留 2 条任务式引导，加图标行。</div></div>
+        <div class="legend__item"><span class="legend__num">7</span><div><span class="legend__key">公告条</span> — 保留薄条（数据口径声明）。</div></div>
+        <div class="legend__item"><span class="legend__num">8</span><div><span class="legend__key">页脚</span> — 版本 / 同步状态拆两行居中，窄屏不溢出。</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 深色模式设计 ================= -->
+  <div class="stage" style="margin-top:42px">
+    <div class="col">
+      <div class="col__tag" style="background:#151c2b;color:#9db8ff;border:1px solid #2b354b">③ 深色高保真视觉稿（可交互）</div>
+      <div class="phone phone--dark">
+        <div class="phone__screen">
+          <div class="statusbar"><span>14:14</span><span>WiFi ▮▮</span></div>
+          <div class="navbar">奇波小助手<div class="capsule">···&nbsp;&nbsp;○</div></div>
+          <div class="scrollarea">
+
+            <div class="searchbar">
+              <div class="search-pill"><span>🔍</span>搜奇波、角色、灵子、物品、成就</div>
+            </div>
+
+            <div class="hero">
+              <div class="hero__media">
+                <span class="hero__art">🦙✨</span>
+                <div class="hero__veil"></div>
+                <div class="hero__chip">⏳ 公测倒计时 <b>15 天</b></div>
+                <div class="hero__caption">
+                  <div class="hero__title">11 月 26 日正式公测</div>
+                </div>
+                <div class="hero__cta">详情 ›</div>
+              </div>
+            </div>
+
+            <div class="navcard" data-nav-demo>
+              <div class="navcard__head">
+                <span class="navcard__title" data-nav-title>常用功能</span>
+                <span class="navcard__hint"><span data-nav-num>1</span>/5 · 左右滑动查看更多 ‹›</span>
+              </div>
+              <div class="nav-swiper" data-nav-swiper><div class="nav-track" data-nav-track></div></div>
+              <div class="nav-dots" data-nav-dots></div>
+            </div>
+
+            <div class="section">
+              <div class="section__head"><span class="section__title">角色图鉴预览</span><span class="section__more">查看全部 ›</span></div>
+              <div class="preview-row">
+                <div class="preview-cell"><div class="preview-frame">🐱</div><span class="preview-name">佩佩</span></div>
+                <div class="preview-cell"><div class="preview-frame">🧝‍♀️</div><span class="preview-name">兰香子</span></div>
+                <div class="preview-cell"><div class="preview-frame">👧</div><span class="preview-name">卡塔露</span></div>
+                <div class="preview-cell"><div class="preview-frame">🧚</div><span class="preview-name">夏儿</span></div>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="section__head"><span class="section__title">奇波图鉴预览</span><span class="section__more">查看全部 ›</span></div>
+              <div class="preview-row">
+                <div class="preview-cell"><div class="preview-frame">🦙</div><span class="preview-name">绒绒</span></div>
+                <div class="preview-cell"><div class="preview-frame">🐢</div><span class="preview-name">岩岩</span></div>
+                <div class="preview-cell"><div class="preview-frame">🦊</div><span class="preview-name">焰焰</span></div>
+                <div class="preview-cell"><div class="preview-frame">🐧</div><span class="preview-name">冰叮</span></div>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="section__head"><span class="section__title">新手必看</span><span class="section__more">查看全部 ›</span></div>
+              <div class="starter-row">
+                <div class="starter-ico">🔄</div>
+                <div class="starter-body"><div class="starter-name">元素克制怎么查</div><div class="starter-desc">相克矩阵与组队元素覆盖</div></div>
+                <span class="starter-arrow">›</span>
+              </div>
+              <div class="starter-row">
+                <div class="starter-ico">🛡️</div>
+                <div class="starter-body"><div class="starter-name">角色与奇波如何编队</div><div class="starter-desc">3 名角色 + 3 只奇波的搭配与保存</div></div>
+                <span class="starter-arrow">›</span>
+              </div>
+            </div>
+
+            <div class="notice">📢 奇波与角色数据以官方公测公告为准。<span class="notice__more">详情›</span></div>
+            <div class="foot">v1.0.0 · 蓝色星原：旅谣<br>云端资料已同步 17 类 · 2026/11/6</div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col__note">
+        深色稿采用<b>深海蓝黑三级表面</b>，保留品牌蓝紫氛围但不做全局反色。主视觉不压暗，依靠底部遮罩保证白字可读；白色倒计时胶囊作为首屏高对比锚点保留。
+      </div>
+    </div>
+
+    <div class="col legend">
+      <div class="dark-spec">
+        <div class="dark-spec__eyebrow">DARK THEME SYSTEM</div>
+        <div class="dark-spec__title">④ 深色主题映射</div>
+        <div class="dark-spec__desc">深色模式不是把浅色稿整体反相，而是重新定义表面层级、文本对比和行为色。下列令牌与生产代码保持一致。</div>
+
+        <div class="token-grid">
+          <div class="token"><span class="token__swatch" style="background:#111621"></span><div><div class="token__name">页面底</div><div class="token__value">--bg · #111621</div></div></div>
+          <div class="token"><span class="token__swatch" style="background:#1a2232"></span><div><div class="token__name">主卡面</div><div class="token__value">--card-bg · #1A2232</div></div></div>
+          <div class="token"><span class="token__swatch" style="background:#222c40"></span><div><div class="token__name">次级托底</div><div class="token__value">--soft · #222C40</div></div></div>
+          <div class="token"><span class="token__swatch" style="background:#2b354b"></span><div><div class="token__name">边线</div><div class="token__value">--line · #2B354B</div></div></div>
+          <div class="token"><span class="token__swatch" style="background:#edf2ff"></span><div><div class="token__name">主要文字</div><div class="token__value">--ink · #EDF2FF</div></div></div>
+          <div class="token"><span class="token__swatch" style="background:#b9c3da"></span><div><div class="token__name">次要文字</div><div class="token__value">--ink-2 · #B9C3DA</div></div></div>
+          <div class="token"><span class="token__swatch" style="background:#22304f"></span><div><div class="token__name">品牌托底</div><div class="token__value">--brand-soft · #22304F</div></div></div>
+          <div class="token"><span class="token__swatch" style="background:#9db8ff"></span><div><div class="token__name">文字行为色</div><div class="token__value">--brand-text · #9DB8FF</div></div></div>
+        </div>
+
+        <div class="dark-rule">
+          <div class="dark-rule__title">设计规则</div>
+          <ul>
+            <li><b>三层表面：</b>页面底 → 主卡 → 次级托底，依靠明度差建立结构，不用厚阴影。</li>
+            <li><b>行为色分离：</b>实心按钮/指示条继续用主蓝；小号链接改用亮蓝，避免暗底低对比。</li>
+            <li><b>图标统一：</b>emoji 置于低饱和蓝色托底，边缘增加极轻品牌色描边。</li>
+            <li><b>图片例外：</b>Hero 图片、叠层白字、白色倒计时胶囊不随主题反转。</li>
+            <li><b>原生界面：</b>深色导航栏与回弹区域同步为 #151C2B / #111621，避免露白。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="compare">
+    <div class="compare__title">新旧对比速览</div>
+    <table>
+      <tr><th style="width:130px">维度</th><th>旧版首页</th><th>新版首页</th></tr>
+      <tr><td>功能承载</td><td>8 宫格 + 页内展开「实用工具」目录 +「更多分类」标签墙（共 30+ 入口堆一页）</td><td>横滑分页金刚区，5 页 × 8 格 = 38 个板块全量承载，首页长度恒定</td></tr>
+      <tr><td>功能分层</td><td>宫格第 8 格与展开区命名冲突（实用工具 ≠ 更多分类），无优先级</td><td>按使用频率分页：常用 → 图鉴 → 工具 → 内容 → 服务，页标题随滑动切换</td></tr>
+      <tr><td>公测信息</td><td>Banner 与公测卡片重复表达「11.26 公测」</td><td>倒计时胶囊 + 标题叠层合一，三态文案（前/当天/后）由 release-event.js 驱动</td></tr>
+      <tr><td>图标一致性</td><td>emoji 裸排，色彩重量不一</td><td>统一浅蓝底色圆角托底（--brand-soft），emoji 收进固定容器，观感成套</td></tr>
+      <tr><td>首屏效率</td><td>搜索+banner+公测卡+宫格 ≈ 首屏耗尽</td><td>搜索+合一主视觉+宫格第 1 页，速览标题露头引导下滑</td></tr>
+      <tr><td>页面代码</td><td>quickCells / tools-dir / HOME_GROUPS 三套目录逻辑并存</td><td>一套 NAV_PAGES 分页配置驱动，删掉两套展开逻辑</td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+  // 与 src/data/meta.js sections 对应的 5 页宫格配置（demo 数据）
+  const PAGES = [
+    { title: '常用功能', cells: [
+      ['🐾','奇波'],['🥇','角色'],['💎','灵子'],['🎒','物品'],
+      ['🗡️','装备'],['🔄','元素克制'],['🛡️','队伍编成'],['⏳','进化图谱'] ] },
+    { title: '更多图鉴', cells: [
+      ['🧬','材料'],['🍚','美食'],['🎣','钓鱼'],['👾','敌人'],
+      ['🏰','副本'],['🏗️','家园建筑'],['🏆','成就'],['🗺️','地区阵营'] ] },
+    { title: '查询与工具', cells: [
+      ['🔍','搜索'],['⚔️','战斗词条'],['🏠','家园派驻'],['⭐','我的收藏'],
+      ['⚖️','角色对比'],['📈','养成计算'],['🎯','保底计算'],['🎲','星结模拟'] ] },
+    { title: '攻略与内容', cells: [
+      ['🐉','凶兽生态'],['📚','教程合集'],['🧭','玩法指南'],['⚡','奇波对决'],
+      ['📜','剧情读物'],['🌙','日渡尘影'],['🖼️','壁纸画廊'],['🎁','福利码'] ] },
+    { title: '服务与设置', cells: [
+      ['💰','充值返利'],['🧭','地图探索'],['🔔','订阅偏好'],['📖','奇波百科'],
+      ['💙','关于游戏'],['⚙️','设置'] ] }
+  ];
+
+  function initNavDemo(root) {
+    const track = root.querySelector('[data-nav-track]');
+    const dots = root.querySelector('[data-nav-dots]');
+    const titleEl = root.querySelector('[data-nav-title]');
+    const numEl = root.querySelector('[data-nav-num]');
+    const swiper = root.querySelector('[data-nav-swiper]');
+    let cur = 0;
+    let startX = null;
+    let delta = 0;
+
+    const go = (index) => {
+      cur = Math.max(0, Math.min(PAGES.length - 1, index));
+      track.style.transform = 'translateX(-' + cur * 100 + '%)';
+      [...dots.children].forEach((dot, idx) => dot.classList.toggle('nav-dot--on', idx === cur));
+      titleEl.textContent = PAGES[cur].title;
+      numEl.textContent = cur + 1;
+    };
+
+    PAGES.forEach((page, index) => {
+      const pageEl = document.createElement('div');
+      pageEl.className = 'nav-page';
+      page.cells.forEach(([emoji, name]) => {
+        const cell = document.createElement('div');
+        cell.className = 'nav-cell';
+        cell.innerHTML = '<div class="nav-cell__tile">' + emoji + '</div><div class="nav-cell__title">' + name + '</div>';
+        pageEl.appendChild(cell);
+      });
+      track.appendChild(pageEl);
+
+      const dot = document.createElement('div');
+      dot.className = 'nav-dot' + (index === 0 ? ' nav-dot--on' : '');
+      dot.onclick = () => go(index);
+      dots.appendChild(dot);
+    });
+
+    const start = (x) => { startX = x; delta = 0; };
+    const move = (x) => { if (startX !== null) delta = x - startX; };
+    const end = () => {
+      if (startX === null) return;
+      if (delta < -40) go(cur + 1);
+      else if (delta > 40) go(cur - 1);
+      startX = null;
+    };
+
+    swiper.addEventListener('touchstart', (event) => start(event.touches[0].clientX), { passive: true });
+    swiper.addEventListener('touchmove', (event) => move(event.touches[0].clientX), { passive: true });
+    swiper.addEventListener('touchend', end);
+    swiper.addEventListener('mousedown', (event) => {
+      start(event.clientX);
+      const onMove = (moveEvent) => move(moveEvent.clientX);
+      const onUp = () => {
+        end();
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+      };
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+    });
+  }
+
+  document.querySelectorAll('[data-nav-demo]').forEach(initNavDemo);
+</script>
+</body>
+</html>

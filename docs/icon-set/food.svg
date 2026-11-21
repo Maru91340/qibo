@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">美食图鉴</title>
+  <desc id="desc">料理碗与热气组成的美食图鉴图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="stroke" d="M23 27q-3-5.5 0-11M33 27q-3-5.5 0-11" fill="none"/>
+  <path class="primary" d="M11 33h42v1a21 17 0 0 1-42 0Z"/>
+  <path class="stroke" d="M11 33h42v1a21 17 0 0 1-42 0Z" fill="none"/>
+  <path class="secondary" d="M11 33h42v1H11Z"/>
+  <path class="stroke" d="M26 52.5 24 57M38 52.5 40 57" fill="none" stroke-width="2.5"/>
+  <path class="accent" d="M51 11.5c.35 2.8 1.75 4.2 4.55 4.55-2.8.35-4.2 1.75-4.55 4.55-.35-2.8-1.75-4.2-4.55-4.55 2.8-.35 4.2-1.75 4.55-4.55Z"/>
+</svg>

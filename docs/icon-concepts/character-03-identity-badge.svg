@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">C3 角色身份徽章</title>
+  <desc id="desc">人物头像与元素身份槽组成的游戏化双色徽章</desc>
+  <style>
+    :root { --ink:#263a63; --primary:#4f7cff; --secondary:#9b83ff; --accent:#f2c45d; --cut:#f3f7ff; }
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="ink" d="M32 6.5 52.5 17v22L32 57.5 11.5 39V17L32 6.5Z"/>
+  <path class="cut" d="M32 10.8 48.7 19v18.2L32 52.9 15.3 37.2V19L32 10.8Z" opacity=".14"/>
+  <circle class="secondary" cx="32" cy="25.7" r="9.6"/>
+  <path class="primary" d="M23.6 26.1c0-6.5 3.1-10.3 8.5-10.3 5.5 0 8.5 4 8.5 10.3 0 1.8-.3 3.5-.9 5.1-1.9-1.7-3-3.9-3.2-6.6-3.5 1.6-6.9 1.6-10.4 0-.2 2.8-1.1 5-2.5 6.6v-5.1Z"/>
+  <path class="primary" d="M19.7 43.5c.9-6.8 5.2-10.5 12.3-10.5s11.4 3.7 12.3 10.5H19.7Z"/>
+  <path class="secondary" d="M24.5 43.5c1.4-3.8 3.8-5.7 7.5-5.7s6.1 1.9 7.5 5.7h-15Z"/>
+  <path class="accent" d="M32 45.7c3 0 5.5 2.4 5.5 5.5L32 56.1l-5.5-4.9c0-3.1 2.5-5.5 5.5-5.5Z"/>
+  <circle class="cut" cx="32" cy="50.9" r="2.2"/>
+</svg>

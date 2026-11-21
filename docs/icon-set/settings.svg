@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">设置</title>
+  <desc id="desc">八齿齿轮组成的设置图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <g class="primary">
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(45 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(90 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(135 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(180 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(225 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(270 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(315 32 32)"/>
+  </g>
+  <g fill="none" stroke="var(--ink)" stroke-width="2.5">
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(45 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(90 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(135 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(180 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(225 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(270 32 32)"/>
+    <rect x="27.5" y="5.5" width="9" height="12" rx="3.5" transform="rotate(315 32 32)"/>
+  </g>
+  <circle class="primary" cx="32" cy="32" r="14"/>
+  <circle class="stroke" cx="32" cy="32" r="14"/>
+  <circle class="cut" cx="32" cy="32" r="5.5"/>
+</svg>

@@ -4,7 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert');
 
 const { clientManifest, elementKeySet, makeManifest, makeSnapshot, normalizeContent } = require('../catalog-core');
-const { CATALOG_TYPES, MANIFEST_ID } = require('../constants');
+const { CATALOG_TYPES, LIMITS, MANIFEST_ID } = require('../constants');
 
 const validMeta = {
   notice: '数据以官方公告为准',
@@ -62,6 +62,25 @@ const validCharacter = {
   ]
 };
 
+// 通用图鉴条目 schema（normalizeEntries）：spirit/item/equipment/material/food/
+// fishing/enemy/dungeon/building/achievement/region/affix/guide 共用一套字段。
+const validEntries = () => ({
+  notice: '通用图鉴示例',
+  items: [
+    {
+      id: 'sample-entry',
+      name: '示例条目',
+      category: '示例',
+      rarity: '普通',
+      tags: ['示例'],
+      summary: '最小合法条目，用于 17 类扩容后的测试覆盖',
+      fields: [{ label: '来源', value: '测试 fixture' }],
+      sections: [{ title: '概要', text: '最小合法条目' }],
+      verified: false
+    }
+  ]
+});
+
 function codeOf(fn) {
   try {
     fn();
@@ -88,7 +107,20 @@ test('normalizeContent is deterministic and typed', () => {
   assert.strictEqual(normalizeContent('meta', validMeta, {}).count, 1);
   assert.strictEqual(normalizeContent('qibo', validQibo, { elementKeys }).count, 1);
   assert.strictEqual(normalizeContent('character', validCharacter, { elementKeys }).count, 1);
+  assert.strictEqual(normalizeContent('spirit', validEntries(), {}).count, 1);
   assert.strictEqual(codeOf(() => normalizeContent('heroes', validMeta, {})), 'INVALID_CONTENT');
+});
+
+test('every CATALOG_TYPE accepts a minimal valid payload', () => {
+  // 2026-11-01：CATALOG_TYPES 扩到 17 类后，逐类验证 schema 可接受最小合法 payload，
+  // 防止再出现「扩类型忘更测试」导致的覆盖空洞。
+  CATALOG_TYPES.forEach((type) => {
+    const context = { elementKeys: type === 'qibo' || type === 'character' ? elementKeys : null };
+    const source = { meta: validMeta, element: validElement, qibo: validQibo, character: validCharacter }[type]
+      || validEntries();
+    const normalized = normalizeContent(type, source, context);
+    assert.strictEqual(normalized.count >= 1, true, `${type} should normalize with count >= 1`);
+  });
 });
 
 test('normalizeContent rejects unknown catalog type', () => {
@@ -153,20 +185,27 @@ test('filters and items must describe the same option space', () => {
 });
 
 test('makeManifest refuses an incomplete catalog and merges partial updates', () => {
+  const sourceOf = (type) => (
+    { meta: validMeta, element: validElement, qibo: validQibo, character: validCharacter }[type] || validEntries()
+  );
   const built = (types, existing) => {
     const snapshots = {};
     types.forEach((type) => {
       const context = { elementKeys: type === 'qibo' || type === 'character' ? elementKeys : null };
-      const source = { meta: validMeta, element: validElement, qibo: validQibo, character: validCharacter }[type];
-      snapshots[type] = makeSnapshot(type, normalizeContent(type, source, context), { runId: 'test', updatedAt: '2026-10-29T00:00:00.000Z' });
+      snapshots[type] = makeSnapshot(type, normalizeContent(type, sourceOf(type), context), { runId: 'test', updatedAt: '2026-10-29T00:00:00.000Z' });
     });
     return makeManifest(existing, snapshots, { manifestId: MANIFEST_ID, runId: 'test', publishedAt: '2026-10-29T00:00:00.000Z' });
   };
 
-  assert.throws(() => built(['meta', 'element']), /catalog is incomplete, missing qibo, character/);
+  assert.throws(() => built(['meta', 'element']), (error) => {
+    assert.strictEqual(error.code, 'INVALID_CONTENT');
+    const missing = CATALOG_TYPES.filter((type) => type !== 'meta' && type !== 'element');
+    assert.strictEqual(error.message, `catalog is incomplete, missing ${missing.join(', ')}`);
+    return true;
+  });
 
   const first = built(CATALOG_TYPES);
-  assert.strictEqual(Object.keys(first.content).length, 4);
+  assert.strictEqual(Object.keys(first.content).length, CATALOG_TYPES.length);
   const client = clientManifest(first);
   assert.strictEqual(client.revision, first.version);
   assert.deepStrictEqual(Object.keys(client.types).sort(), [...CATALOG_TYPES].sort());
@@ -184,22 +223,36 @@ test('makeManifest refuses an incomplete catalog and merges partial updates', ()
   assert.strictEqual(merged.content.qibo.snapshotId, snapshots.qibo._id);
 });
 
-test('seedCatalog fails closed without a configured token', () => {
+test('items limit is enforced at exactly LIMITS.items entries', () => {
+  // 2026-11-01：物品图鉴在 BWIKI 全量下已到 300 条并触发过上限，LIMITS.items 提到 500。
+  // 边界回归：恰好 500 条可发布，501 条拒绝。
+  const buildEntries = (count) => ({
+    notice: '边界用例',
+    items: Array.from({ length: count }, (_, index) => ({
+      id: `boundary-${String(index).padStart(4, '0')}`,
+      name: `条目${index}`,
+      category: '示例',
+      summary: `第 ${index} 条边界条目`
+    }))
+  });
+  const atLimit = normalizeContent('item', buildEntries(LIMITS.items), {});
+  assert.strictEqual(atLimit.count, LIMITS.items);
+  expectInvalid(() => normalizeContent('item', buildEntries(LIMITS.items + 1), {}), new RegExp(`exceeds ${LIMITS.items} entries`));
+});
+
+test('seedCatalog fails closed and does not allow an openid bypass', () => {
   const seed = require('../../seedCatalog/index.js');
-  const cloud = { getWXContext: () => ({ OPENID: 'o-anyone' }) };
-  assert.strictEqual(seed._test.authorize(cloud, { token: 'x' }).ok, false);
-  assert.strictEqual(seed._test.authorize(cloud, { token: 'x' }).code, 'SEED_NOT_CONFIGURED');
+  assert.strictEqual(seed._test.authorize({ token: 'x' }).ok, false);
+  assert.strictEqual(seed._test.authorize({ token: 'x' }).code, 'SEED_NOT_CONFIGURED');
 
   process.env.QBXZS_SEED_TOKEN = 'secret-token';
   try {
-    assert.strictEqual(seed._test.authorize(cloud, { token: 'secret-token' }).ok, true);
-    assert.strictEqual(seed._test.authorize(cloud, { token: 'wrong' }).ok, false);
-    assert.strictEqual(seed._test.authorize(cloud, { token: 'wrong' }).code, 'UNAUTHORIZED');
-    process.env.QBXZS_SEED_OPENIDS = 'o-anyone';
-    assert.strictEqual(seed._test.authorize(cloud, {}).ok, true);
+    assert.strictEqual(seed._test.authorize({ token: 'secret-token' }).ok, true);
+    assert.strictEqual(seed._test.authorize({ token: 'wrong' }).ok, false);
+    assert.strictEqual(seed._test.authorize({ token: 'wrong' }).code, 'UNAUTHORIZED');
+    assert.strictEqual(seed._test.authorize({ openid: 'o-anyone' }).ok, false);
     assert.strictEqual(seed._test.safeTokenEqual('a', 'aa'), false);
   } finally {
     delete process.env.QBXZS_SEED_TOKEN;
-    delete process.env.QBXZS_SEED_OPENIDS;
   }
 });

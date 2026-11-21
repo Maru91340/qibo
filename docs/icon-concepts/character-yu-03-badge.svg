@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">R3 小玉星晶角色徽章</title>
+  <desc id="desc">将涂山小玉狐耳、长发与肩部胸像置于星晶徽章中的角色图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--hair:#a978ef;--hair-light:#d8b9ff;--eye:#7650d8;--ribbon:#df5969;--accent:#f2c45d;--skin:#f8e6ea;--cut:#f3f7ff}
+    .thin{fill:none;stroke:var(--ink);stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.hair{fill:var(--hair)}.hair-light{fill:var(--hair-light)}.eye{fill:var(--eye)}.ribbon{fill:var(--ribbon)}.accent{fill:var(--accent)}.skin{fill:var(--skin)}.cut{fill:var(--cut)}
+  </style>
+  <path class="ink" d="M32 5.8 53.8 18.4v25.2L32 58.2 10.2 43.6V18.4L32 5.8Z"/>
+  <path class="primary" d="M32 10.1 49.9 20.4v20.8L32 53.3 14.1 41.2V20.4L32 10.1Z" opacity=".32"/>
+  <path class="hair" d="m18.4 29.7 2.8-16.8 9.4 11.5h3l9.3-11.5 2.8 16.9c2 4.2 1.7 9.8-.9 16.7l-8.3 3.4-4.4-4.2-4.5 4.2-8.4-3.4c-2.6-6.9-2.9-12.5-.8-16.8Z"/>
+  <path class="hair-light" d="m23.1 17.7-.9 10.1c1.8-1.3 3.7-2.2 5.8-2.6l-4.9-7.5Zm18 0 .9 10.2c-1.8-1.3-3.7-2.2-5.8-2.6l4.9-7.6Z"/>
+  <path class="skin" d="M23.8 32.2c0-5.7 3.2-9 8.3-9s8.3 3.3 8.3 9c0 7.2-3.7 12.4-8.3 12.4s-8.3-5.2-8.3-12.4Z"/>
+  <path class="hair" d="M23.6 32.2c.3-6.1 3.2-9.4 8.5-9.4s8.2 3.2 8.5 9.3c-2.1-2.6-4.1-4.5-6.1-5.6.1 2.9-.8 5.1-2.4 6.7-.4-2.9-1.3-5-2.7-6.5-.9 2.4-2.9 4.2-5.8 5.5Z"/>
+  <path class="hair-light" d="M23.7 32c-1.2 5.4-.9 10.6.9 15.7l3.5-2.3c-1.8-4.2-2.1-8.7-.7-13.4h-3.7Zm16.8 0c1.2 5.4.9 10.6-.9 15.7l-3.5-2.3c1.8-4.2 2.1-8.7.7-13.4h3.7Z"/>
+  <path class="ink" d="M25.5 35.3c1.9-1.4 3.7-1.4 5.5 0-1.8 2-3.6 2-5.5 0Zm7.7 0c1.9-1.4 3.7-1.4 5.5 0-1.8 2-3.6 2-5.5 0Z"/>
+  <circle class="eye" cx="28.3" cy="35.3" r="1.1"/><circle class="eye" cx="36" cy="35.3" r="1.1"/>
+  <path class="thin" d="M30.4 40.8c1.1.7 2.3.7 3.4 0"/>
+  <path class="ribbon" d="M20.7 29.4c-3.3-2.4-5.6-2.2-6.9.6 2.5 1.3 4.8 1.1 6.9-.6Zm22.8 0c3.3-2.4 5.6-2.2 6.9.6-2.5 1.3-4.8 1.1-6.9-.6Z"/>
+  <circle class="accent" cx="21" cy="30.8" r="1.7"/><circle class="accent" cx="43.2" cy="30.8" r="1.7"/>
+  <path class="primary" d="M20 50.1c1-4.3 5-6.5 12.1-6.5s11.1 2.2 12.1 6.5L32 55.4 20 50.1Z"/>
+  <path class="accent" d="M50.8 8.1c.3 2.8 1.7 4.2 4.5 4.5-2.8.3-4.2 1.7-4.5 4.5-.3-2.8-1.7-4.2-4.5-4.5 2.8-.3 4.2-1.7 4.5-4.5Z"/>
+</svg>

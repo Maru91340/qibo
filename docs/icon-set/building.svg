@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">家园建筑</title>
+  <desc id="desc">小屋与烟囱组成的家园建筑图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <rect class="primary" x="42" y="15" width="7" height="11" rx="2"/>
+  <path class="stroke" d="M42 15h7v11h-7Z" fill="none"/>
+  <path class="primary" d="M10 30 32 12l22 18Z"/>
+  <path class="stroke" d="M10 30 32 12l22 18Z" fill="none"/>
+  <rect class="secondary" x="17" y="28" width="30" height="24" rx="4"/>
+    <rect class="stroke" x="17" y="28" width="30" height="24" rx="4" fill="none"/>
+  <circle class="cut" cx="32" cy="24" r="3"/>
+  <circle class="stroke" cx="32" cy="24" r="3" stroke-width="2.5"/>
+  <path class="ink" d="M28 52V40a4 4 0 0 1 8 0v12Z"/>
+  <path class="accent" d="M55 8c.35 2.8 1.75 4.2 4.55 4.55-2.8.35-4.2 1.75-4.55 4.55-.35-2.8-1.75-4.2-4.55-4.55C53.25 12.2 54.65 10.8 55 8Z"/>
+</svg>

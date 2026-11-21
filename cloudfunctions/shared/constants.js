@@ -9,7 +9,9 @@ const CATALOG_TYPES = Object.freeze([
   // P0 信息查询：战斗词条
   'affix',
   // P1 玩法指南：BWIKI 攻略一图流
-  'guide'
+  'guide',
+  // P1-1 改造：BWIKI 书籍 → 阅读物（2026-11-04）
+  'book'
 ]);
 const MANIFEST_ID = 'published';
 const SCHEMA_VERSION = 'qbxzs-catalog/v1';
@@ -17,7 +19,9 @@ const SNAPSHOT_SCHEMA_VERSION = 'qbxzs-catalog-snapshot/v1';
 
 const COLLECTIONS = Object.freeze({
   manifests: 'catalog_manifests',
-  snapshots: 'catalog_snapshots'
+  snapshots: 'catalog_snapshots',
+  manifestHistory: 'catalog_manifest_history',
+  publishAudits: 'catalog_publish_audits'
 });
 
 const LIMITS = Object.freeze({
@@ -28,8 +32,10 @@ const LIMITS = Object.freeze({
   longText: 800,
   fields: 16,
   sections: 6,
-  items: 300,
-  payloadBytes: 512 * 1024
+  // 2026-11-04：物品扩采到 900（BWIKI 共 1115 条），同步上调单类上限；
+  // 900 条 ≈ 500KB，payloadBytes 放宽到 1.5MB（TCB 单文档 16MB，安全）。
+  items: 900,
+  payloadBytes: 1536 * 1024
 });
 
 module.exports = { CATALOG_TYPES, COLLECTIONS, LIMITS, MANIFEST_ID, SCHEMA_VERSION, SNAPSHOT_SCHEMA_VERSION };

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">奇波对决</title>
+  <desc id="desc">交叉双剑与对撞星组成的奇波对决图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <g transform="rotate(45 32 30)">
+    <path class="primary" d="M32 10 38.5 16.5V33H25.5V16.5Z"/>
+    <path class="stroke" d="M32 10 38.5 16.5V33H25.5V16.5Z" fill="none"/>
+    <rect class="ink" x="21.5" y="33" width="21" height="5.5" rx="2.75"/>
+    <circle class="accent" cx="32" cy="49.5" r="3.6"/>
+  </g>
+  <g transform="rotate(-45 32 30)">
+    <path class="secondary" d="M32 10 38.5 16.5V33H25.5V16.5Z"/>
+    <path class="stroke" d="M32 10 38.5 16.5V33H25.5V16.5Z" fill="none"/>
+    <rect class="ink" x="21.5" y="33" width="21" height="5.5" rx="2.75"/>
+    <circle class="primary" cx="32" cy="49.5" r="3.6"/>
+  </g>
+  <path class="accent" d="M32 25.5c.4 3 2 4.5 5 5-3 .4-4.6 2-5 5-.4-3-2-4.6-5-5 3-.4 4.6-2 5-5Z"/>
+</svg>

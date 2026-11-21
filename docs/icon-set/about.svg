@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">关于游戏</title>
+  <desc id="desc">游戏手柄组成的关于游戏图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <rect class="primary" x="7" y="20" width="50" height="26" rx="13"/>
+    <rect class="stroke" x="7" y="20" width="50" height="26" rx="13" fill="none"/>
+  <rect class="ink" x="17" y="26.5" width="5" height="13" rx="2"/>
+  <rect class="ink" x="13" y="30.5" width="13" height="5" rx="2"/>
+  <circle class="accent" cx="43" cy="29" r="2.8"/>
+  <circle class="secondary" cx="49.5" cy="36.5" r="2.8"/>
+  <circle class="stroke" cx="49.5" cy="36.5" r="2.8" stroke-width="2.5"/>
+</svg>

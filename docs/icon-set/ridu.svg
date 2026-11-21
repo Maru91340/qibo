@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">日渡尘影</title>
+  <desc id="desc">弯月与星组成的日渡尘影图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="primary" fill-rule="evenodd" d="M32 11a21 21 0 1 0 0 42 21 21 0 0 0 0-42Zm5 5.5a15.5 15.5 0 1 1 0 31 15.5 15.5 0 0 1 0-31Z"/>
+  <path class="stroke" d="M32 11a21 21 0 1 0 0 42 21 21 0 0 0 0-42Zm5 5.5a15.5 15.5 0 1 1 0 31 15.5 15.5 0 0 1 0-31Z" fill="none"/>
+  <path class="accent" d="M46 18c.4 3 2 4.5 5 5-3 .4-4.6 2-5 5-.4-3-2-4.6-5-5 3-.4 4.6-2 5-5Z"/>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">物品图鉴</title>
+  <desc id="desc">圆角背包与前置袋组成的物品图鉴图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="stroke" d="M26 18a6 6 0 0 1 12 0" fill="none"/>
+  <rect class="primary" x="15" y="18" width="34" height="34" rx="12"/>
+    <rect class="stroke" x="15" y="18" width="34" height="34" rx="12" fill="none"/>
+  <path class="secondary" d="M15 30v-0a12 12 0 0 1 12-12h10a12 12 0 0 1 12 12v0Z"/>
+  <path class="stroke" d="M15 30c0-6.6 5.4-12 12-12h10c6.6 0 12 5.4 12 12" fill="none"/>
+  <rect class="cut" x="25" y="37" width="14" height="12" rx="4"/>
+  <path class="stroke" d="M25 41.5v3.5a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3.5" fill="none" stroke-width="2.5"/>
+  <circle class="accent" cx="32" cy="24" r="2.6"/>
+  <path class="accent" d="M53 8.3c.4 3 1.9 4.5 4.9 4.9-3 .4-4.5 1.9-4.9 4.9-.4-3-1.9-4.5-4.9-4.9 3-.4 4.5-1.9 4.9-4.9Z"/>
+</svg>

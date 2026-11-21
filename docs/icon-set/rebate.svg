@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">充值返利</title>
+  <desc id="desc">钱袋与星纹金币组成的充值返利图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <circle class="accent" cx="51" cy="13" r="4.5"/>
+  <circle class="stroke" cx="51" cy="13" r="4.5" stroke-width="2.5"/>
+  <ellipse class="primary" cx="32" cy="18.5" rx="8" ry="5"/>
+  <circle class="stroke" cx="32" cy="18.5" r="8"/>
+  <path class="primary" d="M32 22c-9 0-15 8-15 17.5C17 49 23 54 32 54s15-5 15-14.5C47 30 41 22 32 22Z"/>
+  <path class="stroke" d="M32 22c-9 0-15 8-15 17.5C17 49 23 54 32 54s15-5 15-14.5C47 30 41 22 32 22Z" fill="none"/>
+  <rect class="secondary" x="23.5" y="20.5" width="17" height="6" rx="3"/>
+  <path class="stroke" d="M23.5 20.5h17v6h-17Z" fill="none" stroke-width="2.5"/>
+  <circle cx="32" cy="41" r="8.5" fill="none" stroke="var(--cut)" stroke-width="2.5"/>
+  <path class="accent" d="M32 35.5c.45 3.4 2.25 5.1 5.65 5.55-3.4.45-5.2 2.25-5.65 5.65-.45-3.4-2.25-5.2-5.65-5.65 3.4-.45 5.2-2.15 5.65-5.55Z"/>
+</svg>

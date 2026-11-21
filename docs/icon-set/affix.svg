@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">战斗词条</title>
+  <desc id="desc">词条标签与释义行组成的战斗词条图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="primary" d="M14 17h27a8 8 0 0 1 8 8v14a8 8 0 0 1-8 8H14l-8-15Z"/>
+  <path class="stroke" d="M14 17h27a8 8 0 0 1 8 8v14a8 8 0 0 1-8 8H14l-8-15Z" fill="none"/>
+  <rect class="cut" x="20" y="25" width="17" height="4.5" rx="2.25"/>
+  <rect class="cut" x="20" y="34.5" width="11" height="4.5" rx="2.25"/>
+  <circle class="accent" cx="42.5" cy="32" r="2.8"/>
+</svg>

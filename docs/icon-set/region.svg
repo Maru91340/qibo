@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">地区阵营</title>
+  <desc id="desc">折叠地图与定位点组成的地区阵营图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="primary" d="M10 16 24 10l16 6 14-6v38l-14 6-16-6-14 6Z"/>
+  <path class="secondary" d="M24 10l16 6v38l-16-6Z"/>
+  <path class="stroke" d="M10 16 24 10l16 6 14-6v38l-14 6-16-6-14 6Z" fill="none"/>
+  <path class="stroke" d="M24 10v38M40 16v38" fill="none" stroke-width="2.5"/>
+  <circle class="cut" cx="32" cy="29" r="4.5"/>
+  <circle class="stroke" cx="32" cy="29" r="4.5" stroke-width="2.5"/>
+  <circle class="accent" cx="32" cy="29" r="2"/>
+</svg>

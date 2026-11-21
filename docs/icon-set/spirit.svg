@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">灵子图鉴</title>
+  <desc id="desc">星晶体与切面组成的灵子图鉴图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="primary" d="M32 8 46 26 32 56 18 26Z"/>
+  <path class="secondary" d="M25 17h14L32 8Z"/>
+  <path class="stroke" d="M32 8 46 26 32 56 18 26Z"/>
+  <path class="stroke" d="M25 17h14" stroke-width="2.5"/>
+  <path class="stroke" d="M32 8v48" stroke-width="2.5" opacity=".55"/>
+  <path class="accent" d="M52 7.8c.4 3.2 2 4.8 5.2 5.2-3.2.4-4.8 2-5.2 5.2-.4-3.2-2-4.8-5.2-5.2 3.2-.4 4.8-2 5.2-5.2Z"/>
+</svg>

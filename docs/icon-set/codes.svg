@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">福利码</title>
+  <desc id="desc">礼物盒与蝴蝶结组成的福利码图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="secondary" d="M32 17c-5-7.5-13-8-14.5-3.5C16 17.5 22 19 32 19Zm0 0c5-7.5 13-8 14.5-3.5C48 17.5 42 19 32 19Z"/>
+  <path class="stroke" d="M32 17c-5-7.5-13-8-14.5-3.5C16 17.5 22 19 32 19Zm0 0c5-7.5 13-8 14.5-3.5C48 17.5 42 19 32 19Z" fill="none" stroke-width="2.5"/>
+  <rect class="primary" x="14" y="25" width="36" height="27" rx="5"/>
+    <rect class="stroke" x="14" y="25" width="36" height="27" rx="5" fill="none"/>
+  <rect class="secondary" x="11" y="19" width="42" height="10" rx="4"/>
+    <rect class="stroke" x="11" y="19" width="42" height="10" rx="4" fill="none"/>
+    <rect class="secondary" x="28" y="19" width="8" height="33" rx="2"/>
+  <rect class="stroke" x="28" y="19" width="8" height="33" rx="2" fill="none" stroke-width="2.5"/>
+    <circle class="accent" cx="32" cy="40" r="2.6"/>
+</svg>

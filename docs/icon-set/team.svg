@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">队伍编成</title>
+  <desc id="desc">三名队员剪影组成的队伍编成图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <circle class="secondary" cx="14.5" cy="31" r="4.8"/>
+  <circle class="stroke" cx="14.5" cy="31" r="4.8"/>
+  <path class="secondary" d="M6.5 47c.5-5.6 3.7-8.5 8-8.5s7.5 2.9 8 8.5Z"/>
+  <path class="stroke" d="M6.5 47h16" fill="none"/>
+  <circle class="secondary" cx="49.5" cy="31" r="4.8"/>
+  <circle class="stroke" cx="49.5" cy="31" r="4.8"/>
+  <path class="secondary" d="M41.5 47c.5-5.6 3.7-8.5 8-8.5s7.5 2.9 8 8.5Z"/>
+  <path class="stroke" d="M41.5 47h16" fill="none"/>
+  <circle class="primary" cx="32" cy="25" r="7.2"/>
+  <circle class="stroke" cx="32" cy="25" r="7.2"/>
+  <path class="primary" d="M20.5 47c.8-6.9 5.3-10.4 11.5-10.4S42.7 40.1 43.5 47Z"/>
+  <path class="stroke" d="M20.5 47h23" fill="none"/>
+  <path class="accent" d="M53 9.5c.35 2.8 1.75 4.2 4.55 4.2-2.8.35-4.2 1.75-4.55 4.55-.35-2.8-1.75-4.2-4.55-4.55 2.8-.35 4.2-1.75 4.55-4.2Z"/>
+</svg>

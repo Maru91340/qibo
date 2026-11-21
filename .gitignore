@@ -5,6 +5,14 @@ project.private.config.json
 .DS_Store
 *.log
 
+# 凭据与本地秘钥永不入库（云开发凭证走机器级环境变量，见 AGENTS.md）
+.env
+.env.*
+*.secret
+*.secret.json
+cloudbase-credentials*
+
 # 参考截图与临时调试文件不入库
 参考小程序/
 .tmp/
+gen-images/

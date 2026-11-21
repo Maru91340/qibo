@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>奇波小助手 · 图标风格验证板</title>
+<style>
+  *{box-sizing:border-box} :root{--doc:#edf1f8;--ink:#1a2138;--sub:#5a6480;--line:#dfe4ef;--card:#fff;--primary:#4f7cff;--cyan:#62d2e8;--violet:#9b83ff;--gold:#f2c45d}
+  body{margin:0;background:var(--doc);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:42px 24px 80px}
+  .wrap{max-width:1240px;margin:auto}.head{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:24px}.eyebrow{font-size:11px;letter-spacing:2px;font-weight:800;color:#4f7cff}.title{font-size:28px;font-weight:850;margin-top:7px}.intro{font-size:13px;line-height:1.8;color:var(--sub);max-width:760px;margin-top:9px}.status{padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12px;color:var(--sub);white-space:nowrap}
+  .recommend{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-bottom:22px}.recommend__main,.recommend__rule{background:#152037;color:#edf2ff;border-radius:20px;padding:22px 24px;box-shadow:0 14px 34px rgba(25,36,65,.12)}.recommend__main h2,.recommend__rule h2{margin:0;font-size:18px}.recommend__main p,.recommend__rule p{margin:9px 0 0;color:#bac6df;font-size:13px;line-height:1.8}.pick{display:flex;gap:14px;margin-top:18px}.pick__item{display:flex;align-items:center;gap:12px;flex:1;padding:12px;border:1px solid #344464;border-radius:14px;background:#1a2944}.pick__icon{width:58px;height:58px;border-radius:17px;background:#253758;padding:8px}.pick__icon img{width:100%;height:100%}.pick b{display:block;font-size:13px}.pick span{font-size:11px;color:#9fb0cf}.ruleline{margin-top:13px;display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.rulepill{border:1px solid #344464;border-radius:10px;padding:9px 10px;font-size:11px;color:#bac6df}.rulepill b{color:#fff}
+  .section{margin-top:24px}.section__head{display:flex;align-items:end;justify-content:space-between;margin-bottom:12px}.section__head h2{margin:0;font-size:19px}.section__head p{margin:0;font-size:12px;color:var(--sub)}.concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.concept{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0}.concept--recommended{border:2px solid #4f7cff;box-shadow:0 10px 26px rgba(79,124,255,.12)}.concept__top{display:flex;align-items:center;justify-content:space-between}.code{font:800 11px ui-monospace,monospace;color:#4f7cff;letter-spacing:1px}.badge{font-size:10px;padding:4px 8px;border-radius:999px;background:#eaf0ff;color:#2f6bff;font-weight:800}.concept__visual{height:148px;margin-top:10px;display:flex;align-items:center;justify-content:center;border-radius:15px;background:linear-gradient(145deg,#f6f8ff,#edf2ff);position:relative;overflow:hidden}.concept__visual:before{content:"";position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(79,124,255,.10),transparent 66%)}.concept__visual img{position:relative;width:104px;height:104px}.concept h3{font-size:16px;margin:14px 0 5px}.concept__desc{font-size:12px;color:var(--sub);line-height:1.7;min-height:42px}.score{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.score span{padding:4px 8px;border-radius:8px;background:#f2f4f9;color:#5a6480;font-size:10px}.risk{margin-top:11px;padding-top:10px;border-top:1px dashed #e5e9f2;font-size:11px;color:#7a849c;line-height:1.6}
+  .boards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px}.phoneboard{border-radius:22px;padding:20px;border:1px solid var(--line);background:#f3f5fb}.phoneboard--dark{background:#111621;border-color:#2b354b;color:#edf2ff}.phoneboard__head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.phoneboard__title{font-size:15px;font-weight:800}.phoneboard__hint{font-size:11px;color:#8b96ad}.phoneboard--dark .phoneboard__hint{color:#9ca9c0}.mini-card{border-radius:17px;padding:14px;background:#fff;border:1px solid #e7ebf4}.phoneboard--dark .mini-card{background:linear-gradient(180deg,#1c2536,#192131);border-color:#303b52}.mini-card__title{font-size:14px;font-weight:800;margin-bottom:10px}.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.mini-cell{text-align:center;min-width:0}.tile{width:52px;height:52px;margin:auto;border-radius:16px;background:#eaf0ff;padding:8px;display:flex;align-items:center;justify-content:center}.tile img{width:100%;height:100%;display:block}.phoneboard--dark .tile{background:linear-gradient(145deg,#273654,#202c44);border:1px solid rgba(126,164,255,.16)}.phoneboard--dark img{filter:none}.mini-name{font-size:12px;font-weight:700;margin-top:7px;white-space:nowrap}.mini-code{font-size:9px;color:#8993a8;margin-top:2px}.phoneboard--dark .mini-code{color:#8d98b2}.dots{display:flex;justify-content:center;gap:5px;margin-top:12px}.dots i{display:block;width:16px;height:4px;border-radius:4px;background:#4f7cff}.dots b{display:block;width:5px;height:4px;border-radius:4px;background:#d8deea}.phoneboard--dark .dots i{background:#6f9cff;box-shadow:0 0 7px rgba(111,156,255,.45)}.phoneboard--dark .dots b{background:#3c4860}
+  .scale{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}.scale h2{font-size:17px;margin:0}.scale p{font-size:12px;color:var(--sub);margin:6px 0 16px}.scale-row{display:grid;grid-template-columns:140px repeat(6,1fr);align-items:end;gap:12px;border-top:1px solid #edf0f6;padding:14px 0}.scale-row:first-of-type{border-top:0}.scale-label{font-size:12px;font-weight:800}.scale-item{text-align:center}.scale-icon{margin:auto;background:#eaf0ff;border-radius:12px;display:flex;align-items:center;justify-content:center}.scale-icon img{width:72%;height:72%}.scale-icon--48{width:48px;height:48px}.scale-icon--32{width:32px;height:32px;border-radius:9px}.scale-item span{display:block;font-size:9px;color:#8b96ad;margin-top:5px}
+  .decision{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.decision__item{background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px}.decision__item h3{font-size:14px;margin:0}.decision__item p{font-size:11px;line-height:1.7;color:var(--sub);margin:7px 0 0}.footer{margin-top:24px;text-align:center;color:#8b96ad;font-size:11px}
+  .feature-strip{margin-top:22px;padding:20px 22px;border-radius:18px;background:linear-gradient(135deg,#fff7fc,#f4f0ff);border:1px solid #e9dcf2;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}.feature-strip h2{margin:0;font-size:18px}.feature-strip p{margin:7px 0 0;color:var(--sub);font-size:12px;line-height:1.8}.feature-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.feature-tags span{font-size:11px;padding:6px 9px;border-radius:999px;background:#fff;color:#6b527d;border:1px solid #e7d7f2}.feature-face{width:112px;height:112px;border-radius:28px;background:#fff;border:1px solid #e4d8ee;padding:14px;box-shadow:0 12px 28px rgba(141,92,180,.10)}.feature-face img{width:100%;height:100%}
+  @media(max-width:850px){.recommend,.boards{grid-template-columns:1fr}.concepts{grid-template-columns:1fr}.decision{grid-template-columns:1fr}.scale-row{grid-template-columns:1fr repeat(3,1fr)}.scale-item:nth-child(n+5){display:none}.head{display:block}.status{display:inline-block;margin-top:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <div><div class="eyebrow">ICON STYLE PROOF · ROUND 03</div><div class="title">奇波 / 角色图标风格验证板</div><div class="intro">第三轮回归主流游戏工具的通用图标语言：人物剪影 + 档案卡 / 图鉴册 / 检索环。取消具体角色形象和复杂五官，重点验证 32–48px 下的语义清晰度、家族一致性与浅深主题适配。</div></div>
+    <div class="status">仅概念验证 · 未接入生产首页</div>
+  </header>
+
+  <section class="recommend">
+    <div class="recommend__main">
+      <h2>第三轮推荐组合：Q3 + G1</h2>
+      <p>两枚图标共用圆角图鉴卡、左上索引线和右上星晶角标；Q3 用奇波正脸表达类别，G1 用中性人物胸像表达角色，不依赖具体角色形象，语义清楚且容易扩展整套图鉴家族。</p>
+      <div class="pick">
+        <div class="pick__item"><div class="pick__icon"><img src="icon-concepts/qibo-03-dex-badge.svg"></div><div><b>Q3 奇波图鉴徽章</b><span>萌宠 + 图鉴卡</span></div></div>
+        <div class="pick__item"><div class="pick__icon"><img src="icon-concepts/character-generic-01-profile-card.svg"></div><div><b>G1 角色档案卡</b><span>人物 + 档案卡</span></div></div>
+      </div>
+    </div>
+    <div class="recommend__rule">
+      <h2>统一规范</h2><p>64×64 SVG 源稿；3px 圆角线；正视角；线面约 40:60；最多主色、辅色和一个星金高光。</p>
+      <div class="ruleline"><div class="rulepill"><b>主蓝</b> #4F7CFF</div><div class="rulepill"><b>深海蓝</b> #263A63</div><div class="rulepill"><b>星雾青</b> #62D2E8</div><div class="rulepill"><b>灵紫</b> #9B83FF</div></div>
+    </div>
+  </section>
+
+  <section class="section"><div class="section__head"><h2>奇波图标 · 3 个构图方案</h2><p>同一色板，不同语义侧重点</p></div><div class="concepts">
+    <article class="concept"><div class="concept__top"><span class="code">Q1</span></div><div class="concept__visual"><img src="icon-concepts/qibo-01-star-paw.svg"></div><h3>星爪印记</h3><div class="concept__desc">用爪印建立最快的“萌宠/奇波”识别，星芒补充世界观气质。</div><div class="score"><span>小尺寸 ★★★★★</span><span>图鉴语义 ★★★</span><span>品牌感 ★★★★</span></div><div class="risk">风险：若离开文字标签，可能被理解为宠物、足迹或生态功能。</div></article>
+    <article class="concept"><div class="concept__top"><span class="code">Q2</span></div><div class="concept__visual"><img src="icon-concepts/qibo-02-creature-silhouette.svg"></div><h3>奇波剪影</h3><div class="concept__desc">原创萌宠正脸与叶片尾巴，最能建立“小助手自己的奇波符号”。</div><div class="score"><span>小尺寸 ★★★★</span><span>图鉴语义 ★★★</span><span>品牌感 ★★★★★</span></div><div class="risk">风险：后续需要把剪影固定为长期品牌母题，否则容易像某一只具体奇波。</div></article>
+    <article class="concept concept--recommended"><div class="concept__top"><span class="code">Q3</span><span class="badge">推荐</span></div><div class="concept__visual"><img src="icon-concepts/qibo-03-dex-badge.svg"></div><h3>奇波图鉴徽章</h3><div class="concept__desc">把奇波正脸放入图鉴卡框，入口语义完整，并能和角色图标成套。</div><div class="score"><span>小尺寸 ★★★★</span><span>图鉴语义 ★★★★★</span><span>成套性 ★★★★★</span></div><div class="risk">风险：卡框会占用一部分内部空间，32px 下需要继续删减面部细节。</div></article>
+  </div></section>
+
+  <section class="feature-strip">
+    <div><h2>第三轮修正：放弃具体角色形象</h2><p>第二轮证明，狐耳、发型和五官在 32–48px 容易卡通化，并会把“角色图鉴”误读成某个角色详情。新方案回归主流游戏工具常用的通用语义：人物胸像、档案卡、图鉴册与检索环。</p><div class="feature-tags"><span>无具体角色</span><span>无五官发型</span><span>人物先识别</span><span>图鉴次识别</span><span>克制双色</span></div></div>
+    <div class="feature-face"><img src="icon-concepts/character-generic-01-profile-card.svg" alt="通用角色档案卡示意"></div>
+  </section>
+
+  <section class="section"><div class="section__head"><h2>角色图标 · 第三轮通用游戏工具方案</h2><p>参考人物剪影、档案卡、图鉴册和检索环的成熟语义</p></div><div class="concepts">
+    <article class="concept concept--recommended"><div class="concept__top"><span class="code">G1</span><span class="badge">当前推荐</span></div><div class="concept__visual"><img src="icon-concepts/character-generic-01-profile-card.svg"></div><h3>角色档案卡</h3><div class="concept__desc">圆角档案卡、中性人物胸像、左上索引线与星晶角标；卡框与 Q3 完全同构。</div><div class="score"><span>小尺寸 ★★★★★</span><span>图鉴语义 ★★★★★</span><span>成套性 ★★★★★</span></div><div class="risk">风险：风格偏稳健，游戏氛围主要依靠双色和星晶角标，不靠具体角色吸引力。</div></article>
+    <article class="concept"><div class="concept__top"><span class="code">G2</span></div><div class="concept__visual"><img src="icon-concepts/character-generic-02-dex-book.svg"></div><h3>角色图鉴册</h3><div class="concept__desc">图鉴册、书脊索引和人物胸像组合，最强调“角色集合与查阅”。</div><div class="score"><span>小尺寸 ★★★★</span><span>图鉴语义 ★★★★★</span><span>扩展性 ★★★★★</span></div><div class="risk">风险：图书形态会稍显传统；需要通过色彩和圆角避免像通讯录或联系人应用。</div></article>
+    <article class="concept"><div class="concept__top"><span class="code">G3</span></div><div class="concept__visual"><img src="icon-concepts/character-generic-03-search-orbit.svg"></div><h3>角色检索环</h3><div class="concept__desc">人物胸像置于检索环中，外接放大镜手柄与星标，识别速度最快。</div><div class="score"><span>小尺寸 ★★★★★</span><span>查询语义 ★★★★★</span><span>图鉴语义 ★★★</span></div><div class="risk">风险：更容易被理解成角色搜索；适合“角色检索”，作为“角色图鉴”需依赖文字标签。</div></article>
+  </div></section>
+
+  <section class="section"><div class="section__head"><h2>首页真实尺寸对比</h2><p>52px 托底 / 约 36px 图标本体</p></div><div class="boards">
+    <div class="phoneboard"><div class="phoneboard__head"><span class="phoneboard__title">浅色模式</span><span class="phoneboard__hint">图标只在统一托底内使用</span></div><div class="mini-card"><div class="mini-card__title">奇波候选</div><div class="mini-grid" data-grid="qibo"></div><div class="dots"><i></i><b></b><b></b></div></div><div class="mini-card" style="margin-top:12px"><div class="mini-card__title">角色候选</div><div class="mini-grid" data-grid="character"></div></div></div>
+    <div class="phoneboard phoneboard--dark"><div class="phoneboard__head"><span class="phoneboard__title">深色模式</span><span class="phoneboard__hint">同一几何，不做反色</span></div><div class="mini-card"><div class="mini-card__title">奇波候选</div><div class="mini-grid" data-grid="qibo"></div><div class="dots"><i></i><b></b><b></b></div></div><div class="mini-card" style="margin-top:12px"><div class="mini-card__title">角色候选</div><div class="mini-grid" data-grid="character"></div></div></div>
+  </section>
+
+  <section class="scale"><h2>极限缩放检查</h2><p>如果 32px 下无法依靠主轮廓识别，该方案不适合进入整套图标。</p><div class="scale-row" data-scale="48"><div class="scale-label">48px 常规入口</div></div><div class="scale-row" data-scale="32"><div class="scale-label">32px 紧凑入口</div></div></section>
+
+  <section class="decision"><div class="decision__item"><h3>如果优先“与 Q3 成套”</h3><p>选择 Q3 + G1。外框、索引页签和星晶角标采用同一骨架，首页相邻摆放最稳定。</p></div><div class="decision__item"><h3>如果优先“完整图鉴家族”</h3><p>选择 G2。它最容易扩展出材料册、敌人册、地区册等同系列图鉴入口。</p></div><div class="decision__item"><h3>如果优先“最快识别”</h3><p>选择 G3。人物与放大镜在 32px 下最清楚，但需接受其语义更偏角色检索。</p></div></section>
+  <div class="footer">奇波小助手 · 通用游戏工具图标 · Round 03</div>
+</div>
+<script>
+const items=[
+ {code:'Q1',name:'星爪印记',file:'qibo-01-star-paw.svg',type:'qibo'},
+ {code:'Q2',name:'奇波剪影',file:'qibo-02-creature-silhouette.svg',type:'qibo'},
+ {code:'Q3',name:'图鉴徽章',file:'qibo-03-dex-badge.svg',type:'qibo'},
+ {code:'G1',name:'角色档案卡',file:'character-generic-01-profile-card.svg',type:'character'},
+ {code:'G2',name:'角色图鉴册',file:'character-generic-02-dex-book.svg',type:'character'},
+ {code:'G3',name:'角色检索环',file:'character-generic-03-search-orbit.svg',type:'character'}
+];
+function cell(item){return `<div class="mini-cell"><div class="tile"><img src="icon-concepts/${item.file}"></div><div class="mini-name">${item.name}</div><div class="mini-code">${item.code}</div></div>`}
+document.querySelectorAll('[data-grid]').forEach(grid=>{grid.innerHTML=items.filter(x=>x.type===grid.dataset.grid).map(cell).join('')});
+document.querySelectorAll('[data-scale]').forEach(row=>{const size=row.dataset.scale;items.forEach(item=>{row.insertAdjacentHTML('beforeend',`<div class="scale-item"><div class="scale-icon scale-icon--${size}"><img src="icon-concepts/${item.file}"></div><span>${item.code}</span></div>`)})});
+</script>
+</body>
+</html>

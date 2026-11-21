@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">装备图鉴</title>
+  <desc id="desc">圆角长剑与星金柄首组成的装备图鉴图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <g transform="rotate(45 32 32)">
+    <path class="primary" d="M32 6 38 12v22H26V12Z"/>
+    <path class="stroke" d="M32 6 38 12v22H26V12Z" fill="none"/>
+    <path class="cut" d="M32 12v22" fill="none" stroke="var(--cut)" stroke-width="2.5" stroke-linecap="round"/>
+    <rect class="ink" x="20" y="34" width="24" height="6" rx="3"/>
+    <rect class="secondary" x="28.5" y="40" width="7" height="11" rx="3"/>
+    <path class="stroke" d="M28.5 40h7v11h-7Z" fill="none" stroke-width="2.5"/>
+    <circle class="accent" cx="32" cy="54" r="4"/>
+    <circle class="stroke" cx="32" cy="54" r="4" stroke-width="2.5"/>
+  </g>
+  <path class="accent" d="M56 10.5c.35 2.8 1.75 4.2 4.55 4.55-2.8.35-4.2 1.75-4.55 4.55-.35-2.8-1.75-4.2-4.55-4.55 2.8-.35 4.2-1.75 4.55-4.55Z"/>
+</svg>

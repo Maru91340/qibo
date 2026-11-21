@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">G2 角色图鉴册</title>
+  <desc id="desc">圆角图鉴册、书脊索引与人物胸像组成的通用角色图鉴图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--soft:#dfe8ff;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.soft{fill:var(--soft)}.cut{fill:var(--cut)}
+  </style>
+  <!-- 图鉴册主体与书脊 -->
+  <rect class="primary" x="11" y="8" width="43" height="48" rx="10"/>
+  <path class="ink" d="M11 18c0-5.5 4.5-10 10-10h4v48h-4c-5.5 0-10-4.5-10-10V18Z"/>
+  <path class="cut" d="M18 17h4v4h-4zm0 10h4v4h-4zm0 10h4v4h-4z" opacity=".9"/>
+  <rect class="soft" x="28" y="14" width="20" height="30" rx="7"/>
+  <!-- 简化人物头像与肩部 -->
+  <circle class="secondary" cx="38" cy="25" r="5.6"/>
+  <path class="ink" d="M30.8 41c.6-6.2 3.1-9.2 7.2-9.2s6.6 3 7.2 9.2H30.8Z"/>
+  <path class="accent" d="M49.8 8c.4 3.2 2 4.8 5.2 5.2-3.2.4-4.8 2-5.2 5.2-.4-3.2-2-4.8-5.2-5.2 3.2-.4 4.8-2 5.2-5.2Z"/>
+</svg>

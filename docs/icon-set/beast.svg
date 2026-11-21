@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">凶兽生态</title>
+  <desc id="desc">三道爪痕与星芒组成的凶兽生态图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="primary" d="M17 10c-4 14-4 30 0 44 4-14 4-30 0-44Z"/>
+  <path class="ink" d="M32 7c-4.5 15.5-4.5 34.5 0 50 4.5-15.5 4.5-34.5 0-50Z"/>
+  <path class="primary" d="M47 10c-4 14-4 30 0 44 4-14 4-30 0-44Z"/>
+  <path class="accent" d="M56.5 9c.35 2.8 1.75 4.2 4.55 4.55-2.8.35-4.2 1.75-4.55 4.55-.35-2.8-1.75-4.2-4.55-4.55 2.8-.35 4.2-1.75 4.55-4.55Z"/>
+</svg>

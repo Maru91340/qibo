@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">材料图鉴</title>
+  <desc id="desc">药剂瓶与瓶内液体组成的材料图鉴图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="primary" d="M26 8h12v11l10.5 21a8 8 0 0 1-7.2 11.5H22.7A8 8 0 0 1 15.5 40L26 19Z"/>
+  <path class="secondary" d="M21.3 37h21.4l5.8 11.6a4.5 4.5 0 0 1-4 6.4H19.5a4.5 4.5 0 0 1-4-6.4Z"/>
+  <path class="stroke" d="M26 8h12v11l10.5 21a8 8 0 0 1-7.2 11.5H22.7A8 8 0 0 1 15.5 40L26 19Z" fill="none"/>
+  <path class="stroke" d="M23 8h18" fill="none"/>
+  <circle class="cut" cx="26.5" cy="45" r="2.4"/>
+  <circle class="cut" cx="34" cy="48.5" r="1.7"/>
+  <path class="accent" d="M51.5 8.3c.4 3 1.9 4.5 4.9 4.9-3 .4-4.5 1.9-4.9 4.9-.4-3-1.9-4.5-4.9-4.9 3-.4 4.5-1.9 4.9-4.9Z"/>
+</svg>

@@ -1,6 +1,7 @@
 import { buildSync } from 'esbuild';
 import { createRequire } from 'node:module';
-import { mkdtempSync } from 'node:fs';
+import { mkdtempSync, readFileSync } from 'node:fs';
+import { gzipSync } from 'node:zlib';
 import { dirname, join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
@@ -37,6 +38,24 @@ function loadBundledCatalog() {
 // before the item types are checked against them.
 export function buildSeedBundle() {
   const { bundledCatalog, CATALOG_VERSION } = loadBundledCatalog();
+  const details = JSON.parse(readFileSync(join(projectRoot, 'src/data/generated/character-detail-cbt3.json'), 'utf8'));
+  const bwikiDetails = JSON.parse(readFileSync(join(projectRoot, 'src/data/generated/character-detail-bwiki.json'), 'utf8'));
+  if (details.failed.length) throw new Error('角色详情采集存在失败页面');
+  if (bwikiDetails.failed.length) throw new Error('BWIKI 角色详情采集存在失败页面');
+  const variantsByName = new Map();
+  [...details.characters, ...bwikiDetails.characters].forEach((entry) => {
+    const name = entry.name.replace(/\s/g, '');
+    const variants = variantsByName.get(name) || [];
+    variants.push({ sourceId: entry.sourceId, encoding: 'gzip-base64', data: gzipSync(Buffer.from(JSON.stringify(entry.pages)), { level: 9 }).toString('base64') });
+    variantsByName.set(name, variants);
+  });
+  bundledCatalog.character = {
+    ...bundledCatalog.character,
+    items: bundledCatalog.character.items.map((item) => {
+      const variants = variantsByName.get(item.name.replace(/\s/g, ''));
+      return variants ? { ...item, details: variants } : item;
+    })
+  };
   const missing = CATALOG_TYPES.filter((type) => !bundledCatalog[type]);
   if (missing.length) throw new Error(`内置资料缺少类型：${missing.join(', ')}`);
 

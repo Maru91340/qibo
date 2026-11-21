@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">C2 星环侧颜</title>
+  <desc id="desc">人物侧脸、发束和星环组成的幻想双色图标</desc>
+  <style>
+    :root { --ink:#263a63; --primary:#4f7cff; --secondary:#9b83ff; --accent:#f2c45d; --cut:#f3f7ff; }
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="stroke" d="M9.5 37.8c3.3 9.7 12.4 16.6 23.1 16.6 11.1 0 20.5-7.4 23.5-17.6" opacity=".55"/>
+  <path class="primary" d="M20.2 27.6c0-9 5.4-15.4 13.6-15.4 8.9 0 14.9 6.5 14.9 15.3 0 3.4-.9 6.7-2.7 9.6-2.7-2.3-4.2-5.7-4.5-10.1-5.1 2.7-10.4 2.8-15.9.3-.2 4.2-1.8 7.5-4.8 9.9-.4-3.2-.6-6.4-.6-9.6Z"/>
+  <path class="secondary" d="M34.2 17.2c5.1 0 8.5 4.1 8.5 9.6 0 6.4-3.8 11.5-8.9 11.5-4.8 0-8.3-4.5-8.7-10.3 5.3 1.8 10.2 1.4 14.8-1.2-.6-5-2.5-8.2-5.7-9.6Z"/>
+  <path class="primary" d="M17.2 53.7c1.1-9.2 7-14.1 16.7-14.1 8.7 0 14.3 4.5 16.2 13.2-10.9-2.7-21.9-2.4-32.9.9Z"/>
+  <path class="stroke" d="M11.8 26.8c3.1-8.5 10.4-15 19.4-17.2" opacity=".55"/>
+  <path class="accent" d="M14.3 15.4c.5 3.8 2.4 5.7 6.2 6.2-3.8.5-5.7 2.4-6.2 6.2-.5-3.8-2.4-5.7-6.2-6.2 3.8-.5 5.7-2.4 6.2-6.2Z"/>
+  <circle class="secondary" cx="53.4" cy="19" r="3.1"/>
+</svg>

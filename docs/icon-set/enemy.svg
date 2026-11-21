@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">敌人图鉴</title>
+  <desc id="desc">双角怪兽剪影组成的敌人图鉴图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="secondary" d="M19 20 14 7l12 7ZM45 20l5-13-12 7Z"/>
+  <path class="stroke" d="M19 20 14 7l12 7ZM45 20l5-13-12 7Z" fill="none"/>
+  <path class="primary" d="M11 51V33c0-11.6 9-19 21-19s21 7.4 21 19v18Z"/>
+  <path class="stroke" d="M11 51V33c0-11.6 9-19 21-19s21 7.4 21 19v18Z" fill="none"/>
+  <path class="stroke" d="M20 27l7 2.5M44 27l-7 2.5" fill="none" stroke-width="2.5"/>
+  <circle class="ink" cx="24" cy="34" r="2.6"/>
+  <circle class="ink" cx="40" cy="34" r="2.6"/>
+  <path class="stroke" d="M25 44l3.5-3.5 3.5 3.5 3.5-3.5L39 44" fill="none" stroke-width="2.5"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">角色对比</title>
+  <desc id="desc">双卡互换箭头组成的角色对比图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <rect class="primary" x="8" y="15" width="17" height="30" rx="6"/>
+    <rect class="stroke" x="8" y="15" width="17" height="30" rx="6" fill="none"/>
+  <rect class="secondary" x="39" y="19" width="17" height="30" rx="6"/>
+    <rect class="stroke" x="39" y="19" width="17" height="30" rx="6" fill="none"/>
+  <circle class="cut" cx="16.5" cy="27" r="3.5"/>
+  <circle class="cut" cx="47.5" cy="31" r="3.5"/>
+  <path d="M28 24.5h6.5" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  <path class="ink" d="M34 20.5 40 24.5l-6 4Z"/>
+  <path d="M36 39.5h-6.5" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  <path class="ink" d="M30 35.5 24 39.5l6 4Z"/>
+</svg>

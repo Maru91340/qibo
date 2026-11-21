@@ -5,7 +5,8 @@ const { CATALOG_TYPES, LIMITS, SCHEMA_VERSION, SNAPSHOT_SCHEMA_VERSION } = requi
 
 const ID_PATTERN = /^[a-z0-9][a-z0-9-]{1,39}$/;
 const COLOR_PATTERN = /^#[0-9a-fA-F]{6}$/;
-const PATH_PATTERN = /^\/pages\/[^\s]+$/;
+// 主包 /pages/ 与分包 /pages-<name>/（2026-11-04：地图探索迁入 pages-explore 分包）
+const PATH_PATTERN = /^\/pages(?:-[a-z0-9-]+)?\/[^\s]+$/;
 
 function invalid(message, field) {
   const error = new Error(message);
@@ -193,6 +194,41 @@ function normalizeQibo(payload, context) {
   };
 }
 
+// 保留角色 CBT3 详情页的来源、文本、图片和技能等级数据。
+function normalizeCharacterDetails(value, field) {
+  if (value === undefined || value === null) return [];
+  if (!Array.isArray(value) || value.length > 4) invalid(`${field} must contain at most 4 variants`, field);
+  return value.map((variant, index) => {
+    const itemField = `${field}[${index}]`;
+    if (!isObject(variant)) invalid(`${itemField} must be an object`, itemField);
+    if (variant.encoding === 'gzip-base64') {
+      const data = text(variant.data, 400000, `${itemField}.data`);
+      if (!/^[A-Za-z0-9+/]+={0,2}$/.test(data)) invalid(`${itemField}.data must be base64`, itemField);
+      return { sourceId: text(variant.sourceId, 40, `${itemField}.sourceId`), encoding: variant.encoding, data };
+    }
+    if (!isObject(variant.pages)) invalid(`${itemField} must contain pages`, itemField);
+    const pages = {};
+    for (const key of ['battle', 'recommend', 'profile']) {
+      const page = variant.pages[key];
+      if (!page) continue;
+      if (!isObject(page) || !Array.isArray(page.records) || page.records.length > 5000) invalid(`${itemField}.pages.${key} is invalid`, itemField);
+      const records = page.records.map((record, recordIndex) => {
+        const recordField = `${itemField}.pages.${key}.records[${recordIndex}]`;
+        if (!isObject(record) || !['heading', 'text', 'image', 'link', 'data-levels', 'data-ast-rates', 'data-ast-values'].includes(record.type)) invalid(`${recordField} is invalid`, recordField);
+        if (record.type === 'image') return { type: record.type, url: text(record.url, 500, `${recordField}.url`), alt: text(record.alt || '', 200, `${recordField}.alt`, { required: false }) };
+        if (record.type === 'link') return { type: record.type, url: text(record.url, 500, `${recordField}.url`) };
+        if (record.type.startsWith('data-')) {
+          if (Buffer.byteLength(JSON.stringify(record.value ?? null)) > 50000) invalid(`${recordField}.value is too large`, recordField);
+          return { type: record.type, value: record.value ?? null };
+        }
+        return { type: record.type, value: text(record.value, 10000, `${recordField}.value`) };
+      });
+      pages[key] = { url: text(page.url, 500, `${itemField}.pages.${key}.url`), records };
+    }
+    return { sourceId: text(variant.sourceId, 40, `${itemField}.sourceId`), pages };
+  });
+}
+
 function normalizeCharacter(payload, context) {
   const items = listOf(payload.items, 'items').map((item, index) => {
     const field = `items[${index}]`;
@@ -216,6 +252,7 @@ function normalizeCharacter(payload, context) {
           desc: text(skill.desc, LIMITS.text, `${skillField}.desc`)
         };
       }),
+      ...(item.details === undefined ? {} : { details: normalizeCharacterDetails(item.details, `${field}.details`) }),
       verified: item.verified === true
     };
   });
@@ -261,7 +298,14 @@ function normalizeEntries(payload) {
       name: text(item.name, LIMITS.name, `${field}.name`),
       category: text(item.category, 20, `${field}.category`),
       rarity: text(item.rarity, 20, `${field}.rarity`, { required: false }),
+      // icon 必须透传（BWIKI 热链）：曾经只保留文本字段导致云端同步后列表图全部丢失
+      icon: text(item.icon || '', 200, `${field}.icon`, { required: false }),
       tags: stringList(item.tags || [], `${field}.tags`, { max: 10, itemMax: 20 }),
+      // P2：用途（养成/可刷）与两级分类（kind 大组 + categories 多标签）必须透传，
+      // 曾被白名单剥掉导致 MP 端用途筛选无数据
+      usage: stringList(item.usage || [], `${field}.usage`, { max: 6, itemMax: 10 }),
+      kind: text(item.kind || '', 10, `${field}.kind`, { required: false }),
+      categories: stringList(item.categories || [], `${field}.categories`, { max: 6, itemMax: 20 }),
       summary: text(item.summary, LIMITS.text, `${field}.summary`),
       desc: text(item.desc, LIMITS.longText, `${field}.desc`, { required: false }),
       fields,
@@ -277,7 +321,7 @@ function normalizeEntries(payload) {
   };
 }
 
-const ENTRY_TYPES = ['spirit', 'item', 'equipment', 'material', 'food', 'fishing', 'enemy', 'dungeon', 'building', 'achievement', 'region', 'affix', 'guide'];
+const ENTRY_TYPES = ['spirit', 'item', 'equipment', 'material', 'food', 'fishing', 'enemy', 'dungeon', 'building', 'achievement', 'region', 'affix', 'guide', 'book'];
 
 const NORMALIZERS = {
   meta: (payload) => normalizeMeta(payload),
@@ -351,6 +395,7 @@ function makeManifest(existing, snapshots, meta = {}) {
     _id: meta.manifestId,
     schema: SCHEMA_VERSION,
     version: versionOf(content),
+    previousVersion: existing && existing.version ? existing.version : null,
     publishedAt,
     runId: text(meta.runId, 60, 'runId', { required: false }),
     content

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">G3 角色检索环</title>
+  <desc id="desc">人物胸像、圆形检索环和星标组成的通用角色查询图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--soft:#dfe8ff;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.soft{fill:var(--soft)}.cut{fill:var(--cut)}
+  </style>
+  <circle class="soft" cx="29" cy="29" r="20"/>
+  <circle class="stroke" cx="29" cy="29" r="20"/>
+  <path d="m43.2 43.2 11.2 11.2" fill="none" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>
+  <circle class="secondary" cx="29" cy="24" r="7.8"/>
+  <path class="primary" d="M17.4 43c.8-8.1 4.7-12.1 11.6-12.1S39.8 34.9 40.6 43H17.4Z"/>
+  <path class="cut" d="M24.2 32.1c1.3 2.2 2.9 3.3 4.8 3.3s3.5-1.1 4.8-3.3c-1.4-.8-3-1.2-4.8-1.2s-3.4.4-4.8 1.2Z" opacity=".4"/>
+  <path class="accent" d="M48.8 7.5c.4 3.4 2.1 5.1 5.5 5.5-3.4.4-5.1 2.1-5.5 5.5-.4-3.4-2.1-5.1-5.5-5.5 3.4-.4 5.1-2.1 5.5-5.5Z"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">我的收藏</title>
+  <desc id="desc">五角星与星芒组成的我的收藏图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="primary" d="m32 12 4.8 13.4 14.2.4-11.2 8.7 4 13.7L32 40.3l-11.8 7.9 4-13.7L13 25.8l14.2-.4Z"/>
+  <path class="stroke" d="m32 12 4.8 13.4 14.2.4-11.2 8.7 4 13.7L32 40.3l-11.8 7.9 4-13.7L13 25.8l14.2-.4Z" fill="none"/>
+  <path class="accent" d="M53 8.5c.35 2.8 1.75 4.2 4.55 4.55-2.8.35-4.2 1.75-4.55 4.55-.35-2.8-1.75-4.2-4.55-4.55 2.8-.35 4.2-1.75 4.55-4.55Z"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">订阅偏好</title>
+  <desc id="desc">铃铛与响铃线组成的订阅偏好图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="stroke" d="M12 22a20 20 0 0 1 7-9M52 22a20 20 0 0 0-7-9" fill="none" stroke-width="2.5"/>
+  <circle class="ink" cx="32" cy="12" r="3.2"/>
+  <path class="primary" d="M18 41c0-16 5-27 14-27s14 11 14 27l4.5 6h-37Z"/>
+  <path class="stroke" d="M18 41c0-16 5-27 14-27s14 11 14 27l4.5 6h-37Z" fill="none"/>
+  <path class="secondary" d="M27 50a5 5 0 0 0 10 0Z"/>
+  <path class="stroke" d="M27 50a5 5 0 0 0 10 0Z" fill="none" stroke-width="2.5"/>
+  <path class="accent" d="M32 26c.4 3 2 4.5 5 5-3 .4-4.6 2-5 5-.4-3-2-4.6-5-5 3-.4 4.6-2 5-5Z"/>
+</svg>

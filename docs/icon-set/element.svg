@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">元素克制</title>
+  <desc id="desc">三元素节点环形相克与中心星核组成的元素克制图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="stroke" d="M28.6 19.4 19.4 37.4M35.4 19.4l9.2 18M22.4 44h19.2" fill="none"/>
+  <circle class="secondary" cx="32" cy="13" r="6.5"/>
+  <circle class="stroke" cx="32" cy="13" r="6.5"/>
+  <circle class="secondary" cx="15" cy="44" r="6.5"/>
+  <circle class="stroke" cx="15" cy="44" r="6.5"/>
+  <circle class="secondary" cx="49" cy="44" r="6.5"/>
+  <circle class="stroke" cx="49" cy="44" r="6.5"/>
+  <path class="accent" d="M32 30c.4 3 2 4.5 5 5-3 .4-4.6 2-5 5-.4-3-2-4.6-5-5 3-.4 4.6-2 5-5Z"/>
+</svg>

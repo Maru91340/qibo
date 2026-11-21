@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">G1 角色档案卡</title>
+  <desc id="desc">圆角档案卡、中性人物胸像、索引页签与星晶角标组成的角色图鉴图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--soft:#dfe8ff;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.soft{fill:var(--soft)}.cut{fill:var(--cut)}
+  </style>
+  <!-- 与 Q3 共用 44×48 圆角图鉴卡骨架 -->
+  <rect class="stroke" x="10" y="9" width="44" height="48" rx="12"/>
+  <path class="stroke" d="M16 15h9" opacity=".65"/>
+  <!-- 中性头像：无发型、无五官、无具体角色特征 -->
+  <circle class="secondary" cx="32" cy="28" r="9"/>
+  <path class="primary" d="M18.5 50c1-9.1 5.6-14 13.5-14s12.5 4.9 13.5 14h-27Z"/>
+  <path class="cut" d="M26.2 37.3c1.6 2.4 3.5 3.6 5.8 3.6s4.2-1.2 5.8-3.6c-1.7-.9-3.6-1.3-5.8-1.3s-4.1.4-5.8 1.3Z" opacity=".42"/>
+  <path class="accent" d="M49.5 7.2c.4 3.2 2 4.8 5.2 5.2-3.2.4-4.8 2-5.2 5.2-.4-3.2-2-4.8-5.2-5.2 3.2-.4 4.8-2 5.2-5.2Z"/>
+</svg>

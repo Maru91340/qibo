@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">家园派驻</title>
+  <desc id="desc">小屋与奇波爪印组成的家园派驻图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#9b83ff;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <path class="primary" d="M14 28 32 14l18 14Z"/>
+  <path class="stroke" d="M14 28 32 14l18 14Z" fill="none"/>
+  <rect class="secondary" x="20" y="26" width="24" height="26" rx="5"/>
+    <rect class="stroke" x="20" y="26" width="24" height="26" rx="5" fill="none"/>
+  <ellipse class="cut" cx="32" cy="42" rx="5" ry="4"/>
+  <circle class="cut" cx="25.5" cy="35.5" r="2.1"/>
+  <circle class="cut" cx="32" cy="33.8" r="2.1"/>
+  <circle class="cut" cx="38.5" cy="35.5" r="2.1"/>
+  <path class="accent" d="M53 9c.35 2.8 1.75 4.2 4.55 4.55-2.8.35-4.2 1.75-4.55 4.55-.35-2.8-1.75-4.2-4.55-4.55C51.25 13.2 52.65 11.8 53 9Z"/>
+</svg>

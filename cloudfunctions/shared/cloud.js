@@ -5,7 +5,7 @@ const { COLLECTIONS, MANIFEST_ID } = require('./constants');
 function initCloud() {
   // Behind a function so the pure modules and the node --test suite never load the cloud SDK.
   const cloud = require('wx-server-sdk');
-  cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV, traceUser: true });
+  cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
   return { cloud, db: cloud.database() };
 }
 

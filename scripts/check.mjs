@@ -100,40 +100,47 @@ function checkRoutes(page) {
 }
 
 const pagesJson = JSON.parse(read(join(srcRoot, 'pages.json')));
-const knownRoutes = new Set(pagesJson.pages.map((page) => `/${page.path}`));
-for (const sub of pagesJson.subPackages || []) {
-  for (const page of sub.pages || []) knownRoutes.add(`/${sub.root}/${page.path}`);
-}
-
-const pages = walk(join(srcRoot, 'pages'))
-  .filter((file) => file.endsWith('.vue'))
-  .map((file) => {
-    const source = read(file);
-    return {
-      file,
-      label: relativePath(file),
-      source,
-      template: templateOf(source)
-    };
-  });
+const routeEntries = [
+  ...(pagesJson.pages || []).map((page) => ({ ...page, route: page.path })),
+  ...(pagesJson.subPackages || []).flatMap((subPackage) =>
+    (subPackage.pages || []).map((page) => ({
+      ...page,
+      route: `${String(subPackage.root || '').replace(/\/$/, '')}/${page.path}`
+    }))
+  )
+];
+const knownRoutes = new Set(routeEntries.map((entry) => `/${entry.route}`));
+const pages = routeEntries.map((entry) => {
+  const file = join(srcRoot, `${entry.route}.vue`);
+  if (!existsSync(file)) return { ...entry, file, label: `src/${entry.route}.vue`, source: '', template: '' };
+  const source = read(file);
+  return { ...entry, file, label: relativePath(file), source, template: templateOf(source) };
+});
 
 function checkPagesAgainstManifest() {
-  const manifestPaths = new Set(pagesJson.pages.map((page) => page.path));
+  const manifestPaths = new Set(routeEntries.map((entry) => entry.route));
+  if (manifestPaths.size !== routeEntries.length) fail('pages.json 存在重复路由');
   for (const page of pages) {
-    const route = relativePath(page.file).replace('src/', '').replace(/\.vue$/, '');
-    if (!manifestPaths.has(route)) fail(`${page.label} 未在 pages.json 中注册`);
+    if (!existsSync(page.file)) fail(`pages.json 注册了 ${page.route}，但缺少对应文件`);
   }
-  for (const route of manifestPaths) {
-    if (!pages.some((page) => relativePath(page.file) === `src/${route}.vue`)) fail(`pages.json 注册了 ${route}，但缺少对应文件`);
+
+  const routeRoots = new Set(['pages', ...(pagesJson.subPackages || []).map((item) => item.root).filter(Boolean)]);
+  for (const root of routeRoots) {
+    const absoluteRoot = join(srcRoot, root);
+    if (!existsSync(absoluteRoot)) continue;
+    for (const file of walk(absoluteRoot).filter((item) => item.endsWith('.vue'))) {
+      const route = relativePath(file).replace('src/', '').replace(/\.vue$/, '');
+      if (!manifestPaths.has(route)) fail(`${relativePath(file)} 未在 pages.json 的 pages/subPackages 中注册`);
+    }
   }
 }
 
 function checkRegisteredComponents() {
-  for (const entry of pagesJson.pages) {
+  for (const entry of routeEntries) {
     const components = (entry.style || {})['mp-weixin']?.usingComponents || {};
     const registered = new Set(Object.keys(components));
-    const page = pages.find((item) => relativePath(item.file) === `src/${entry.path}.vue`);
-    if (!page) continue;
+    const page = pages.find((item) => item.route === entry.route);
+    if (!page?.source) continue;
     page.components = components;
     checkComponents(page, registered);
   }
@@ -178,13 +185,60 @@ function checkCloudParity() {
     fail(`src/services/content.js 与 cloudfunctions/shared/constants.js 的 CATALOG_TYPES 不一致：${parsed.join(',')} vs ${CATALOG_TYPES.join(',')}`);
   }
   const env = read(join(srcRoot, 'config/cloud.js'));
+  const resourceAppId = (env.match(/CLOUD_RESOURCE_APP_ID\s*=\s*'([^']*)'/) || [])[1] || '';
   const envId = (env.match(/CLOUD_ENV_ID\s*=\s*'([^']*)'/) || [])[1] || '';
-  if (!envId || envId.startsWith('REPLACE_WITH')) {
-    warnings.push('src/config/cloud.js 的 CLOUD_ENV_ID 仍是占位值，云端同步会自动降级为内置资料');
+  if (!resourceAppId || !envId || envId.startsWith('REPLACE_WITH')) {
+    warnings.push('src/config/cloud.js 的共享云资源方 AppID/环境 ID 未配置完整，云端同步会自动降级为内置资料');
+  }
+  const cloudClient = read(join(srcRoot, 'services/cloud.js'));
+  if (resourceAppId && !cloudClient.includes('new wx.cloud.Cloud')) {
+    fail('共享云环境必须通过 new wx.cloud.Cloud({ resourceAppid, resourceEnv }) 初始化');
   }
   const functions = (env.match(/read:\s*'([^']+)'/) || [])[1];
   if (functions && !existsSync(join(projectRoot, 'cloudfunctions', functions, 'index.js'))) {
     fail(`云函数 ${functions} 在 cloudfunctions/ 下不存在`);
+  }
+}
+
+function checkReleaseSafety() {
+  const packageJson = JSON.parse(read(join(projectRoot, 'package.json')));
+  const manifest = JSON.parse(read(join(srcRoot, 'manifest.json')));
+  const appConfig = read(join(srcRoot, 'config/app.js'));
+  const appVersion = (appConfig.match(/APP_VERSION\s*=\s*'([^']+)'/) || [])[1] || '';
+  if (packageJson.version !== manifest.versionName || packageJson.version !== appVersion) {
+    fail(`版本不一致：package=${packageJson.version} / manifest=${manifest.versionName} / app=${appVersion || '缺失'}`);
+  }
+
+  for (const name of ['getCatalog', 'seedCatalog']) {
+    const packageFile = join(projectRoot, 'cloudfunctions', name, 'package.json');
+    const lockFile = join(projectRoot, 'cloudfunctions', name, 'package-lock.json');
+    if (!existsSync(lockFile)) {
+      fail(`cloudfunctions/${name}/package-lock.json 缺失`);
+      continue;
+    }
+    const fnPackage = JSON.parse(read(packageFile));
+    const fnLock = JSON.parse(read(lockFile));
+    if (fnLock.name !== fnPackage.name || fnLock.version !== fnPackage.version) {
+      fail(`cloudfunctions/${name} 的 package.json 与 package-lock.json 不一致`);
+    }
+  }
+
+  const appSource = read(join(srcRoot, 'App.vue'));
+  const clientFiles = walk(srcRoot).filter((file) => /\.(?:js|vue)$/.test(file) && file !== join(srcRoot, 'App.vue'));
+  const forbidden = [
+    ['seedCatalog', '正式客户端不应包含 seedCatalog 管理调用'],
+    ['CATALOG_FUNCTIONS.seed', '正式客户端不应导出 seed 云函数'],
+    ['setStorageSync(\'qbxzs:seed-token\'', '正式客户端不应持久化发布口令'],
+    ['getStorageSync(\'qbxzs:seed-token\'', '正式客户端不应读取发布口令']
+  ];
+  for (const file of clientFiles) {
+    const source = read(file);
+    for (const [needle, message] of forbidden) {
+      if (source.includes(needle)) fail(`${relativePath(file)}：${message}`);
+    }
+  }
+  if (!appSource.includes("removeStorageSync('qbxzs:seed-token')")) {
+    warnings.push('App.vue 未清理旧版本遗留的 seed token');
   }
 }
 
@@ -199,10 +253,11 @@ for (const page of pages) {
 }
 checkCatalog();
 checkCloudParity();
+checkReleaseSafety();
 
 for (const warning of warnings) console.warn(`⚠ ${warning}`);
 if (errors.length) {
   errors.forEach((message) => console.error(`✖ ${message}`));
   throw new Error(`静态校验失败：${errors.length} 项`);
 }
-console.log(`✔ 静态校验通过：${pages.length} 个页面 / ${pagesJson.pages.length} 条路由 / ${CATALOG_TYPES.length} 类资料`);
+console.log(`✔ 静态校验通过：${pages.length} 个页面 / ${routeEntries.length} 条路由 / ${CATALOG_TYPES.length} 类资料`);

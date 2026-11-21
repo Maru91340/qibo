@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">玩法指南</title>
+  <desc id="desc">指路牌与双向路标组成的玩法指南图标</desc>
+  <style>
+    :root{--ink:#263a63;--primary:#4f7cff;--secondary:#62d2e8;--accent:#f2c45d;--cut:#f3f7ff}
+    .stroke{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ink{fill:var(--ink)}.primary{fill:var(--primary)}.secondary{fill:var(--secondary)}.accent{fill:var(--accent)}.cut{fill:var(--cut)}
+  </style>
+  <rect class="ink" x="29.5" y="10" width="5" height="46" rx="2.5"/>
+  <path class="primary" d="M15 15h30l7 7.5-7 7.5H15a5 5 0 0 1-5-5v-5a5 5 0 0 1 5-5Z"/>
+  <path class="stroke" d="M15 15h30l7 7.5-7 7.5H15a5 5 0 0 1-5-5v-5a5 5 0 0 1 5-5Z" fill="none"/>
+  <path class="secondary" d="M49 36H19l-7 7.5 7 7.5h30a5 5 0 0 0 5-5v-5a5 5 0 0 0-5-5Z"/>
+  <path class="stroke" d="M49 36H19l-7 7.5 7 7.5h30a5 5 0 0 0 5-5v-5a5 5 0 0 0-5-5Z" fill="none"/>
+  <rect class="cut" x="19" y="21.2" width="15" height="4.6" rx="2.3"/>
+  <rect class="cut" x="30" y="41.4" width="15" height="4.6" rx="2.3"/>
+  <path class="accent" d="M55 7c.35 2.8 1.75 4.2 4.55 4.55-2.8.35-4.2 1.75-4.55 4.55-.35-2.8-1.75-4.2-4.55-4.55C53.25 11.2 54.65 9.8 55 7Z"/>
+</svg>
