@@ -1,0 +1,35 @@
+name: Release Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run check
+      - run: npm run test:data
+      - run: npm run build:h5
+      - run: npm run build:mp-weixin
+      - name: Audit dependencies
+        run: npm run audit:release
+      - name: Upload mini program artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mp-weixin-${{ github.sha }}
+          path: dist/build/mp-weixin
+          if-no-files-found: error
+          retention-days: 14
