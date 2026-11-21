@@ -1,0 +1,23 @@
+{
+ "https://ap-cbt3.csxylic.com/icons/soulessence/tex_icon_status_atk.png": {
+  "file": "assets/cloud-missing/spirit-detail/灵子/tex_icon_status_atk.png",
+  "cloudPath": "images/detail-assets/灵子/tex_icon_status_atk.png",
+  "bytes": 1057,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T10:45:16"
+ },
+ "https://ap-cbt3.csxylic.com/icons/soulessence/tex_icon_status_def.png": {
+  "file": "assets/cloud-missing/spirit-detail/灵子/tex_icon_status_def.png",
+  "cloudPath": "images/detail-assets/灵子/tex_icon_status_def.png",
+  "bytes": 1319,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T10:45:17"
+ },
+ "https://ap-cbt3.csxylic.com/icons/soulessence/tex_icon_status_hp.png": {
+  "file": "assets/cloud-missing/spirit-detail/灵子/tex_icon_status_hp.png",
+  "cloudPath": "images/detail-assets/灵子/tex_icon_status_hp.png",
+  "bytes": 1050,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T10:45:18"
+ }
+}

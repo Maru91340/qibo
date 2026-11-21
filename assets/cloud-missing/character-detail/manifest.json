@@ -1,0 +1,751 @@
+{
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_accessory_icon_bg_r.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_accessory_icon_bg_r.png",
+  "cloudPath": "images/detail-assets/装备/tex_accessory_icon_bg_r.png",
+  "bytes": 23293,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:55:17"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_accessory_icon_bg_sr.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_accessory_icon_bg_sr.png",
+  "cloudPath": "images/detail-assets/装备/tex_accessory_icon_bg_sr.png",
+  "bytes": 23499,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:55:22"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_accessory_icon_bg_ssr.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_accessory_icon_bg_ssr.png",
+  "cloudPath": "images/detail-assets/装备/tex_accessory_icon_bg_ssr.png",
+  "bytes": 23428,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:55:27"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_angyangxunli_armor_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_angyangxunli_armor_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_angyangxunli_armor_3_1.png",
+  "bytes": 35859,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:55:33"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_angyangxunli_armor_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_angyangxunli_armor_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_angyangxunli_armor_4_1_G.png",
+  "bytes": 40101,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:55:36"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_angyangxunli_bottoms_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_angyangxunli_bottoms_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_angyangxunli_bottoms_3_1.png",
+  "bytes": 36750,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:55:45"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_angyangxunli_bottoms_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_angyangxunli_bottoms_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_angyangxunli_bottoms_4_1_G.png",
+  "bytes": 41235,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:55:50"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_angyangxunli_earring_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_angyangxunli_earring_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_angyangxunli_earring_3_1.png",
+  "bytes": 20356,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:55:53"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_angyangxunli_earring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_angyangxunli_earring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_angyangxunli_earring_4_1_G.png",
+  "bytes": 31900,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:55:59"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_angyangxunli_ring_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_angyangxunli_ring_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_angyangxunli_ring_3_1.png",
+  "bytes": 31960,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:56:03"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_angyangxunli_ring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_angyangxunli_ring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_angyangxunli_ring_4_1_G.png",
+  "bytes": 51590,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:56:07"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cangfengposhi_armor_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cangfengposhi_armor_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cangfengposhi_armor_4_1_G.png",
+  "bytes": 47101,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:56:14"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cangfengposhi_bottoms_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cangfengposhi_bottoms_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cangfengposhi_bottoms_4_1_G.png",
+  "bytes": 47354,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:56:19"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cangfengposhi_earring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cangfengposhi_earring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cangfengposhi_earring_4_1_G.png",
+  "bytes": 32628,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:56:27"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cangfengposhi_earring_4_3_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cangfengposhi_earring_4_3_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cangfengposhi_earring_4_3_G.png",
+  "bytes": 31334,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:56:31"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cangfengposhi_ring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cangfengposhi_ring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cangfengposhi_ring_4_1_G.png",
+  "bytes": 51768,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:56:40"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cangfengposhi_ring_4_3_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cangfengposhi_ring_4_3_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cangfengposhi_ring_4_3_G.png",
+  "bytes": 56465,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:56:45"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_armor_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_armor_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_armor_3_1.png",
+  "bytes": 28840,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:56:51"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_armor_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_armor_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_armor_4_1_G.png",
+  "bytes": 46475,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:57:00"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_bottoms_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_bottoms_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_bottoms_3_1.png",
+  "bytes": 32392,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:57:09"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_bottoms_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_bottoms_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_bottoms_4_1_G.png",
+  "bytes": 47526,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:57:13"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_earring_3_3.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_earring_3_3.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_earring_3_3.png",
+  "bytes": 23753,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:57:21"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_earring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_earring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_earring_4_1_G.png",
+  "bytes": 43468,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:57:25"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_earring_4_2_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_earring_4_2_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_earring_4_2_G.png",
+  "bytes": 43805,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:57:39"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_earring_4_3_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_earring_4_3_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_earring_4_3_G.png",
+  "bytes": 44870,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:57:44"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_ring_3_3.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_ring_3_3.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_ring_3_3.png",
+  "bytes": 21458,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:57:50"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_ring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_ring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_ring_4_1_G.png",
+  "bytes": 38600,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:57:59"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_ring_4_2_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_ring_4_2_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_ring_4_2_G.png",
+  "bytes": 45341,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:58:07"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_changkongxiezou_ring_4_3_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_changkongxiezou_ring_4_3_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_changkongxiezou_ring_4_3_G.png",
+  "bytes": 47773,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:58:16"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cuifeng_armor_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cuifeng_armor_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cuifeng_armor_3_1.png",
+  "bytes": 31435,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:58:34"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cuifeng_armor_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cuifeng_armor_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cuifeng_armor_4_1_G.png",
+  "bytes": 45419,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:58:39"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cuifeng_bottoms_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cuifeng_bottoms_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cuifeng_bottoms_3_1.png",
+  "bytes": 35406,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:58:42"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cuifeng_bottoms_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cuifeng_bottoms_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cuifeng_bottoms_4_1_G.png",
+  "bytes": 44817,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:58:49"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cuifeng_earring_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cuifeng_earring_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cuifeng_earring_3_1.png",
+  "bytes": 31578,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:58:56"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cuifeng_earring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cuifeng_earring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cuifeng_earring_4_1_G.png",
+  "bytes": 41169,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:05"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cuifeng_earring_4_2_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cuifeng_earring_4_2_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cuifeng_earring_4_2_G.png",
+  "bytes": 26708,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:19"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cuifeng_ring_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cuifeng_ring_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cuifeng_ring_3_1.png",
+  "bytes": 34477,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:21"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cuifeng_ring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cuifeng_ring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cuifeng_ring_4_1_G.png",
+  "bytes": 45786,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:23"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_cuifeng_ring_4_2_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_cuifeng_ring_4_2_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_cuifeng_ring_4_2_G.png",
+  "bytes": 48612,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:27"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_suit5_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_suit5_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_suit5_1_G.png",
+  "bytes": 37254,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:29"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_suit5_4_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_suit5_4_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_suit5_4_G.png",
+  "bytes": 51776,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:32"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_suit5_5_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_suit5_5_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_suit5_5_G.png",
+  "bytes": 46891,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:36"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_suit5_6_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_suit5_6_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_suit5_6_G.png",
+  "bytes": 39994,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:42"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_suit5_7_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_suit5_7_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_suit5_7_G.png",
+  "bytes": 44665,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:46"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_suit5_8_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_suit5_8_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_suit5_8_G.png",
+  "bytes": 32566,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:53"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_suit6_4_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_suit6_4_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_suit6_4_G.png",
+  "bytes": 36899,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T17:59:59"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_suit6_5_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_suit6_5_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_suit6_5_G.png",
+  "bytes": 36750,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:00:04"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_suit6_6_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_suit6_6_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_suit6_6_G.png",
+  "bytes": 35919,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:00:08"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_suit6_7_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_suit6_7_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_suit6_7_G.png",
+  "bytes": 40779,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:00:15"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_3_1.png",
+  "bytes": 29116,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:00:21"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_3_12.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_3_12.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_3_12.png",
+  "bytes": 35710,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:00:27"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_3_14.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_3_14.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_3_14.png",
+  "bytes": 43750,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:00:32"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_3_3.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_3_3.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_3_3.png",
+  "bytes": 28140,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:00:37"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_3_7.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_3_7.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_3_7.png",
+  "bytes": 29469,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:00:41"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_3_8.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_3_8.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_3_8.png",
+  "bytes": 15840,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:00:48"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_10_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_10_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_10_G.png",
+  "bytes": 57622,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:00:57"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_12_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_12_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_12_G.png",
+  "bytes": 72789,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:01:18"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_13_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_13_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_13_G.png",
+  "bytes": 43075,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:01:23"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_14_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_14_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_14_G.png",
+  "bytes": 65451,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:01:35"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_1_G.png",
+  "bytes": 52386,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:01:41"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_3_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_3_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_3_G.png",
+  "bytes": 43178,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:01:44"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_4_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_4_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_4_G.png",
+  "bytes": 32924,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:01:58"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_5_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_5_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_5_G.png",
+  "bytes": 42818,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:02:05"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_6_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_6_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_6_G.png",
+  "bytes": 46241,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:02:10"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_7_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_7_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_7_G.png",
+  "bytes": 59370,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:02:26"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_8_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_8_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_8_G.png",
+  "bytes": 43760,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:02:31"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_weapon_4_9_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_weapon_4_9_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_weapon_4_9_G.png",
+  "bytes": 62623,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:02:40"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_armor_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_armor_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_armor_3_1.png",
+  "bytes": 41413,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:02:46"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_armor_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_armor_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_armor_4_1_G.png",
+  "bytes": 51781,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:02:49"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_bottoms_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_bottoms_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_bottoms_3_1.png",
+  "bytes": 29197,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:02:53"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_bottoms_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_bottoms_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_bottoms_4_1_G.png",
+  "bytes": 39393,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:02:57"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_earring_3_2.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_earring_3_2.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_earring_3_2.png",
+  "bytes": 21437,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:01"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_earring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_earring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_earring_4_1_G.png",
+  "bytes": 27753,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:04"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_earring_4_2_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_earring_4_2_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_earring_4_2_G.png",
+  "bytes": 51107,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:11"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_earring_4_3_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_earring_4_3_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_earring_4_3_G.png",
+  "bytes": 34747,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:13"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_earring_4_4_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_earring_4_4_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_earring_4_4_G.png",
+  "bytes": 39621,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:21"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_ring_3_2.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_ring_3_2.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_ring_3_2.png",
+  "bytes": 24774,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:24"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_ring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_ring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_ring_4_1_G.png",
+  "bytes": 47383,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:26"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_ring_4_2_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_ring_4_2_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_ring_4_2_G.png",
+  "bytes": 50125,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:31"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_ring_4_3_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_ring_4_3_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_ring_4_3_G.png",
+  "bytes": 41166,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:37"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xianzhenzhiyong_ring_4_4_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xianzhenzhiyong_ring_4_4_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xianzhenzhiyong_ring_4_4_G.png",
+  "bytes": 36455,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:43"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xijianruiying_armor_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xijianruiying_armor_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xijianruiying_armor_4_1_G.png",
+  "bytes": 67306,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:47"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xijianruiying_bottoms_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xijianruiying_bottoms_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xijianruiying_bottoms_4_1_G.png",
+  "bytes": 42511,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:03:59"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xijianruiying_earring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xijianruiying_earring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xijianruiying_earring_4_1_G.png",
+  "bytes": 29660,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:04:08"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xijianruiying_ring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xijianruiying_ring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xijianruiying_ring_4_1_G.png",
+  "bytes": 40525,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:04:22"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xinglvmofeng_armor_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xinglvmofeng_armor_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xinglvmofeng_armor_3_1.png",
+  "bytes": 36644,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:04:28"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xinglvmofeng_armor_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xinglvmofeng_armor_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xinglvmofeng_armor_4_1_G.png",
+  "bytes": 49943,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:04:36"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xinglvmofeng_bottoms_3_2.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xinglvmofeng_bottoms_3_2.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xinglvmofeng_bottoms_3_2.png",
+  "bytes": 25388,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:04:39"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xinglvmofeng_bottoms_4_2_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xinglvmofeng_bottoms_4_2_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xinglvmofeng_bottoms_4_2_G.png",
+  "bytes": 42616,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:04:46"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xinglvmofeng_earring_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xinglvmofeng_earring_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xinglvmofeng_earring_3_1.png",
+  "bytes": 20953,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:04:49"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xinglvmofeng_earring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xinglvmofeng_earring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xinglvmofeng_earring_4_1_G.png",
+  "bytes": 28285,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:04:53"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xinglvmofeng_earring_4_2_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xinglvmofeng_earring_4_2_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xinglvmofeng_earring_4_2_G.png",
+  "bytes": 27303,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:04:56"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xinglvmofeng_ring_3_1.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xinglvmofeng_ring_3_1.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xinglvmofeng_ring_3_1.png",
+  "bytes": 27524,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:05:02"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xinglvmofeng_ring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xinglvmofeng_ring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xinglvmofeng_ring_4_1_G.png",
+  "bytes": 35049,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:05:19"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xinglvmofeng_ring_4_2_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xinglvmofeng_ring_4_2_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xinglvmofeng_ring_4_2_G.png",
+  "bytes": 43141,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:05:22"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xingyueqiyin_armor_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xingyueqiyin_armor_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xingyueqiyin_armor_4_1_G.png",
+  "bytes": 45477,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:05:25"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xingyueqiyin_bottoms_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xingyueqiyin_bottoms_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xingyueqiyin_bottoms_4_1_G.png",
+  "bytes": 39113,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:05:32"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xingyueqiyin_earring_4_3_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xingyueqiyin_earring_4_3_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xingyueqiyin_earring_4_3_G.png",
+  "bytes": 50495,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:05:40"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_xingyueqiyin_ring_4_3_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_xingyueqiyin_ring_4_3_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_xingyueqiyin_ring_4_3_G.png",
+  "bytes": 43729,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:05:53"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_yushangdecibei_armor_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_yushangdecibei_armor_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_yushangdecibei_armor_4_1_G.png",
+  "bytes": 48592,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:06:01"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_yushangdecibei_bottoms_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_yushangdecibei_bottoms_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_yushangdecibei_bottoms_4_1_G.png",
+  "bytes": 48597,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:06:05"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_yushangdecibei_earring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_yushangdecibei_earring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_yushangdecibei_earring_4_1_G.png",
+  "bytes": 41306,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:06:07"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_yushangdecibei_earring_4_2_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_yushangdecibei_earring_4_2_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_yushangdecibei_earring_4_2_G.png",
+  "bytes": 36923,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:06:12"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_yushangdecibei_earring_4_3_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_yushangdecibei_earring_4_3_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_yushangdecibei_earring_4_3_G.png",
+  "bytes": 42031,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:06:33"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_yushangdecibei_ring_4_1_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_yushangdecibei_ring_4_1_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_yushangdecibei_ring_4_1_G.png",
+  "bytes": 41133,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:06:41"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_yushangdecibei_ring_4_2_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_yushangdecibei_ring_4_2_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_yushangdecibei_ring_4_2_G.png",
+  "bytes": 50211,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:06:49"
+ },
+ "https://ap-cbt3.csxylic.com/icons/equipment/tex_icon_equipment_item_yushangdecibei_ring_4_3_G.png": {
+  "file": "assets/cloud-missing/character-detail/装备/tex_icon_equipment_item_yushangdecibei_ring_4_3_G.png",
+  "cloudPath": "images/detail-assets/装备/tex_icon_equipment_item_yushangdecibei_ring_4_3_G.png",
+  "bytes": 48814,
+  "httpStatus": 200,
+  "downloadedAt": "2026-11-19T18:06:52"
+ }
+}

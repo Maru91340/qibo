@@ -1,0 +1,82 @@
+{
+  "500020": {
+    "id": "500020",
+    "name": "小雪狼",
+    "url": "https://ap-cbt3.csxylic.com/icons/pet/tex_icon_pet_500020.png",
+    "file": "500020.png",
+    "checkedAt": "2026-11-18T16:37:36",
+    "status": "success",
+    "bytes": 32723,
+    "httpStatus": 200
+  },
+  "500023": {
+    "id": "500023",
+    "name": "苗鸡",
+    "url": "https://ap-cbt3.csxylic.com/icons/pet/tex_icon_pet_500023.png",
+    "file": "500023.png",
+    "checkedAt": "2026-11-18T16:37:36",
+    "status": "success",
+    "bytes": 40894,
+    "httpStatus": 200
+  },
+  "500297": {
+    "id": "500297",
+    "name": "苗鸡（特殊）",
+    "url": "https://ap-cbt3.csxylic.com/icons/pet/tex_icon_pet_500297.png",
+    "file": "500297.png",
+    "checkedAt": "2026-11-18T16:37:37",
+    "status": "success",
+    "bytes": 39795,
+    "httpStatus": 200
+  },
+  "500046": {
+    "id": "500046",
+    "name": "木灵苞",
+    "url": "https://ap-cbt3.csxylic.com/icons/pet/tex_icon_pet_500046.png",
+    "file": "500046.png",
+    "checkedAt": "2026-11-18T16:37:38",
+    "status": "success",
+    "bytes": 34284,
+    "httpStatus": 200
+  },
+  "500022": {
+    "id": "500022",
+    "name": "霜刃狼",
+    "url": "https://ap-cbt3.csxylic.com/icons/pet/tex_icon_pet_500022.png",
+    "file": "500022.png",
+    "checkedAt": "2026-11-18T16:37:38",
+    "status": "success",
+    "bytes": 72625,
+    "httpStatus": 200
+  },
+  "500002": {
+    "id": "500002",
+    "name": "水灵仔",
+    "url": "https://ap-cbt3.csxylic.com/icons/pet/tex_icon_pet_500002.png",
+    "file": "500002.png",
+    "checkedAt": "2026-11-18T16:37:41",
+    "status": "success",
+    "bytes": 28691,
+    "httpStatus": 200
+  },
+  "500021": {
+    "id": "500021",
+    "name": "冰速狼",
+    "url": "https://ap-cbt3.csxylic.com/icons/pet/tex_icon_pet_500021.png",
+    "file": "500021.png",
+    "checkedAt": "2026-11-18T16:37:41",
+    "status": "success",
+    "bytes": 52640,
+    "httpStatus": 200
+  },
+  "500123": {
+    "id": "500123",
+    "name": "风灵苞",
+    "url": "https://ap-cbt3.csxylic.com/icons/pet/tex_icon_pet_500123.png",
+    "file": "500123.png",
+    "checkedAt": "2026-11-18T16:37:41",
+    "status": "success",
+    "bytes": 28820,
+    "httpStatus": 200
+  }
+}
