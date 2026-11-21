@@ -1,248 +1,29 @@
 <template>
-  <view class="page" :class="{ 'theme-dark': isDark }">
-    <template v-if="item">
-      <view class="head hero">
-        <view class="hero__inner">
-          <view class="head__top">
-            <image
-              v-if="item.icon && !iconError"
-              class="head__img"
-              :src="bigIcon"
-              mode="aspectFill"
-              @error="iconError = true"
-            />
-            <view v-else class="head__dot" :style="{ background: item.elementColor }">{{ item.elementName }}</view>
-            <view class="head__text">
-              <view class="head__name">{{ item.name }}</view>
-              <view class="head__sub">{{ item.title }} · {{ item.role }} · {{ item.rarity }}</view>
-            </view>
-          </view>
-          <view class="head__tags">
-            <text class="head__tag">{{ item.elementLabel }}</text>
-            <text v-for="team in item.teams" :key="team" class="head__tag">{{ team }}</text>
-            <text v-if="!item.verified" class="head__tag">示例数据</text>
-          </view>
-        </view>
-      </view>
-
-      <view class="panel card">
-        <view class="panel__title">角色简介</view>
-        <view class="panel__desc panel__desc--first">{{ item.desc }}</view>
-        <view class="kv__row">
-          <text class="kv__key">元素</text>
-          <text class="kv__value">{{ item.elementLabel }}</text>
-        </view>
-        <view class="kv__row">
-          <text class="kv__key">定位</text>
-          <text class="kv__value">{{ item.role }}</text>
-        </view>
-        <view class="kv__row">
-          <text class="kv__key">稀有度</text>
-          <text class="kv__value">{{ item.rarity }}</text>
-        </view>
-      </view>
-
-      <view v-if="item.skills && item.skills.length" class="panel card">
-        <view class="panel__title">技能组</view>
-        <view v-for="skill in item.skills" :key="skill.name" class="skill">
-          <view class="skill__head">
-            <text class="skill__name">{{ skill.name }}</text>
-            <text class="mini-tag">{{ skill.type }}</text>
-          </view>
-          <view class="skill__desc">{{ skill.desc }}</view>
-        </view>
-      </view>
-
-      <view v-if="guidePoster" class="panel card">
-        <view class="panel__title">官方一图流</view>
-        <image
-          class="guide-poster"
-          :src="guidePoster"
-          mode="widthFix"
-          @error="posterError = true"
-          @tap="preview(guidePoster)"
-        />
-        <view class="panel__desc">来自 BWIKI 的官方一图流（配装/配队速览）；公测后以最新版本为准。</view>
-      </view>
-
-      <view v-if="related.length" class="panel card">
-        <view class="panel__title">
-          <text>同元素角色</text>
-          <text class="related-count">{{ related.length }} 名</text>
-        </view>
-        <scroll-view scroll-x enable-flex class="related-row">
-          <view
-            v-for="rel in related"
-            :key="rel.id"
-            class="related-card"
-            hover-class="related-card--hover"
-            hover-stay-time="90"
-            @tap="goRelated(rel.id)"
-          >
-            <image v-if="rel.icon && !brokenIcons[rel.id]" class="related-card__img" :src="rel.icon" mode="aspectFill" lazy-load @error="brokenIcons[rel.id] = true" />
-            <view v-else class="related-card__glyph">{{ rel.name.slice(0, 1) }}</view>
-            <text class="related-card__name">{{ rel.name }}</text>
-          </view>
-        </scroll-view>
-      </view>
-
-      <view class="panel card">
-        <view class="panel__title">元素相克参考</view>
-        <view class="counter">
-          <view class="counter__col">
-            <text class="counter__label">克制</text>
-            <text class="counter__value">{{ counters.strongText }}</text>
-          </view>
-          <view class="counter__col">
-            <text class="counter__label">被克</text>
-            <text class="counter__value">{{ counters.weakText }}</text>
-          </view>
-        </view>
-        <view class="panel__desc panel__desc--first">{{ elementNotice }}</view>
-      </view>
-
-      <view class="detail__foot">
-        <view
-          class="cx-btn"
-          :class="inTeam ? 'cx-btn--outline' : 'cx-btn--primary'"
-          hover-class="tap-hover"
-          @tap="toggleTeam"
-        >
-          {{ inTeam ? '移出队伍' : '编入队伍' }}
-        </view>
-      </view>
-
-      <view class="footnote">{{ notice }}</view>
-    </template>
-    <view class="cx-empty"><view class="cx-empty__icon">🐾</view><view class="cx-empty__text">未找到该角色</view></view>
+  <!-- 阶段5：角色详情唯一实现收敛到分包 /pkg-character/detail（规范 02 路由）。
+       本页仅作旧链接兼容跳转：带 id 重定向到分包详情；无 id 回角色列表。
+       历史分享卡片与旧入口经此页中转，实现代码不再双份维护。 -->
+  <view class="page character-detail-redirect" :class="{ 'theme-dark': isDark }">
+    <view class="cx-empty">
+      <view class="cx-empty__icon">🐾</view>
+      <view class="cx-empty__text">正在进入角色详情…</view>
+    </view>
   </view>
 </template>
 
 <script setup>
 import { useTheme } from '@/utils/theme.js';
-import { pushRecent } from '@/utils/recent.js';
 
 const { isDark } = useTheme();
-import { computed, ref, watch } from 'vue';
-import { onLoad, onUnload, onShareAppMessage } from '@dcloudio/uni-app';
-import { getCatalog, onCatalogUpdate } from '@/services/content.js';
-import { createElementToolkit } from '@/data/element.js';
-import { decorateWithElement, findById } from '@/utils/query.js';
-import { load, toggleMember } from '@/utils/team.js';
+import { onLoad, onShareAppMessage } from '@dcloudio/uni-app';
 
-const id = ref('');
-const catalog = ref({ items: [], notice: '' });
-const toolkit = ref(createElementToolkit(getCatalog('element').data));
-const inTeam = ref(false);
-
-const item = computed(() =>
-  decorateWithElement(findById(catalog.value.items, id.value), toolkit.value.elementMap)
-);
-const posterError = ref(false);
-const guidePoster = computed(() => {
-  if (posterError.value) return '';
-  const guides = getCatalog('guide').data.items || [];
-  const hit = guides.filter((g) => g.name === (item.value ? item.value.name + '一图流' : ''))[0];
-  return hit ? hit.icon : '';
-});
-
-const brokenIcons = ref({});
-const related = computed(() => {
-  const it = item.value;
-  if (!it) return [];
-  return (catalog.value.items || [])
-    .filter((entry) => entry.id !== it.id && entry.element === it.element)
-    .slice(0, 8);
-});
-function goRelated(rid) {
-  uni.redirectTo({ url: '/pages/character/detail?id=' + rid });
-}
-
-function preview(src) {
-  if (!src) return;
-  uni.previewImage({ urls: [src] });
-}
-const notice = computed(() => catalog.value.notice || '');
-// 头像三级回退：240px → 120px 原图 → 隐藏（元素圆点兜底）
-const iconError = ref(false);
-const bigIcon = computed(() => {
-  const icon = item.value && item.value.icon;
-  return icon ? icon.replace('/120px-', '/240px-') : '';
-});
-const elementNotice = computed(() => toolkit.value.notice);
-
-const labels = (keys) =>
-  (keys || []).map((key) => (toolkit.value.elementMap[key] || {}).label).filter(Boolean).join('、') || '无';
-
-const counters = computed(() => {
-  const current = item.value || {};
-  return {
-    strongText: labels(toolkit.value.counters[current.element]),
-    weakText: labels(toolkit.value.counteredBy[current.element])
-  };
-});
-
-watch(() => id.value, () => { iconError.value = false; });
-function reload() {
-  catalog.value = getCatalog('character').data || { items: [], notice: '' }
-  // 最近浏览记录
-  const it = catalog.value.items.filter((entry) => entry.id === id.value)[0];
-  if (it) pushRecent({ type: 'character', id: it.id, name: it.name, icon: it.icon || '' });;
-  toolkit.value = createElementToolkit(getCatalog('element').data);
-  inTeam.value = load().members.indexOf(id.value) >= 0;
-  if (item.value) uni.setNavigationBarTitle({ title: item.value.name });
-}
-
-function toggleTeam() {
-  const result = toggleMember(load(), id.value);
-  if (result.error) {
-    uni.showToast({ title: result.error, icon: 'none' });
+onLoad((options) => {
+  const id = (options && options.id) || '';
+  if (id) {
+    uni.redirectTo({ url: `/pkg-character/detail?id=${encodeURIComponent(id)}` });
     return;
   }
-  inTeam.value = result.team.members.indexOf(id.value) >= 0;
-  uni.showToast({ title: inTeam.value ? '已编入队伍' : '已移出队伍', icon: 'none' });
-}
-
-let unsubscribe = null;
-onLoad((options) => {
-  id.value = (options && options.id) || '';
-  reload();
-  if (!item.value) uni.setNavigationBarTitle({ title: '角色不存在' });
+  uni.redirectTo({ url: '/pages/character/list' });
 });
-unsubscribe = onCatalogUpdate(reload);
-onUnload(() => unsubscribe && unsubscribe());
-onShareAppMessage(() => ({
-  title: `角色图鉴 · ${item.value ? item.value.name : '蓝色星原'}`,
-  path: `/pages/character/detail?id=${id.value}`
-}));
+// 分享口径与分包详情页一致，避免再产出旧路由的分享卡片。
+onShareAppMessage(() => ({ title: '角色图鉴 · 奇波小助手', path: '/pages/character/list' }));
 </script>
-
-<style>
-.skill {
-  padding: 20rpx 0;
-  border-bottom: 1rpx solid var(--line);
-}
-
-.skill:last-child {
-  border-bottom: none;
-}
-
-.skill__head {
-  display: flex;
-  align-items: center;
-  gap: 14rpx;
-}
-
-.skill__name {
-  font-size: 27rpx;
-  font-weight: 600;
-}
-
-.skill__desc {
-  margin-top: 10rpx;
-  color: var(--ink-2);
-  font-size: 24rpx;
-  line-height: 1.65;
-}
-
-</style>

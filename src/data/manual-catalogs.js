@@ -2,7 +2,7 @@
 const NOTICE = '示例条目，用于跑通列表/详情交互；公测后由采集脚本替换。';
 
 export const enemyCatalog = {
-  notice: '敌人条目：基础示例 + 9game 攻略文提取（带 source 标注，均未实机验证）；公测后替换为正式数据。',
+  notice: '敌人图鉴：竞品客户端口径共 321 种（BWIKI 无公开数据源，本页暂收录 18 条示例整理，均未实机验证）；图片素材将按风格重绘管线补齐，公测后替换为正式数据。',
   items: [
     {
       id: 'enemy-xunlang',
@@ -293,7 +293,7 @@ export const enemyCatalog = {
 };
 
 export const dungeonCatalog = {
-  notice: '副本条目为示例，体力与掉落口径参考图鉴截图；公测后替换为正式数据。',
+  notice: '副本图鉴：竞品客户端口径共 170 个（BWIKI 无公开数据源，本页暂收录 6 个示例，体力与掉落口径参考图鉴截图）；公测后替换为正式数据。',
   items: [
     {
       id: 'dungeon-ligutu',
@@ -395,7 +395,7 @@ export const dungeonCatalog = {
 };
 
 export const regionCatalog = {
-  notice: '地区阵营条目为示例，参考图鉴截图的国家/村落结构；公测后替换为官方文案。',
+  notice: '地区与阵营：竞品实机图鉴共 17 处，当前收录 7 条（艾登兰/阿瓦利安/夏露露村等，BWIKI 无地区数据源），其余公测后补全；文案为示例，公测后替换官方版本。',
   items: [
     {
       id: 'region-aidenland',
@@ -786,6 +786,158 @@ export const fishingCatalog = {
       ],
       sections: [],
       verified: false
+    }
+  ]
+};
+
+// 星裔兄妹：竞品实机图鉴收录（客户端数据），BWIKI 暂未收录 → 手工骨架条目，公测后补全。
+export const characterSupplement = {
+  notice: '星裔（女/男）：来源竞品实机截图（2026-11-03），BWIKI 未收录，字段待公测补全。',
+  items: [
+    {
+      id: 'char-starborn-female',
+      name: '星裔（女）',
+      title: '竞品补充',
+      category: 'BWIKI',
+      element: 'none',
+      role: '待核实',
+      rarity: '未知',
+      tags: ['无'],
+      summary: '无属性角色，竞品实机图鉴收录；详细资料待公测。',
+      desc: '无属性角色，竞品实机图鉴收录；详细资料待公测。',
+      fields: [],
+      sections: [],
+      icon: '',
+      verified: false,
+      skills: []
+    },
+    {
+      id: 'char-starborn-male',
+      name: '星裔（男）',
+      title: '竞品补充',
+      category: 'BWIKI',
+      element: 'none',
+      role: '待核实',
+      rarity: '未知',
+      tags: ['无'],
+      summary: '无属性角色，竞品实机图鉴收录；详细资料待公测。',
+      desc: '无属性角色，竞品实机图鉴收录；详细资料待公测。',
+      fields: [],
+      sections: [],
+      icon: '',
+      verified: false,
+      skills: []
+    }
+  ]
+};
+
+// 熔焰烬龙 NO.195 / 祛影之翼 NO.175：竞品实机图鉴收录，BWIKI 未收录 → 手工骨架条目。
+export const qiboSupplement = {
+  notice: '来源竞品实机截图（2026-11-03），BWIKI 未收录，元素与技能待公测补全。',
+  items: [
+    {
+      id: 'qi-manual-rongyanjinlong',
+      name: '熔焰烬龙',
+      title: '竞品补充',
+      category: 'BWIKI',
+      element: 'unknown',
+      kind: '竞品补充',
+      habitat: '详见 BWIKI（待公测补全）',
+      usage: ['战斗'],
+      stages: ['一阶', '二阶', '三阶'],
+      role: '待核实',
+      rarity: '未知',
+      tags: [],
+      summary: '竞品实机图鉴 NO.195；详细资料待公测补全。',
+      desc: '竞品实机图鉴 NO.195（编号逆序稀有段）；详细资料待公测补全。',
+      fields: [],
+      sections: [],
+      icon: '',
+      verified: false,
+      skills: []
+    },
+    {
+      id: 'qi-manual-quyingzhiyi',
+      name: '祛影之翼',
+      title: '竞品补充',
+      category: 'BWIKI',
+      element: 'unknown',
+      kind: '竞品补充',
+      habitat: '详见 BWIKI（待公测补全）',
+      usage: ['战斗'],
+      stages: ['一阶', '二阶', '三阶'],
+      role: '待核实',
+      rarity: '未知',
+      tags: [],
+      summary: '竞品实机图鉴 NO.175；影蝠（NO.174）Lv.60 进化形态，详细资料待公测补全。',
+      desc: '竞品实机图鉴 NO.175；影蝠（NO.174）Lv.60 进化形态，详细资料待公测补全。',
+      fields: [],
+      sections: [],
+      icon: '',
+      verified: false,
+      skills: []
+    },
+    // R2-5 补录（2026-11-05）：菜鸡（特殊）/苗鸡（特殊）为 BWIKI 新增「特殊个体」页面，
+    // SMW ask 索引尚未收录（collect 抓 205），此处手工并入；SMW 收录后由 wiki 侧条目去重替代。
+    {
+      id: 'qi-manual-caiji-special',
+      name: '菜鸡（特殊）',
+      title: '特殊个体',
+      category: 'BWIKI',
+      element: 'grove',
+      kind: '特殊个体',
+      habitat: '异生类·羽形族·成熟期·耕作',
+      usage: ['战斗', '家园耕作'],
+      stages: ['成熟期'],
+      role: '待核实',
+      rarity: '未知',
+      tags: ['异生类·羽形族', '特殊个体'],
+      summary: '头冠形似绿叶蔬菜，受惊可能脱落但很快长回；紧急时刻能迅速旋转，螺旋升空起飞（BWIKI，三测数据以公测为准）。',
+      desc: '头冠形似绿叶蔬菜，如果受到惊吓，头冠可能会被吓到脱落，但很快就能长回。头冠不仅仅是菜鸡的装饰，更是重要的逃生手段，在紧急时刻能够迅速旋转，螺旋升空起飞。',
+      fields: [
+        { label: '种族', value: '异生类·羽形族' },
+        { label: '阶段', value: '成熟期' },
+        { label: '身高', value: '175cm' },
+        { label: '体型', value: '中' },
+        { label: '家园工种', value: '耕作' },
+        { label: '掉落素材', value: '斑斓飞羽、锋锐利喙、新鲜的蛋' },
+        { label: '实装版本', value: '二测' },
+        { label: '特性·大叶植物', value: '施放奇波特技后，恢复自身14%生命值上限的生命值，并使自身攻击力提高20%，持续6秒。' }
+      ],
+      sections: [],
+      icon: '',
+      verified: true,
+      skills: []
+    },
+    {
+      id: 'qi-manual-miaoji-special',
+      name: '苗鸡（特殊）',
+      title: '特殊个体',
+      category: 'BWIKI',
+      element: 'grove',
+      kind: '特殊个体',
+      habitat: '异生类·羽形族·幼年期·耕作',
+      usage: ['战斗', '家园耕作'],
+      stages: ['幼年期'],
+      role: '待核实',
+      rarity: '未知',
+      tags: ['异生类·羽形族', '特殊个体'],
+      summary: '形似蔬菜的奇波，喜欢待在土里；生气会撞人但无杀伤力，蔬菜部分不能脱离本体（BWIKI，三测数据以公测为准）。',
+      desc: '形似蔬菜的奇波，喜欢待在土里。平时脾气很好，生气的时候会撞人，但没有杀伤力。据说苗鸡的蔬菜部分不能脱离本体，一旦脱离，苗鸡可能会永远倒地不起。',
+      fields: [
+        { label: '种族', value: '异生类·羽形族' },
+        { label: '阶段', value: '幼年期' },
+        { label: '身高', value: '55cm' },
+        { label: '体型', value: '小' },
+        { label: '家园工种', value: '耕作' },
+        { label: '掉落素材', value: '斑斓飞羽、锋锐利喙、新鲜的蛋' },
+        { label: '实装版本', value: '二测' },
+        { label: '特性·大叶植物', value: '施放奇波特技后，恢复自身14%生命值上限的生命值，并使自身攻击力提高20%，持续6秒。' }
+      ],
+      sections: [],
+      icon: '',
+      verified: true,
+      skills: []
     }
   ]
 };

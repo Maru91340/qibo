@@ -92,7 +92,8 @@ const tab = ref('fav');
 const broken = ref({});
 
 const TYPE_LABELS = {
-  qibo: '奇波', character: '角色', spirit: '灵子', item: '物品', equipment: '装备',
+  qibo: '奇波', qiboWiki: '奇波', character: '角色', charWiki: '角色',
+  spirit: '灵子', item: '物品', equipment: '装备',
   material: '材料', food: '美食', fishing: '钓鱼', enemy: '敌人', dungeon: '副本',
   building: '建筑', region: '地区', affix: '战斗词条', guide: '攻略'
 };
@@ -142,7 +143,7 @@ function goHome() {
 
 onShow(() => refresh());
 
-onShareAppMessage(() => ({ title: '我的收藏 · 蓝色星原助手', path: '/pages/index/index' }));
+onShareAppMessage(() => ({ title: '我的收藏 · 奇波小助手', path: '/pages/index/index' }));
 </script>
 
 <style>
@@ -241,7 +242,11 @@ onShareAppMessage(() => ({ title: '我的收藏 · 蓝色星原助手', path: '/
 
 .fav-item__remove {
   flex-shrink: 0;
-  padding: 8rpx 20rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 20rpx;
   border-radius: 999rpx;
   border: 1rpx solid var(--line);
   color: var(--ink-2);

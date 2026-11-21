@@ -63,7 +63,7 @@ import { useTheme } from '@/utils/theme.js';
 
 const { isDark } = useTheme();
 import { computed, ref } from 'vue';
-import { onShareAppMessage } from '@dcloudio/uni-app';
+import { onShareAppMessage, onUnload } from '@dcloudio/uni-app';
 import { getCatalog, onCatalogUpdate } from '@/services/content.js';
 
 const category = ref('全部');
@@ -98,9 +98,10 @@ function reload() {
 }
 
 reload();
-onCatalogUpdate(reload);
+const unsubscribe = onCatalogUpdate(reload);
+onUnload(() => unsubscribe && unsubscribe());
 
-onShareAppMessage(() => ({ title: '战斗词条 · 蓝色星原助手', path: '/pages/affix/affix' }));
+onShareAppMessage(() => ({ title: '战斗词条 · 奇波小助手', path: '/pages/affix/affix' }));
 </script>
 
 <style>

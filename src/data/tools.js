@@ -5,11 +5,11 @@ import { regionCatalog } from './manual-catalogs.js';
 export const TOOLS_NOTICE = '公测 2026-11-26 开启，工具中的数值、概率与返利规则均以官方公告为准；当前版本先提供交互骨架。';
 
 export const compareDimensions = [
-  { key: 'element', label: '元素' },
-  { key: 'role', label: '定位' },
   { key: 'rarity', label: '稀有度' },
-  { key: 'teams', label: '推荐队伍' },
-  { key: 'stats', label: '基础数值' }
+  { key: 'role', label: '职业' },
+  { key: 'weapon', label: '武器' },
+  { key: 'element', label: '元素' },
+  { key: 'camp', label: '阵营' }
 ];
 
 // 对比池：示例 + BWIKI 真实角色（与角色图鉴同源）
@@ -23,9 +23,22 @@ export const compareCharacters = allCharacters.map((item) => ({
   element: item.element,
   role: item.role,
   rarity: item.rarity,
+  weapon: item.weapon || '',
+  camp: item.camp || '',
+  race: item.race || '',
   teams: item.teams || [],
   verified: item.verified
 }));
+
+// 面板对比行（数值公测后填入，当前显示「—」态）
+export const panelCompareRows = [
+  { key: 'hp', label: '生命', left: null, right: null },
+  { key: 'atk', label: '攻击', left: null, right: null },
+  { key: 'def', label: '防御', left: null, right: null },
+  { key: 'over', label: '超限强度', left: null, right: null },
+  { key: 'poise', label: '破韧值', left: null, right: null },
+  { key: 'total', label: '综合', left: null, right: null }
+];
 
 export const cultivationStages = [
   { key: 'lv20', label: '1 → 20 级', hint: '熟悉基础循环', materials: ['经验材料', '通用货币'] },
@@ -38,16 +51,46 @@ export const pityDefaults = { current: 0, target: 90 };
 
 export const simulatorPresets = { rates: [0.6, 1.6], pulls: [10, 50, 100] };
 
-export const rebateTiers = [
-  { amount: 6, reward: '示例档位 · 待核实' },
-  { amount: 30, reward: '示例档位 · 待核实' },
-  { amount: 98, reward: '示例档位 · 待核实' },
-  { amount: 198, reward: '示例档位 · 待核实' },
-  { amount: 328, reward: '示例档位 · 待核实' },
-  { amount: 648, reward: '示例档位 · 待核实' }
+// 星结概率参考表（来源：竞品《蓝色星原手册》默认参数实机截图 2026-11-03；公式未公开，仅作参考）
+export const starCardRates = [
+  { key: 'normal', name: '普通', rate: '0.79%', expected: '34.42', p95: 61, guaranteed: 101 },
+  { key: 'rare', name: '奇特', rate: '0.79%', expected: '26.62', p95: 45, guaranteed: 65 },
+  { key: 'fine', name: '精美', rate: '23.4%', expected: '3.37', p95: 8, guaranteed: 14 },
+  { key: 'precious', name: '珍贵', rate: '48.8%', expected: '1.83', p95: 4, guaranteed: 6 },
+  { key: 'out', name: '出众', rate: '71.4%', expected: '1.33', p95: 2, guaranteed: 3 },
+  { key: 'shine', name: '闪耀', rate: '87.4%', expected: '1.13', p95: 2, guaranteed: 2 },
+  { key: 'superb', name: '卓然', rate: '99.3%', expected: '1.01', p95: 1, guaranteed: 2 },
+  { key: 'liao', name: '寥光', rate: '100%', expected: '1.00', p95: 1, guaranteed: 1, recommend: true },
+  { key: 'limitless', name: '无限', rate: '100%', expected: '1.00', p95: 1, guaranteed: 1 }
 ];
 
-export const exploreCategories = ['全部', '采集点', '奇波栖息', '传送点', '副本入口'];
+// 过程拆解示例（竞品默认参数：小芽狐 Lv.30 / 血量100% / 世界等级1 / 连结力60 / 无蛋糕）
+export const starProcessDemo = [
+  { label: '星结难度', value: '40' },
+  { label: '卡牌修正', value: '0.4%' },
+  { label: '连结影响', value: '120.0%' }
+];
+
+export const rebateQuickAmounts = [6, 30, 98, 328, 648, 2000, 3000, 5000];
+
+// 返利规则（来源：竞品《蓝色星原手册》福利页/返利计算器实机截图 2026-11-03，原文要点）
+export const rebateRules = [
+  '公测后用同一萤啾通行证登录，返还以星虹形式发至游戏内邮件',
+  '返还邮件自公测起 365 天内有效，逾期作废',
+  '首充双倍的赠送部分、档位附赠道具、系统赠送星虹不计入返还基数',
+  '「飞信订约」每份额外返 1 张订约凭证（最多记 3 份）；「普罗米利亚游记」按档位返游记凭证',
+  'iOS 端受平台政策限制不能在游戏内充值，需走 PC / 安卓官服或网页商城'
+];
+
+// 估算口径：2,000 元以内按 200% 返星虹，更高部分按 150%（竞品另有 125% 档，分界待核实）
+export function calcRebate(amount) {
+  const yuan = Math.max(Number(amount) || 0, 0);
+  const low = Math.min(yuan, 2000);
+  const high = Math.max(yuan - 2000, 0);
+  return Math.round(low * 2 + high * 1.5);
+}
+
+export const exploreCategories = ['全部', '地标', '宝箱', '探索', '书籍', '奇波'];
 
 const regionName = (id) => {
   const found = regionCatalog.items.find((item) => item.id === id);
@@ -75,3 +118,6 @@ export const explorePoints = pointSeed.map((item) => Object.assign({}, item, {
   regionName: regionName(item.regionId),
   verified: false
 }));
+
+// 角色名清单（供养成计算 picker 使用，与 catalogs charWiki 同名）
+export const charNameList = ['阿比', '艾妮丝', '姬瑟贝露', '法兰塔', '寒悠悠', '卡塔露', '兰香子', '莉莉', '洛卿', '璐璐卡', '枫糖', '米砂', '源千代', '米蒂', '末音', '诺诺', '佩佩', '瓦瓦', '红宝石', '夏儿', '星裔（女）', '星裔（男）', '西芙莉雅', '忒拉拉', '涂山小玉', '星临者'];

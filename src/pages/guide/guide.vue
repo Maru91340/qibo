@@ -108,7 +108,7 @@ function go(path) {
   if (path) uni.navigateTo({ url: path });
 }
 
-onShareAppMessage(() => ({ title: '玩法指南 · 蓝色星原助手', path: '/pages/guide/guide' }));
+onShareAppMessage(() => ({ title: '玩法指南 · 奇波小助手', path: '/pages/guide/guide' }));
 </script>
 
 <style>

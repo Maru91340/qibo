@@ -145,6 +145,15 @@
       <view v-else class="panel__desc">请选择两个不同的攻击元素。</view>
     </view>
 
+    <view class="panel card">
+      <view class="panel__title">战斗职业（5 类）</view>
+      <view class="panel__desc panel__desc--first">每个角色拥有 1 个职业定位；口径来自 BWIKI，公测以官方为准。</view>
+      <view v-for="role in combatRoles" :key="role.key" class="role-line">
+        <text class="role-line__name">{{ role.name }}</text>
+        <text class="role-line__desc">{{ role.desc }}</text>
+      </view>
+    </view>
+
     <view class="footnote">{{ notice }}</view>
   </view>
 </template>
@@ -156,7 +165,7 @@ const { isDark } = useTheme();
 import { computed, ref, watch } from 'vue';
 import { onLoad, onShow, onUnload } from '@dcloudio/uni-app';
 import { getCatalog, onCatalogUpdate } from '@/services/content.js';
-import { createElementToolkit, dualCounters, STRONG_RATIO, WEAK_RATIO } from '@/data/element.js';
+import { createElementToolkit, dualCounters, STRONG_RATIO, WEAK_RATIO, combatRoles } from '@/data/element.js';
 import { load, summarize } from '@/utils/team.js';
 
 const toolkit = ref(createElementToolkit(getCatalog('element').data));
@@ -394,6 +403,28 @@ onUnload(() => unsubscribe && unsubscribe());
   gap: 12rpx;
 }
 
+.role-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid rgba(128, 128, 128, 0.12);
+}
+.role-line:last-child { border-bottom: none; }
+.role-line__name {
+  flex: none;
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #8a5a1f;
+}
+.role-line__desc {
+  flex: 1;
+  font-size: 24rpx;
+  color: inherit;
+  opacity: 0.78;
+  line-height: 1.6;
+}
+.theme-dark .role-line__name { color: #e8b56a; }
 .team-line__name {
   padding: 8rpx 22rpx;
   border-radius: 999rpx;

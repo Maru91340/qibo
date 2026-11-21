@@ -17,5 +17,5 @@ onLoad((options) => {
   category.value = (options && options.category) || '全部';
 });
 
-onShareAppMessage(() => ({ title: '剧情读物 · 蓝色星原助手', path: '/pages/story/list' }));
+onShareAppMessage(() => ({ title: '剧情读物 · 奇波小助手', path: '/pages/story/list' }));
 </script>

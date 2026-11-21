@@ -4,7 +4,7 @@
     <view class="preview-tip">📱 当前为浏览器预览端 · 交付以微信小程序端为准</view>
     <!-- #endif -->
 
-    <!-- 4.1 / H01：查询入口置顶，首屏先给搜索，再给一个主视觉与具体对象 -->
+    <!-- 6.1 / N01：查询入口置顶，首屏先给搜索（沿用 4.1 / H01 结论） -->
     <view class="searchbar">
       <cx-input
         :value="keyword"
@@ -16,71 +16,84 @@
       />
     </view>
 
-    <!-- 4.1 / 4.3：单个静态主视觉，无自动轮播；4.2 明确清单 keyVisual 横图按 16:9 完整展示，不硬裁 -->
-    <view class="hero">
-      <view class="hero__media">
+    <!-- 6.2 / N02：主视觉与公测信息合一。原「banner 一遍 + 公测卡片再一遍」的同信息重复取消，
+         倒计时做成图上胶囊（三态由 release-event.js 驱动），底部渐变上叠一行标题。
+         关于游戏页已删除，横幅改为纯信息卡（不可点）；媒体区仍固定 16:9、aspectFit 完整展示 keyVisual 横图（沿用 4.2 清单，不硬裁）。 -->
+    <view class="home-hero">
+      <view class="home-hero__media">
         <image
           v-if="visualSrc"
-          class="hero__img"
+          class="home-hero__img"
           :src="visualSrc"
           mode="aspectFit"
           @error="onVisualError"
         />
-        <view v-else class="hero__fallback">
-          <text class="hero__fallback-title">{{ releaseState.title }}</text>
-          <text class="hero__fallback-desc">图片加载失败 · 公测信息以官方公告为准</text>
-          <text class="hero__retry" hover-class="tap-hover" @tap.stop="retryVisual">重试加载图片</text>
+        <view v-else class="home-hero__fallback">
+          <text class="home-hero__fallback-title">{{ releaseState.title }}</text>
+          <text class="home-hero__retry" hover-class="tap-hover" @tap.stop="retryVisual">重试加载图片</text>
         </view>
-      </view>
-      <view class="hero__bar">
-        <view class="hero__copy">
-          <!-- 4.8 / H10：日期、范围、出处与三态文案统一由 release-event.js 的内容配置驱动 -->
-          <text class="hero__tag">公测信息 · {{ releaseState.tag }}</text>
-          <text class="hero__title">{{ releaseState.title }}</text>
-          <text class="hero__desc">{{ releaseState.desc }}</text>
+        <view class="home-hero__veil" />
+        <view class="home-hero__chip">
+          <text class="home-hero__chip-text">{{ countdownText }}</text>
         </view>
-        <view class="hero__cta" hover-class="tap-hover" @tap="go('/pages/about/about')">
-          <text>查看公测信息</text>
-          <c-icon name="chevron-right" size="28rpx" color="#ffffff" />
+        <view class="home-hero__info">
+          <text class="home-hero__title">{{ releaseState.title }}</text>
         </view>
       </view>
     </view>
 
-    <!-- 4.5 / H05：固定 4×2 八入口，不再分页横滑；第八格「全部工具」展开页内紧凑目录 -->
-    <view class="quick-grid">
-      <view
-        v-for="cell in quickCells"
-        :key="cell.key"
-        class="quick-cell"
-        hover-class="tap-hover"
-        @tap="onQuickTap(cell)"
+    <!-- 6.3 / N03：横滑分页金刚区（对标竞品，用户决策恢复分页横滑）。
+         旧版 8 宫格 + 「实用工具」页内展开 + 「更多分类」标签墙共 30+ 入口堆在一页，
+         展开近一屏且命名互相矛盾；H05「不分页」结论的前提（只有 8 个入口）已不成立。
+         现在每页 4×2 = 8 格 × 5 页承载全部 38 个板块：首页长度恒定，页序即优先级
+         （常用 → 图鉴 → 工具 → 内容 → 服务），标题随页切换，指示条提示可滑。 -->
+    <view v-if="navPages.length" class="navcard">
+      <view class="navcard__head">
+        <text class="navcard__title">{{ navPages[navPage].title }}</text>
+        <text class="navcard__hint">{{ navPage + 1 }}/{{ navPages.length }} · 左右滑动查看更多</text>
+      </view>
+      <swiper
+        class="nav-swiper"
+        :current="navPage"
+        duration="280"
+        @change="onNavChange"
       >
-        <text class="quick-cell__emoji">{{ cell.emoji }}</text>
-        <text class="quick-cell__title">{{ cell.title }}</text>
-      </view>
-    </view>
-
-    <!-- 4.5 / H05：全部工具紧凑目录，默认收起，由第八格展开，不新增路由也不重复大功能卡 -->
-    <view v-if="showAllTools" class="tools-dir">
-      <view class="tools-dir__head">
-        <text class="tools-dir__title">实用工具</text>
-        <text class="tools-dir__close" hover-class="tap-hover" @tap="toggleAllTools">收起 ›</text>
-      </view>
-      <view class="tools-dir__list">
+        <swiper-item v-for="page in navPages" :key="page.key">
+          <view class="nav-grid">
+            <view
+              v-for="cell in page.cells"
+              :key="cell.key"
+              class="nav-cell"
+              hover-class="tap-hover"
+              @tap="go(cell.path)"
+            >
+              <view class="nav-cell__tile">
+                <image
+                  v-if="cell.icon"
+                  class="nav-cell__icon"
+                  :src="cell.icon"
+                  mode="aspectFit"
+                />
+                <text v-else class="nav-cell__emoji">{{ cell.emoji }}</text>
+                <text v-if="!cell.ready" class="nav-cell__wip">建设中</text>
+              </view>
+              <text class="nav-cell__title">{{ cell.title }}</text>
+            </view>
+          </view>
+        </swiper-item>
+      </swiper>
+      <view class="nav-dots">
         <view
-          v-for="item in toolItems"
-          :key="item.key"
-          class="tools-dir__cell"
-          hover-class="tap-hover"
-          @tap="go(item.path)"
-        >
-          <text class="tools-dir__name">{{ item.title }}</text>
-          <text class="tools-dir__arrow">›</text>
-        </view>
+          v-for="(page, index) in navPages"
+          :key="page.key"
+          class="nav-dot"
+          :class="{ 'nav-dot--on': index === navPage }"
+        />
       </view>
     </view>
 
-    <!-- 4.1 / 4.2：角色速查固定 4 个真实对象，图片用途 avatar；名称在独立文字区固定可见 -->
+    <!-- 6.4 / N04：图鉴速览上移到宫格下方（核心价值首屏可见，不再被展开目录推到屏外）。
+         角色速查固定 4 个真实对象，图片用途 avatar；名称在独立文字区固定可见（沿用 4.1 / 4.2）。 -->
     <view class="feature">
       <view class="feature__head">
         <text class="feature__title">角色图鉴预览</text>
@@ -110,7 +123,7 @@
       </view>
     </view>
 
-    <!-- 4.1 / 4.2：奇波速查固定 4 个真实对象，图片用途 icon；主体完整、名称固定可见 -->
+    <!-- 6.4：奇波速查固定 4 个真实对象，图片用途 icon；主体完整、名称固定可见（沿用 4.1 / 4.2） -->
     <view class="feature">
       <view class="feature__head">
         <text class="feature__title">奇波图鉴预览</text>
@@ -140,60 +153,18 @@
       </view>
     </view>
 
-    <!-- 4.4 / H04：首屏四格规模统计已删除；真实数量在列表页「命中 X / 共 Y」与来源说明中呈现 -->
-
-    <!-- 4.7 / H09：原「版本信息」块（公测定档 + 历史测试/海外预测 + 玩法说明混排）整体删除。
-         首页只保留主视觉里的一条当前确认公测事件，不同时期的预测不再并列当最新情报。
-         玩法内容归「新手必看」：一行标题 + 必要说明，先展示两条并给「查看全部」。 -->
-    <view class="starter">
-      <view class="starter__head">
-        <text class="starter__title">新手必看</text>
-        <text class="starter__more" hover-class="tap-hover" @tap="go('/pages/tutorial/list')">查看全部 ›</text>
-      </view>
-      <view
-        v-for="task in starterTasks"
-        :key="task.key"
-        class="starter__row"
-        hover-class="tap-hover"
-        @tap="go(task.path)"
-      >
-        <view class="starter__body">
-          <text class="starter__name">{{ task.title }}</text>
-          <text class="starter__desc">{{ task.desc }}</text>
-        </view>
-        <text class="starter__arrow">›</text>
-      </view>
-    </view>
-
-    <!-- 4.7：数据口径说明落到「奇波百科」（常见问题与数据边界），与文案匹配 -->
+    <!-- 6.6：数据口径说明薄条保留，入口仍指向「奇波百科」 -->
     <view class="cx-notice" hover-class="tap-hover" @tap="go('/pages/wiki/wiki')">
       <text class="cx-notice__icon">📢</text>
       <text class="cx-notice__text">{{ notice }}</text>
-      <text class="cx-notice__more">详情›</text>
     </view>
 
-    <!-- 4.9 / H11：分组标题改玩家任务语言，删掉「N 个板块」与无信息量的「可用」标签；
-         确有功能限制时才在入口旁给一句真实限制短句（如订阅偏好「仅本机记录」）。 -->
-    <view class="tools-dir">
-      <view class="tools-dir__head" hover-class="tap-hover" @tap="showDirectory = !showDirectory">
-        <text class="tools-dir__title">更多分类</text>
-        <text class="tools-dir__close">{{ showDirectory ? '收起' : '展开' }} ›</text>
-      </view>
-      <view v-if="showDirectory">
-        <view v-for="group in groups" :key="group.key" class="home-group">
-          <view class="section-title"><text>{{ group.title }}</text></view>
-          <view class="row-grid">
-            <view v-for="item in group.items" :key="item.key" class="row-cell" @tap="go(item.path)">
-              <text class="row-cell__title">{{ item.label }}</text>
-              <text v-if="item.limitNote" class="row-cell__tag row-cell__tag--limit">{{ item.limitNote }}</text>
-              <text v-else-if="item.ready === false" class="row-cell__tag">建设中</text>
-            </view>
-          </view>
-        </view>
-      </view>
+    <!-- 页脚：游戏名 + 适龄提示固定文案（小号灰字；版本号与同步状态已按产品要求移除） -->
+    <view class="footnote">
+      <text class="footnote__line">{{ GAME_NAME }}</text>
+      <text class="footnote__line">适龄提示：本应用适合16周岁以上玩家</text>
+      <text class="footnote__line">抵制不良游戏，拒绝盗版游戏</text>
     </view>
-
-    <view class="footnote">{{ footer }}</view>
   </view>
 </template>
 
@@ -203,37 +174,38 @@ import { useTheme } from '@/utils/theme.js';
 const { isDark } = useTheme();
 import { computed, ref } from 'vue';
 import { onLoad, onShow, onUnload, onShareAppMessage } from '@dcloudio/uni-app';
-import { getCatalog, catalogNotice, onCatalogUpdate } from '@/services/content.js';
-import { APP_VERSION, GAME_NAME } from '@/config/app.js';
+import { getCatalog, onCatalogUpdate } from '@/services/content.js';
+import { GAME_NAME } from '@/config/app.js';
 import { keyVisualSources } from '@/data/site-images.js';
 import { useImageSources } from '@/utils/image-source.js';
 import { officialItems } from '@/utils/catalog-view.js';
 import { eventState } from '@/utils/release-event.js';
 
-// 4.8 / H10：事件配置与三态判定集中在 utils/release-event.js，活动变更只改那一处；
-// 时间源改为响应式 nowTs，进入首页 / 返回首页 / 应用切回前台时刷新，跨天不再停留在旧文案。
+// 4.8 / H10（沿用）：事件配置与三态判定集中在 utils/release-event.js，活动变更只改那一处；
+// 时间源为响应式 nowTs，进入首页 / 返回首页 / 应用切回前台时刷新，跨天不停留在旧文案。
 const nowTs = ref(Date.now());
 function refreshNow() {
   nowTs.value = Date.now();
 }
 const releaseState = computed(() => eventState(nowTs.value));
+// 6.2 / N02：图上倒计时胶囊的三态文案；到期后显示「已开启」而非钳制成 0 天。
+const countdownText = computed(() => {
+  const state = releaseState.value;
+  if (state.phase === 'today') return '🎉 今日正式公测';
+  if (state.phase === 'after') return '🚀 公测已开启';
+  return `⏳ 距公测 ${state.daysBefore} 天`;
+});
+
 const sections = ref([]);
 const keyword = ref('');
 const notice = ref('');
-const footer = ref('');
 
-// 4.2 / H02：首页图片用途清单（不再按哈希给业务入口配图）
-// | 图片位 | 业务对象 | 用途 | 来源 | 失败回退 |
-// | 主视觉 | 11.26 公测事件 | keyVisual 横图 | BWIKI 公测主视觉 480px 变体 | 同尺寸事件文字卡 + 重试 |
-// | 角色速查 | FEATURED_IDS.character | avatar | Tex_icon_hero_l_* | 首字占位 + 名称 + 重试 |
-// | 奇波速查 | FEATURED_IDS.qibo | icon | Tex_icon_pet_* | 首字占位 + 名称 + 重试 |
-// | 功能卡 / 目录 | 各板块 | 统一 emoji | 项目内置图标 | 文字（本轮不配图） |
-// 主视觉走阶段 2 的候选链：缩略图直链 → 站点按需生成 302；全部失败退回文字卡，布局不变
+// 4.2 / H02（沿用）：主视觉走候选链：缩略图直链 → 站点按需生成 302；全部失败退回文字底 + 重试，布局不变
 const VISUAL_SOURCES = keyVisualSources();
 const visualStage = ref(0);
 const visualSrc = computed(() => (visualStage.value < VISUAL_SOURCES.length ? VISUAL_SOURCES[visualStage.value] : ''));
 
-// 4.1 / H01：固定 4 个资料与图片都已核对的真实对象；不伪造「最近浏览 / 热门」
+// 4.1 / H01（沿用）：固定 4 个资料与图片都已核对的真实对象；不伪造「最近浏览 / 热门」
 const FEATURED_IDS = {
   character: ['ch-40c2fea853', 'ch-96c1a22a99', 'ch-010d1b5dcb', 'ch-21a34ef5b7'],
   qibo: ['qi-51400da50c', 'qi-7e8470e08b', 'qi-94cfa8e913', 'qi-da92fad19b']
@@ -253,88 +225,77 @@ function retry(item, role) {
   images.retry(item, role);
 }
 
-// 4.4 / H04：删除首屏四格规模统计。原 stat 把「有 icon 的条目数」当「官方图」，
-// 又把有交集的多个目录相加当「图鉴条目」，口径容易误导，且 computed 无响应式资料依赖。
-// 真实数量由列表页「命中 X / 共 Y」呈现（3.1），来源说明由 LIST_SOURCE_NOTE 呈现（3.3）。
-
-// 4.5 / H05：固定 4×2 八入口。前七格按 sections 的 path 直达分类/查询页；
-// 第八格「全部工具」展开页内紧凑目录，不新增路由。地图探索按方案 H05 暂不进八入口
-// （真实找点体验尚未验证，见待确认 #26），仍留在「全部工具」目录。
-const QUICK_KEYS = ['qibo', 'character', 'spirit', 'item', 'equipment', 'element', 'team'];
-const QUICK_SHORT_TITLES = {
-  qibo: '奇波', character: '角色', spirit: '灵子', item: '物品',
-  equipment: '装备', element: '元素克制', team: '队伍编成'
+// 6.3 / N03：横滑金刚区分页配置。页序即优先级，全部 38 个板块按使用频率归入 5 页；
+// 入口短名控制在小宫格 4 字以内，缺数据的板块自动跳过，页结构保持稳定。
+const NAV_SHORT_TITLES = {
+  qibo: '奇波', character: '角色', spirit: '灵子', item: '物品', equipment: '装备',
+  element: '元素克制', team: '队伍编成', evolution: '进化图谱',
+  material: '材料', food: '美食', fishing: '钓鱼', enemy: '敌人', dungeon: '副本',
+  building: '家园建筑', achievement: '成就', region: '地区阵营',
+  search: '搜索', affix: '战斗词条', station: '家园派驻', favorites: '我的收藏',
+  compare: '角色对比', cultivation: '养成计算', pity: '保底计算', simulator: '星结模拟',
+  beast: '凶兽生态', tutorial: '教程合集', guide: '玩法指南', versus: '奇波对决',
+  story: '剧情读物', ridu: '日渡尘影', wallpaper: '壁纸画廊', codes: '福利码',
+  rebate: '充值返利', explore: '地图探索', subscribe: '订阅偏好', wiki: '奇波百科',
+  settings: '设置'
 };
-const quickCells = computed(() => {
+const NAV_PAGES = [
+  { key: 'main', title: '常用功能', itemKeys: ['qibo', 'character', 'spirit', 'item', 'equipment', 'enemy', 'building', 'dungeon'] },
+  { key: 'catalog', title: '更多图鉴', itemKeys: ['material', 'food', 'fishing', 'achievement', 'region', 'evolution'] },
+  { key: 'tool', title: '查询与工具', itemKeys: ['search', 'affix', 'compare', 'cultivation', 'pity', 'simulator', 'element', 'team'] },
+  { key: 'content', title: '攻略与内容', itemKeys: ['beast', 'tutorial', 'guide', 'versus', 'story', 'ridu', 'wallpaper', 'codes'] },
+  { key: 'service', title: '服务与设置', itemKeys: ['rebate', 'station', 'explore', 'subscribe', 'wiki', 'settings'] }
+];
+const navPage = ref(0);
+const navPages = computed(() => {
   const byKey = {};
   sections.value.forEach((item) => { byKey[item.key] = item; });
-  const cells = QUICK_KEYS
-    .map((key) => byKey[key])
-    .filter(Boolean)
-    .map((item) => ({ key: item.key, title: QUICK_SHORT_TITLES[item.key] || item.title, emoji: item.emoji, path: item.path }));
-  cells.push({ key: 'all-tools', title: '实用工具', emoji: '🧰', action: 'allTools' });
-  return cells.slice(0, 8);
-});
-// 4.5：全部工具紧凑目录的数据与开关（默认收起，避免首屏再次堆一整套重复大卡）
-const showAllTools = ref(false);
-const showDirectory = ref(false);
-const toolItems = computed(() => sections.value.filter((item) => (item.group || 'catalog') === 'tool'));
-function toggleAllTools() {
-  showAllTools.value = !showAllTools.value;
-}
-function onQuickTap(cell) {
-  if (cell.action === 'allTools') { toggleAllTools(); return; }
-  go(cell.path);
-}
-
-// 4.7 / H09：玩法内容从「版本信息」搬到新手必看；每条一行标题 + 必要说明，
-// 路径均为已注册的真实页面，不虚构专题页，标题 / 说明 / 落地三者一致。
-const starterTasks = [
-  { key: 'element', title: '元素克制怎么查', desc: '相克矩阵与组队元素覆盖', path: '/pages/element/element' },
-  { key: 'team', title: '角色与奇波如何编队', desc: '3 名角色 + 3 只奇波的搭配与保存', path: '/pages/team/team' }
-];
-
-// 4.9 / H11：分组标题改玩家任务语言，首页不出现内部开发优先级与运营分类。
-// 4.8 / H10：订阅页只保存本机偏好（模板 ID 为空），首页入口不承诺「提醒」，并给一句真实限制。
-// 只做视图层映射，不改 meta.js 的共享 sections 数据，避免影响其他页面。
-const HOME_LABELS = { subscribe: '订阅偏好' };
-const HOME_LIMITS = { subscribe: '仅本机记录' };
-const HOME_GROUPS = [
-  { key: 'catalog', title: '更多图鉴', itemKeys: ['material', 'food', 'fishing', 'enemy', 'dungeon', 'building', 'achievement', 'region'] },
-  { key: 'query', title: '进阶查询', itemKeys: ['affix', 'evolution', 'station', 'favorites'] },
-  { key: 'guide', title: '攻略与玩法', itemKeys: ['beast', 'guide', 'versus'] },
-  { key: 'content', title: '剧情与内容', itemKeys: ['story', 'ridu', 'wallpaper'] },
-  { key: 'service', title: '福利与服务', itemKeys: ['codes', 'subscribe'] },
-  { key: 'support', title: '关于与设置', itemKeys: ['about', 'settings'] }
-];
-const groups = computed(() => {
-  const byKey = Object.fromEntries(sections.value.map((item) => [item.key, item]));
-  return HOME_GROUPS
-    .map((group) => ({
-      key: group.key,
-      title: group.title,
-      items: group.itemKeys
+  return NAV_PAGES
+    .map((page) => ({
+      key: page.key,
+      title: page.title,
+      cells: page.itemKeys
         .map((key) => byKey[key])
         .filter(Boolean)
-        .map((item) => Object.assign({}, item, {
-          label: HOME_LABELS[item.key] || item.title,
-          limitNote: HOME_LIMITS[item.key] || ''
+        .map((item) => ({
+          key: item.key,
+          title: NAV_SHORT_TITLES[item.key] || item.title,
+          emoji: item.emoji,
+          icon: SECTION_ICONS[item.key] || '',
+          path: item.path,
+          ready: item.ready !== false
         }))
     }))
-    .filter((group) => group.items.length);
+    .filter((page) => page.cells.length);
 });
+function onNavChange(event) {
+  navPage.value = event.detail.current;
+}
 
-// 每个板块专属图标（emoji 双端一致渲染，青少年向视觉）
+// 8.1 / I01：星晶幻想双色图标（docs/icon-set 设计稿导出的 128px PNG，文件名 = 板块 key）。
+// 微信小程序 image 组件不支持本地 SVG，PNG 由浏览器栅格化流程从 SVG 源稿转出；
+// 缺图时回退 SECTION_EMOJI，保证新增板块在图标未生成前依然可用。
+const ICON_KEYS = [
+  'qibo', 'character', 'spirit', 'item', 'equipment', 'element', 'team', 'evolution',
+  'material', 'food', 'fishing', 'enemy', 'dungeon', 'building', 'achievement', 'region',
+  'search', 'affix', 'station', 'favorites', 'compare', 'cultivation', 'pity', 'simulator',
+  'beast', 'tutorial', 'guide', 'versus', 'story', 'ridu', 'wallpaper', 'codes',
+  'rebate', 'explore', 'subscribe', 'wiki', 'settings'
+];
+const SECTION_ICONS = Object.fromEntries(ICON_KEYS.map((key) => [key, `/static/icons/${key}.png`]));
+
+// 每个板块专属图标（emoji 双端一致渲染，青少年向视觉；沿用 4.2 / H02 决策）
 const SECTION_EMOJI = {
   qibo: '🐾', character: '🥇', spirit: '💎', item: '🎒', equipment: '🗡️',
   material: '🧬', food: '🍚', fishing: '🎣', enemy: '👾', dungeon: '🏰',
   building: '🏗️', achievement: '🏆', region: '🗺️',
-  element: '🔄', affix: '⚔️', evolution: '⏳', station: '🏠', search: '🔍',
+  element: '🔄', affix: '⚔️', evolution: '⏳', station: '🏠', search: '🔍', favorites: '⭐',
   team: '🛡️', beast: '🐉', tutorial: '📚', guide: '🧭', story: '📜',
   versus: '⚡', ridu: '🌙', wallpaper: '🖼️', codes: '🎁', subscribe: '🔔',
   wiki: '📖', about: '💙', settings: '⚙️', compare: '⚖️', cultivation: '📈',
   pity: '🎯', simulator: '🎲', rebate: '💰', explore: '🧭'
 };
+
 
 // 速查对象与列表页同口径：先剔除演示条目与同名重复，再按固定 id 取，缺数据时不伪造补位
 function pickFeatured(type, ids) {
@@ -344,18 +305,15 @@ function pickFeatured(type, ids) {
 
 function loadMeta() {
   const meta = getCatalog('meta').data || {};
-  // 4.2 / H02：不再从灵子 icon 收集装饰图并用哈希分配给轮播/功能卡，功能卡统一用 emoji
-  // 4.5：大功能卡已移除，不再计算 tint / accentGradient 渐变条
   sections.value = (meta.sections || []).map((item) =>
     Object.assign({}, item, { emoji: SECTION_EMOJI[item.key] || '✦', ready: item.ready !== false })
   );
   featuredCharacters.value = pickFeatured('character', FEATURED_IDS.character);
   featuredQibo.value = pickFeatured('qibo', FEATURED_IDS.qibo);
   notice.value = meta.notice || '';
-  footer.value = `v${APP_VERSION} · ${GAME_NAME} · ${catalogNotice()}`;
 }
 
-// 4.2：主视觉候选链逐档降级；全部失败显示同尺寸事件文字卡，不改变布局
+// 4.2（沿用）：主视觉候选链逐档降级；全部失败显示同尺寸事件文字底，不改变布局
 function onVisualError() {
   visualStage.value += 1;
 }
@@ -367,7 +325,7 @@ function onKeywordChange(event) {
   keyword.value = event.detail.value;
 }
 
-// 3.4 / L06：输入组件只发出 clear 事件，父级必须清空值，否则点 × 后框里仍留旧词
+// 3.4 / L06（沿用）：输入组件只发出 clear 事件，父级必须清空值，否则点 × 后框里仍留旧词
 function onKeywordClear() {
   keyword.value = '';
 }
@@ -376,12 +334,12 @@ function submitSearch() {
   uni.navigateTo({ url: `/pages/search/search?keyword=${encodeURIComponent(keyword.value.trim())}` });
 }
 
-// 4.1：速查整卡进对应详情；「查看全部」进分类列表，两种目标不藏在同一个箭头里
+// 4.1（沿用）：速查整卡进对应详情；「查看全部」进分类列表，两种目标不藏在同一个箭头里
 function goCharacterDetail(id) {
-  uni.navigateTo({ url: '/pages/character/detail?id=' + encodeURIComponent(id) });
+  uni.navigateTo({ url: '/pkg-character/detail?id=' + encodeURIComponent(id) });
 }
 function goQiboDetail(id) {
-  uni.navigateTo({ url: '/pages/qibo/detail?id=' + encodeURIComponent(id) });
+  uni.navigateTo({ url: '/pkg-qibo/detail?id=' + encodeURIComponent(id) });
 }
 
 function go(path) {
@@ -393,13 +351,13 @@ let offAppShow = null;
 onLoad(() => {
   loadMeta();
   refreshNow();
-  // 4.8：应用从后台切回前台也重算；H5 端若无该 API 则只靠页面 onShow
+  // 4.8（沿用）：应用从后台切回前台也重算；H5 端若无该 API 则只靠页面 onShow
   if (typeof uni.onAppShow === 'function' && typeof uni.offAppShow === 'function') {
     uni.onAppShow(refreshNow);
     offAppShow = () => uni.offAppShow(refreshNow);
   }
 });
-// 4.8：进入首页 / 从详情页返回时重新计算事件状态，跨天不再显示旧倒计时
+// 4.8（沿用）：进入首页 / 从详情页返回时重新计算事件状态，跨天不再显示旧倒计时
 onShow(refreshNow);
 onShareAppMessage(() => ({ title: '奇波小助手 · 奇波/角色图鉴与队伍编成', path: '/pages/index/index' }));
 unsubscribe = onCatalogUpdate(loadMeta);
@@ -410,57 +368,43 @@ onUnload(() => {
 </script>
 
 <style>
-/* 4.6 / H06：首页统一 16px 设计基准外边距（390px 屏约 32rpx）。
-   仅用 .home 限定首页，不改 theme.css 的全局 .page，避免顺手重排几十个页面。 */
+/* 4.6 / H06（沿用）：首页统一 16px 设计基准外边距，全部区块共用一条对齐线。
+   仅用 .home 限定首页，不改 theme.css 的全局 .page。 */
 .page.home {
   padding-left: 32rpx;
   padding-right: 32rpx;
 }
 
-/* 4.6：清掉模块自带的左右边距，让搜索 / 主视觉 / 快捷区 / 分区标题 / 预览共用一条对齐线 */
-.home .section-title,
 .home .footnote {
   margin-left: 0;
   margin-right: 0;
 }
 
-/* 4.6：theme.css 旧 .hero 的渐变 / 圆点装饰不再叠加到首页静态主视觉 */
-.home .hero {
-  color: var(--ink);
-  /* 5.1 / H07：显式固定卡片底，避免全局渐变叠到首页主视觉 */
-  background: var(--card-bg);
-}
-
-.home .hero::after {
-  display: none;
-}
-
-/* 4.1 / H01：查询入口置顶 */
+/* 6.1：查询入口置顶 */
 .searchbar {
   padding: 4rpx 0 16rpx;
 }
 
-/* 4.1 / 4.3：单个静态主视觉。媒体区固定 16:9，图片 aspectFit 完整展示，不把海报硬裁成窄横条 */
-.hero {
+/* 6.2 / N02：主视觉 + 公测信息合一卡。媒体区固定 16:9、aspectFit 完整展示；
+   底部深色渐变保证叠层白字可读；整卡即公测详情入口（44px+ 触达区）。 */
+.home-hero {
   overflow: hidden;
   border: 1rpx solid var(--line);
   border-radius: var(--radius-lg);
-  background: var(--card-bg);
 }
 
-.hero__media {
+.home-hero__media {
   position: relative;
   width: 100%;
   height: 0;
   padding-bottom: 56.25%;
   overflow: hidden;
-  /* 5.1 / H07：占位底改成单主蓝（复用主题 --brand-deep 浅色值），
-     去掉多色渐变；固定不随主题翻转，保证回退白字可读 */
+  /* 5.1 / H07（沿用）：占位底固定单主蓝，不随主题翻转，保证回退白字可读 */
   background: #1f3d9e;
 }
 
-.hero__img,
-.hero__fallback {
+.home-hero__img,
+.home-hero__fallback {
   position: absolute;
   top: 0;
   left: 0;
@@ -468,7 +412,7 @@ onUnload(() => {
   height: 100%;
 }
 
-.hero__fallback {
+.home-hero__fallback {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -476,19 +420,13 @@ onUnload(() => {
   gap: 12rpx;
 }
 
-.hero__fallback-title {
-  font-size: 36rpx;
+.home-hero__fallback-title {
+  font-size: 32rpx;
   font-weight: 700;
   color: #fff;
 }
 
-.hero__fallback-desc {
-  font-size: 24rpx;
-  /* 5.2 / H08：固定深蓝底上的说明文字用不透明白，避免半透明降低对比度 */
-  color: #ffffff;
-}
-
-.hero__retry {
+.home-hero__retry {
   margin-top: 8rpx;
   padding: 10rpx 28rpx;
   border-radius: 999rpx;
@@ -497,57 +435,182 @@ onUnload(() => {
   font-size: 24rpx;
 }
 
-.hero__bar {
+.home-hero__veil {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 54%;
+  background: linear-gradient(180deg, rgba(10, 14, 38, 0) 0%, rgba(10, 14, 38, 0.88) 100%);
+  pointer-events: none;
+}
+
+/* 6.2：倒计时胶囊。白底高对比，公测后切「已开启」仍可常驻（回访动机） */
+.home-hero__chip {
+  position: absolute;
+  top: 16rpx;
+  left: 16rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.home-hero__chip-text {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: var(--hero-chip-ink);
+}
+
+.home-hero__info {
+  position: absolute;
+  left: 20rpx;
+  right: 168rpx;
+  bottom: 16rpx;
   display: flex;
-  align-items: center;
-  gap: 12rpx;
-  padding: 16rpx 20rpx;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.home-hero__title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.home-hero__cta {
+  position: absolute;
+  right: 16rpx;
+  bottom: 20rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1rpx solid rgba(255, 255, 255, 0.42);
+  font-size: 24rpx;
+  color: #ffffff;
+}
+
+/* 6.3 / N03：横滑分页金刚区。白卡承载，高度恒定（2 行 × 150rpx + 行距 12rpx + 顶部 4rpx），
+   首屏信息密度与扩展性兼得；指示条当前页为长条主蓝、其余为短线。 */
+.navcard {
+  margin-top: 20rpx;
+  padding: 12rpx 12rpx 12rpx;
+  border: 1rpx solid var(--line);
+  border-radius: var(--radius-lg);
   background: var(--card-bg);
 }
 
-.hero__copy {
-  flex: 1;
-  min-width: 0;
+.navcard__head {
   display: flex;
-  flex-direction: column;
-  gap: 4rpx;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64rpx;
+  padding: 0 8rpx;
 }
 
-.hero__tag {
-  align-self: flex-start;
-  /* 5.2 / H08：说明文字不低于 12px（24rpx 约 12.5px） */
-  font-size: 24rpx;
-  color: var(--brand);
-}
-
-.hero__title {
+.navcard__title {
   font-size: 30rpx;
   font-weight: 700;
   color: var(--ink);
 }
 
-.hero__desc {
+.navcard__hint {
   font-size: 24rpx;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.nav-swiper {
+  height: 316rpx;
+}
+
+.nav-grid {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 12rpx;
+  padding-top: 4rpx;
+}
+
+.nav-cell {
+  box-sizing: border-box;
+  width: 25%;
+  height: 150rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  border-radius: 16rpx;
+}
+
+/* 6.3：统一浅蓝托底容器收拢 emoji，观感成套（解决旧版图标色彩重量不一）；
+   深色主题走 --brand-soft 自动翻转 */
+.nav-cell__tile {
+  position: relative;
+  width: 88rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24rpx;
+  background: var(--brand-soft);
+}
+
+.nav-cell__emoji {
+  font-size: 40rpx;
+  line-height: 1.2;
+}
+
+/* 8.1 / I01：星晶双色图标。PNG 与 emoji 同位替换，尺寸略小于托底形成呼吸感 */
+.nav-cell__icon {
+  width: 56rpx;
+  height: 56rpx;
+}
+
+.nav-cell__wip {
+  position: absolute;
+  top: -10rpx;
+  right: -18rpx;
+  padding: 2rpx 10rpx;
+  border-radius: 999rpx;
+  background: var(--warn-soft);
+  color: var(--warn-ink);
+  font-size: 20rpx;
+}
+
+.nav-cell__title {
+  max-width: 100%;
+  padding: 0 4rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* 5.2 / H08（沿用）：入口名称按正文 14px 下限（28rpx） */
+  font-size: 28rpx;
+  font-weight: 600;
   color: var(--ink-2);
 }
 
-/* 4.1：主按钮 44px 可触高度，视觉尺寸不放大到整块 */
-.hero__cta {
-  flex: 0 0 auto;
+.nav-dots {
   display: flex;
   align-items: center;
-  gap: 6rpx;
-  min-height: 88rpx;
-  padding: 0 20rpx;
-  border-radius: 999rpx;
-  background: var(--brand);
-  color: #fff;
-  /* 5.2 / H08：按钮文字按正文 14px 下限（28rpx） */
-  font-size: 28rpx;
-  font-weight: 600;
+  justify-content: center;
+  gap: 8rpx;
+  padding-top: 6rpx;
 }
 
-/* 4.1 / 4.2：角色、奇波速查各 4 张；图片位固定尺寸，失败占位同尺寸不改布局 */
+.nav-dot {
+  width: 12rpx;
+  height: 6rpx;
+  border-radius: 999rpx;
+  background: var(--line);
+  transition: width 0.2s ease, background 0.2s ease;
+}
+
+.nav-dot--on {
+  width: 32rpx;
+  background: var(--brand);
+}
+
+/* 6.4：图鉴速览（沿用 4.1 / 4.2 结构：固定 4 张、失败占位同尺寸不改布局） */
 .feature {
   margin-top: 20rpx;
 }
@@ -568,7 +631,7 @@ onUnload(() => {
 .feature__more {
   padding: 12rpx 0 12rpx 24rpx;
   font-size: 24rpx;
-  color: var(--brand);
+  color: var(--brand-text);
 }
 
 .feature__row {
@@ -620,46 +683,6 @@ onUnload(() => {
   color: var(--ink);
 }
 
-.home-group {
-  margin-bottom: 8rpx;
-}
-
-/* 4.5 / 4.6：低频目录为紧凑行，不再套一层有内边距的白盒 */
-.row-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14rpx;
-  padding: 0;
-}
-
-.row-cell {
-  display: inline-flex;
-  align-items: center;
-  gap: 10rpx;
-  min-height: 64rpx;
-  padding: 0 24rpx;
-  border-radius: 32rpx;
-  background: var(--soft);
-  border: 1rpx solid var(--line);
-  transition: transform 0.16s ease;
-}
-
-.row-cell:active {
-  transform: scale(0.97);
-}
-
-.row-cell__title {
-  /* 5.2 / H08：入口名称按正文 14px 下限（28rpx） */
-  font-size: 28rpx;
-  color: var(--ink);
-}
-
-.row-cell__tag {
-  /* 5.2 / H08：标签提到 24rpx，颜色提升到二级语义色 */
-  font-size: 24rpx;
-  color: var(--ink-2);
-}
-
 .preview-tip {
   padding: 12rpx 0 4rpx;
   text-align: center;
@@ -667,175 +690,89 @@ onUnload(() => {
   font-size: 24rpx;
 }
 
-/* 4.5 / H05：固定 4×2 八入口，无分页横滑、无金色指示点、无白盒阴影；
-   用 flex 25% 而非 grid，兼容小程序 wxss 渲染 */
-.quick-grid {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 20rpx;
-}
-
-.quick-cell {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8rpx;
-  box-sizing: border-box;
-  width: 25%;
-  min-height: 116rpx;
-  border-radius: 16rpx;
-}
-
-/* 4.5：全部工具紧凑目录（默认收起，由第八格展开） */
-.tools-dir {
-  margin-top: 16rpx;
-  padding: 8rpx 0;
-  border-top: 1rpx solid var(--line);
-}
-
-.tools-dir__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 64rpx;
-}
-
-.tools-dir__title {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.tools-dir__close {
-  padding: 12rpx 0 12rpx 24rpx;
-  font-size: 24rpx;
-  color: var(--brand);
-}
-
-.tools-dir__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12rpx;
-}
-
-.tools-dir__cell {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  width: calc(50% - 6rpx);
-  min-height: 88rpx;
-  padding: 0 20rpx;
-  border: 1rpx solid var(--line);
-  border-radius: 12rpx;
-  background: var(--soft);
-}
-
-.tools-dir__name {
-  font-size: 28rpx;
-  color: var(--ink);
-}
-
-.tools-dir__arrow {
-  font-size: 28rpx;
-  color: var(--ink-2);
-}
-
-.quick-cell__emoji {
-  font-size: 40rpx;
-  line-height: 1.2;
-}
-
-.quick-cell__title {
-  /* 5.2 / H08：快捷名称按正文 14px 下限（28rpx） */
-  font-size: 28rpx;
-  font-weight: 600;
-  /* 5.2 / 5.3：不再用 opacity 压低对比度，也不在深色下写死固定文字色，统一走主题语义色 */
-  color: var(--ink-2);
-}
-
-/* 4.7 / H09：原「版本信息」白盒（不同时期情报 + 玩法说明混排）整体删除。
-   新手必看用薄条列表，不再套一层阴影白卡；新样式只用语义色变量，不引入深色硬编码色。 */
-.starter {
-  margin-top: 24rpx;
-}
-
-.starter__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 44px;
-}
-
-.starter__title {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.starter__more {
-  padding: 12rpx 0 12rpx 24rpx;
-  font-size: 24rpx;
-  color: var(--brand);
-}
-
-.starter__row {
-  display: flex;
-  align-items: center;
-  gap: 12rpx;
-  min-height: 88rpx;
-  padding: 8rpx 0;
-  border-bottom: 1rpx solid var(--line);
-}
-
-.starter__row:last-child {
-  border-bottom: none;
-}
-
-.starter__body {
-  flex: 1;
-  min-width: 0;
+/* 页脚：适龄提示固定两行，小号灰字 */
+.home .footnote {
   display: flex;
   flex-direction: column;
   gap: 4rpx;
+  color: var(--ink-3);
+  font-size: 20rpx;
 }
 
-.starter__name {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: var(--ink);
+/* 公告行：与上方奇波图鉴预览拉开距离 */
+.home .cx-notice {
+  margin-top: 20rpx;
 }
 
-.starter__desc {
-  font-size: 24rpx;
-  color: var(--ink-2);
-}
-
-.starter__arrow {
-  font-size: 28rpx;
-  color: var(--ink-2);
-}
-
-/* 4.9 / H11：只在确有功能限制时显示短句，正常入口不再贴「可用」 */
-.row-cell__tag--limit {
-  color: var(--ink-2);
-}
-
-/* 5.2 / H08：全局页脚（22rpx）与公告文案（23rpx）在首页局部提到说明下限，
-   页脚次级文字提升到二级语义色；只作用于 .home 子树，全局主题样式保持原样。 */
-.home .footnote {
-  color: var(--ink-2);
-  font-size: 24rpx;
-}
-
-.home .cx-notice__text,
-.home .cx-notice__more {
+.home .cx-notice__text {
   font-size: 26rpx;
 }
 
-/* 5.1 / 5.2 / 5.3 本轮样式收敛原则：行为色只用主蓝，静态内容卡不加浮起阴影；
+/* 7.1 / D01：首页深色主题不是机械反色，而是三层深海蓝黑表面：
+   页面底（--bg）→ 主卡（--card-bg）→ 次级托底（--soft / --brand-soft）。
+   仅作用于首页，保持其他页面当前深色样式稳定。 */
+.home.theme-dark {
+  background:
+    radial-gradient(circle at 84% 8%, rgba(83, 111, 181, 0.1), transparent 34%),
+    var(--bg);
+}
+
+.home.theme-dark .searchbar .cx-input {
+  border-color: #303c55;
+  background: #1a2232;
+  box-shadow: inset 0 1rpx 0 rgba(255, 255, 255, 0.03), 0 10rpx 30rpx rgba(0, 0, 0, 0.2);
+}
+
+.home.theme-dark .searchbar .cx-input__ph {
+  color: #9eabc3;
+}
+
+.home.theme-dark .home-hero {
+  border-color: #35415b;
+  box-shadow: 0 12rpx 34rpx rgba(0, 0, 0, 0.24);
+}
+
+.home.theme-dark .navcard {
+  border-color: #303b52;
+  background: linear-gradient(180deg, #1c2536 0%, #192131 100%);
+  box-shadow: inset 0 1rpx 0 rgba(255, 255, 255, 0.03);
+}
+
+.home.theme-dark .nav-cell__tile {
+  border: 1rpx solid rgba(126, 164, 255, 0.16);
+  background: linear-gradient(145deg, #273654 0%, #202c44 100%);
+}
+
+.home.theme-dark .nav-cell:active {
+  background: rgba(126, 164, 255, 0.08);
+}
+
+.home.theme-dark .nav-dot {
+  background: #3c4860;
+}
+
+.home.theme-dark .nav-dot--on {
+  background: #6f9cff;
+  box-shadow: 0 0 14rpx rgba(111, 156, 255, 0.4);
+}
+
+.home.theme-dark .feature__frame {
+  border-color: #303b52;
+  background: linear-gradient(160deg, #242f44 0%, #1d2637 100%);
+  box-shadow: inset 0 1rpx 0 rgba(255, 255, 255, 0.03);
+}
+
+.home.theme-dark .cx-notice {
+  border-color: #31405d;
+  background: linear-gradient(135deg, #202e48 0%, #1d283c 100%);
+  box-shadow: inset 0 1rpx 0 rgba(255, 255, 255, 0.03);
+}
+
+.home.theme-dark .preview-tip {
+  color: #aeb9cf;
+}
+
+/* 6.x 收敛原则（沿用 5.x）：行为色只用主蓝，静态内容卡不加浮起阴影；
    正文不低于 28rpx（约 14px）、说明不低于 24rpx（约 12px）；
-   首页不再使用低对比的三级文字色，深色下不写死文字色，全部由主题变量驱动。
-   以上只完成静态检查与对比度核算，浅/深色实拍与交互仍需运行验证（见阶段 5 报告）。 */
+   深色下不写死文字色，全部由主题变量驱动（主视觉叠层白字区域除外，其底色固定深蓝）。 */
 </style>

@@ -1,6 +1,6 @@
-export const ELEMENT_NOTICE = '克制关系与倍率来自 BWIKI 官方数据页（克制 +25% / 被克 -25%，光暗互克）；公测实装以官方公告为准。';
+export const ELEMENT_NOTICE = '十元素 + 无属性（与竞品客户端一致）；克制倍率来自 BWIKI（克制 +25% / 被克 -25%，光暗互克）。注意：竞品实机样本（阿比 水/木 克制火·地、被木·雷克）与 BWIKI 矩阵存在出入，公测后以官方数据校正。';
 
-// BWIKI 九系元素（火 风 地 木 冰 水 雷 光 暗）；unknown 兜底
+// 十元素（火 风 地 木 冰 水 雷 光 暗）+ 无属性（不参与克制）；unknown 兜底
 export const elements = [
   { key: 'flame', name: '火', label: '烈焰', color: '#ff7a45', tint: '#fff1ea' },
   { key: 'wind', name: '风', label: '疾风', color: '#52c7b8', tint: '#e8faf7' },
@@ -11,6 +11,7 @@ export const elements = [
   { key: 'bolt', name: '雷', label: '惊雷', color: '#f2b50c', tint: '#fff7e0' },
   { key: 'astral', name: '光', label: '光', color: '#8a6cff', tint: '#f0ecff' },
   { key: 'dark', name: '暗', label: '暗', color: '#6c5ce7', tint: '#eeebfb' },
+  { key: 'none', name: '无', label: '无属性', color: '#9aa2b1', tint: '#f3f4f7' },
   { key: 'unknown', name: '?', label: '未知', color: '#8a93a8', tint: '#f2f4f9' }
 ];
 
@@ -112,3 +113,12 @@ export const dualCounters = {
   'bolt+dark': [1, 0.75, 1.25, 1, 1.25, 0.75, 1, 1.25, 1],
   'astral+dark': [1, 1, 1, 1, 1, 1, 1, 1.25, 1.25]
 };
+
+// 战斗职业（5 类）：口径来自 BWIKI「职业」页（2026-11-04 采集）；竞品《蓝色星原手册》将「破坏」译作「击破」，公测以官方为准
+export const combatRoles = [
+  { key: 'burst', name: '爆发', desc: '具备爆发输出的能力，不需要消耗调谐就可以打出可观的伤害。' },
+  { key: 'break', name: '破坏', desc: '擅长破坏架势，能通过稳定消耗调谐大量削减对手架势槽。' },
+  { key: 'assault', name: '猛攻', desc: '具备稳定输出的能力，能在造成高伤害的同时，快速消耗调谐打出更高伤害。' },
+  { key: 'amp', name: '增幅', desc: '具备高效叠加调谐的能力，为队友制造更好的输出环境。' },
+  { key: 'grant', name: '赋予', desc: '具备多样的辅助能力，能为同伴提供各种增益，并通过消耗调谐提升增幅效果。' }
+];

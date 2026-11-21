@@ -21,12 +21,17 @@
         </view>
         <image
           v-if="section.image && !imgError"
+          :key="imageNonce"
           class="section-image"
           :src="section.image"
           mode="widthFix"
           @error="imgError = true"
           @tap="preview(section.image)"
         />
+        <view v-else-if="section.image" class="section-image section-image--fallback" hover-class="tap-hover" @tap="onImageRetry">
+          <text class="section-image__glyph">图</text>
+          <text class="section-image__hint">长图加载失败 · 点按重试</text>
+        </view>
         <view v-if="section.text" class="panel__desc panel__desc--first">{{ section.text }}</view>
         <view v-if="section.steps && section.steps.length" class="detail-steps">
           <view v-for="(step, stepIndex) in section.steps" :key="step" class="ct-step">
@@ -101,6 +106,12 @@ const updatedAt = CONTENT_UPDATED_AT;
 const notice = CONTENT_NOTICE;
 const item = computed(() => findContentItem(props.type, props.id));
 const imgError = ref(false);
+const imageNonce = ref(0);
+// 2.5：长图加载失败时保留占位与重试，不把整块内容直接隐藏
+function onImageRetry() {
+  imgError.value = false;
+  imageNonce.value += 1;
+}
 
 // 最近浏览记录
 if (item.value) pushRecent({ type: props.type, id: item.value.id, name: item.value.title, icon: item.value.image || '', path: '/pages/' + props.type + '/detail' });
@@ -143,6 +154,27 @@ function openRelated(entry) {
   background: var(--card-bg);
   box-shadow: var(--shadow-card);
   margin-bottom: 24rpx;
+}
+
+/* 2.5 长图失败占位：固定高度框，不让整块内容塌陷；非严格同尺寸 */
+.section-image--fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  height: 240rpx;
+  background: var(--soft);
+  color: var(--ink-3);
+}
+
+.section-image__glyph {
+  font-size: 48rpx;
+  font-weight: 700;
+}
+
+.section-image__hint {
+  font-size: 22rpx;
 }
 
 .detail-hero {

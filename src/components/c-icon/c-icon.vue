@@ -33,7 +33,13 @@ const GLYPHS = {
   build: '🏗️',
   trophy: '🏆',
   globe: '🌍',
-  spark: '✨'
+  spark: '✨',
+  close: '✕',
+  add: '＋',
+  check: '✓',
+  'check-circle-filled': '✅',
+  'close-circle': '⛔',
+  'add-circle': '➕'
 };
 
 const props = defineProps({

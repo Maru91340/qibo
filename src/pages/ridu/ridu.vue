@@ -97,7 +97,7 @@ function goDetail(item) {
   uni.navigateTo({ url: `/pages/story/detail?id=${item.id}` });
 }
 
-onShareAppMessage(() => ({ title: '日渡尘影 · 蓝色星原助手', path: '/pages/ridu/ridu' }));
+onShareAppMessage(() => ({ title: '日渡尘影 · 奇波小助手', path: '/pages/ridu/ridu' }));
 </script>
 
 <style>

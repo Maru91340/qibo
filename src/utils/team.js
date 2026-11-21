@@ -1,6 +1,7 @@
 const TEAM_KEY = 'qbxzs:team';
-export const MAX_MEMBERS = 4;
-export const MAX_QIBO = 1;
+// R2-8：对齐竞品「星结编成 3+3」口径（最多 3 名角色 + 3 只奇波组队参战，首页版本信息/玩法）
+export const MAX_MEMBERS = 3;
+export const MAX_QIBO = 3;
 
 const emptyTeam = () => ({ name: '我的队伍', members: [], qibos: [], updatedAt: 0 });
 

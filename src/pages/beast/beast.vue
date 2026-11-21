@@ -45,6 +45,7 @@
             @tap="category = option"
           >
             {{ option }}
+            <text class="facet-chip__count">{{ categoryCount.get(option) || 0 }}</text>
           </view>
         </view>
       </scroll-view>
@@ -64,7 +65,15 @@
       @tap="toggle(item.id)"
     >
       <view class="beast-card__head">
-        <view class="beast-card__badge" :style="{ background: tintOf(item), color: colorOf(item) }">
+        <image
+          v-if="item.icon && !brokenIcons[item.id]"
+          class="beast-card__img"
+          :src="item.icon"
+          mode="aspectFill"
+          lazy-load
+          @error="brokenIcons[item.id] = true"
+        />
+        <view v-else class="beast-card__badge" :style="{ background: tintOf(item), color: colorOf(item) }">
           {{ item.name.slice(0, 1) }}
         </view>
         <view class="beast-card__text">
@@ -124,6 +133,8 @@ const notice = enemyCatalog.notice;
 const keyword = ref('');
 const category = ref('全部');
 const openId = ref('');
+// R3-6：敌人/凶兽列表 icon 渲染位（R3-5 生成产物回写 icon 后自动出图，失败回退首字徽章）
+const brokenIcons = ref({});
 
 const categories = computed(() => {
   const seen = [];
@@ -131,6 +142,18 @@ const categories = computed(() => {
     if (item.category && seen.indexOf(item.category) < 0) seen.push(item.category);
   });
   return ['全部'].concat(seen);
+});
+
+// R2-10：类型计数（对齐竞品凶兽生态「凶兽9 / 环境生物5 / 未实装首领3」口径）
+const categoryCount = computed(() => {
+  const seen = new Map();
+  let total = 0;
+  items.forEach((item) => {
+    total += 1;
+    if (item.category) seen.set(item.category, (seen.get(item.category) || 0) + 1);
+  });
+  seen.set('全部', total);
+  return seen;
 });
 
 const stats = computed(() => {
@@ -187,7 +210,7 @@ function goEnemy() {
   uni.navigateTo({ url: '/pages/enemy/list' });
 }
 
-onShareAppMessage(() => ({ title: '凶兽生态 · 蓝色星原助手', path: '/pages/beast/beast' }));
+onShareAppMessage(() => ({ title: '凶兽生态 · 奇波小助手', path: '/pages/beast/beast' }));
 </script>
 
 <style>
@@ -245,6 +268,15 @@ onShareAppMessage(() => ({ title: '凶兽生态 · 蓝色星原助手', path: '/
   border-radius: 22rpx;
   font-size: 32rpx;
   font-weight: 700;
+}
+
+/* R3-6：敌人/凶兽卡 icon（生成产物回写后自动出图；尺寸与首字徽章一致） */
+.beast-card__img {
+  flex: none;
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 22rpx;
+  background: var(--soft);
 }
 
 .beast-card__text {

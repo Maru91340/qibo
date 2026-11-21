@@ -1,8 +1,8 @@
 <template>
   <tool-shell
     title="保底计算"
-    sub="输入当前垫抽数与目标抽数，只做「还差多少抽」的减法估算；官方保底规则尚未公开。"
-    :tags="['本地记录', '只做减法', '规则待核实']"
+    sub="输入当前垫抽数与目标抽数，只做「还差多少抽」的减法估算；保底规则以三测口径为准，公测以官方公告为准。"
+    :tags="['本地记录', '只做减法', '含三测规则']"
     hero="linear-gradient(135deg, #1f3d9e 0%, #2f6bff 55%, #ff5b7f 100%)"
     note="官方卡池概率、保底继承与软保底规则均未公开；本页只计算抽数差，不预测出货概率，不代表游戏内实际结果。"
   >
@@ -82,6 +82,48 @@
         <text class="tool-result__value tool-result__value--pending">待核实</text>
       </view>
     </view>
+    <view class="tool-panel">
+      <view class="tool-panel__head">
+        <text class="tool-panel__title">UP 保底速算</text>
+        <text class="tool-panel__hint">限定池 90 抽必得当期 UP · 无「大保底」</text>
+      </view>
+
+      <view class="tool-field">
+        <view class="tool-field__label">
+          <text>计划再抽</text>
+          <view class="pity-quick">
+            <view v-for="delta in [-90, -10, 0, 10, 90]" :key="delta" class="pity-quick__btn" :class="{ 'pity-quick__btn--on': plan === delta }" hover-class="tap-hover" @tap="plan = delta">
+              {{ delta > 0 ? '+' + delta : delta }}
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="tool-result__row">
+        <text class="tool-result__key">距下次 UP 保底</text>
+        <text class="tool-result__value">还差 {{ Math.max(90 - current, 0) }} 抽</text>
+      </view>
+      <view class="tool-result__row">
+        <text class="tool-result__key">计划 {{ plan }} 抽后</text>
+        <text class="tool-result__value">累计垫 {{ Math.min(current + Math.max(plan, 0), 89) }} 抽</text>
+      </view>
+      <view class="tool-result__row">
+        <text class="tool-result__key">必得 UP 次数</text>
+        <text class="tool-result__value">{{ guaranteedUps }} 次</text>
+      </view>
+    </view>
+
+    <view class="tool-panel">
+      <view class="tool-panel__head">
+        <text class="tool-panel__title">规则说明</text>
+      </view>
+      <view class="pity-rules">
+        <text class="pity-rules__item">· 限定池 90 抽必得当期 UP，无「歪常驻」大保底机制</text>
+        <text class="pity-rules__item">· 三测期间限定池：5星涂山小玉（90 抽保底）、5星阿妮玛（80 抽保底）</text>
+        <text class="pity-rules__item">· 测试期充值消费，公测 200% 返还付费货币（单账号上限 2000 元）</text>
+        <text class="pity-rules__item">· 以上为测试期规则，公测卡池规则尚未官宣，以官方公告为准</text>
+      </view>
+    </view>
   </tool-shell>
 </template>
 
@@ -112,6 +154,8 @@ function readState() {
 const state = ref(readState());
 const current = computed(() => state.value.current);
 const target = computed(() => state.value.target);
+const plan = ref(0);
+const guaranteedUps = computed(() => Math.floor((current.value + Math.max(plan.value, 0)) / 90));
 const remaining = computed(() => Math.max(target.value - current.value, 0));
 const percent = computed(() => (target.value ? clamp(Math.round((current.value / target.value) * 100), 0, 100) : 0));
 
@@ -139,5 +183,5 @@ function saveAsTarget() {
   uni.showToast({ title: '目标已更新', icon: 'none' });
 }
 
-onShareAppMessage(() => ({ title: '保底计算 · 蓝色星原助手', path: '/pages/pity/pity' }));
+onShareAppMessage(() => ({ title: '保底计算 · 奇波小助手', path: '/pages/pity/pity' }));
 </script>

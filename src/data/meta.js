@@ -1,4 +1,4 @@
-export const META_NOTICE = '奇波与角色数据以官方公测公告为准。';
+export const META_NOTICE = '奇波与角色以公测数据为准。';
 
 // 分组顺序即首页展示顺序；mode: card=宫格卡片 / row=紧凑行
 export const sectionGroups = [
@@ -39,14 +39,13 @@ export const sections = [
   { key: 'codes', group: 'content', title: '福利码', desc: '兑换码汇总', icon: 'bookmark', accent: '#8a93a8', path: '/pages/codes/codes' },
   { key: 'subscribe', group: 'content', title: '订阅提醒', desc: '订阅项管理', icon: 'bookmark', accent: '#8a93a8', path: '/pages/subscribe/subscribe' },
   { key: 'wiki', group: 'content', title: '奇波百科', desc: '百科说明', icon: 'bookmark', accent: '#8a93a8', path: '/pages/wiki/wiki' },
-  { key: 'about', group: 'content', title: '关于游戏', desc: '游戏与制作组信息', icon: 'bookmark', accent: '#8a93a8', path: '/pages/about/about' },
   { key: 'settings', group: 'content', title: '设置', desc: '主题与缓存管理', icon: 'bookmark', accent: '#8a93a8', path: '/pages/settings/settings' },
   { key: 'compare', group: 'tool', title: '角色对比', desc: '双列对比工具', icon: 'bookmark', accent: '#8a93a8', path: '/pages/compare/compare' },
   { key: 'cultivation', group: 'tool', title: '养成计算', desc: '养成材料清单', icon: 'bookmark', accent: '#8a93a8', path: '/pages/cultivation/cultivation' },
   { key: 'pity', group: 'tool', title: '保底计算', desc: '垫抽数计算器', icon: 'bookmark', accent: '#8a93a8', path: '/pages/pity/pity' },
   { key: 'simulator', group: 'tool', title: '星结模拟', desc: '概率模拟器', icon: 'bookmark', accent: '#8a93a8', path: '/pages/simulator/simulator' },
   { key: 'rebate', group: 'tool', title: '充值返利', desc: '累计充值计算', icon: 'bookmark', accent: '#8a93a8', path: '/pages/rebate/rebate' },
-  { key: 'explore', group: 'tool', title: '地图探索', desc: '区域点位清单', icon: 'bookmark', accent: '#8a93a8', path: '/pages/explore/explore' }
+  { key: 'explore', group: 'tool', title: '地图探索', desc: '区域点位清单', icon: 'bookmark', accent: '#8a93a8', path: '/pages-explore/explore/explore' }
 ];
 
 // 尚未开发的占位页；其余首页入口均视为可用，首页据此显示「建设中」角标

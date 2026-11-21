@@ -74,10 +74,10 @@ const groups = computed(() => {
 });
 
 function goQibo(id) {
-  uni.navigateTo({ url: `/pages/qibo/detail?id=${id}` });
+  uni.navigateTo({ url: `/pkg-qibo/detail?id=${id}` });
 }
 
-onShareAppMessage(() => ({ title: '家园派驻指南 · 蓝色星原助手', path: '/pages/station/station' }));
+onShareAppMessage(() => ({ title: '家园派驻指南 · 奇波小助手', path: '/pages/station/station' }));
 </script>
 
 <style>

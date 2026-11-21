@@ -93,6 +93,29 @@
         <view class="tool-empty__text">在上方选择位点一下，再从角色列表里挑选；全部条目均标注数据状态。</view>
       </view>
     </view>
+
+    <view v-if="leftItem && rightItem" class="tool-panel">
+      <view class="tool-panel__head">
+        <text class="tool-panel__title">面板对比</text>
+        <text class="tool-panel__hint">满级基础值 · 公测后填入</text>
+      </view>
+      <view v-for="row in panelCompareRows" :key="row.key" class="pnl-row">
+        <text class="pnl-row__val">{{ row.left ?? '—' }}</text>
+        <view class="pnl-row__mid">
+          <text class="pnl-row__label">{{ row.label }}</text>
+          <view class="pnl-row__bars">
+            <view class="pnl-row__bar pnl-row__bar--l" :style="{ width: barWidth(row.left) }" />
+            <view class="pnl-row__bar pnl-row__bar--r" :style="{ width: barWidth(row.right) }" />
+          </view>
+        </view>
+        <text class="pnl-row__val pnl-row__val--r">{{ row.right ?? '—' }}</text>
+      </view>
+      <view class="pnl-legend">
+        <text>● {{ leftItem.name }}</text>
+        <text>● {{ rightItem.name }}</text>
+        <text class="pnl-legend__hint">绿色为该项更高 · 数值公测后开放</text>
+      </view>
+    </view>
   </tool-shell>
 </template>
 
@@ -100,7 +123,7 @@
 import { computed, ref } from 'vue';
 import { onShareAppMessage } from '@dcloudio/uni-app';
 import { elements } from '@/data/element.js';
-import { compareCharacters, compareDimensions } from '@/data/tools.js';
+import { compareCharacters, compareDimensions, panelCompareRows } from '@/data/tools.js';
 
 const DEFAULT_LEFT = 'ainisi';
 const DEFAULT_RIGHT = 'shiyi-kela';
@@ -124,9 +147,9 @@ function elementLabel(key) {
 function dimensionValue(item, key) {
   if (!item) return '待核实';
   if (key === 'element') return elementLabel(item.element);
-  if (key === 'stats') return '公测后开放';
+  if (key === 'weapon' || key === 'camp') return item[key] || '—';
   if (key === 'teams') return item.teams.length ? item.teams.join('、') : '待核实';
-  return item[key] || '待核实';
+  return item[key] || '—';
 }
 
 function setActive(slot) {
@@ -146,7 +169,13 @@ function reset() {
   activeSlot.value = 'left';
 }
 
-onShareAppMessage(() => ({ title: '角色对比 · 蓝色星原助手', path: '/pages/compare/compare' }));
+onShareAppMessage(() => ({ title: '角色对比 · 奇波小助手', path: '/pages/compare/compare' }));
+
+const panelCompareRowsRef = panelCompareRows;
+function barWidth(val) {
+  if (!val) return '0%';
+  return Math.min(Math.round((val / 8000) * 100), 100) + '%';
+}
 </script>
 
 <style>
@@ -205,5 +234,66 @@ onShareAppMessage(() => ({ title: '角色对比 · 蓝色星原助手', path: '/
   font-size: 21rpx;
   text-align: center;
   padding-top: 4rpx;
+}
+
+.pnl-row {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  padding: 12rpx 0;
+}
+
+.pnl-row__val {
+  min-width: 110rpx;
+  text-align: left;
+  font-size: 27rpx;
+  font-weight: 600;
+  color: #d9841f;
+}
+
+.pnl-row__val--r {
+  text-align: right;
+  color: #2f6bff;
+}
+
+.pnl-row__mid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.pnl-row__label {
+  text-align: center;
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
+.pnl-row__bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.pnl-row__bar {
+  height: 10rpx;
+  border-radius: 999rpx;
+  background: #d9841f;
+}
+
+.pnl-row__bar--r {
+  background: #2f9bff;
+}
+
+.pnl-legend {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  color: #8a93a8;
+}
+
+.pnl-legend__hint {
+  margin-left: auto;
 }
 </style>

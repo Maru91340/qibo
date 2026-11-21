@@ -26,6 +26,16 @@
       <text class="section-title__more">{{ summary.coverage }}</text>
     </view>
 
+    <view v-if="counterHints.length" class="counter-hints">
+      <view v-for="hint in counterHints" :key="hint.key" class="counter-hints__row">
+        <view class="counter-hints__tag" :style="{ color: hint.color, background: hint.tint }">{{ hint.name }}</view>
+        <text class="counter-hints__text">克制 {{ hint.targets }}</text>
+      </view>
+    </view>
+    <view v-else class="counter-hints counter-hints--empty">
+      <text class="counter-hints__text">选择角色后展示其克制目标（克制 ×1.25，被克 ×0.75）</text>
+    </view>
+
     <view class="slots">
       <template v-for="slot in memberViews" :key="slot.key">
         <view v-if="slot.data" class="slot slot--filled" hover-class="tap-hover" @tap="goDetail('character', slot.data.id)">
@@ -35,11 +45,11 @@
           <view class="slot__name">{{ slot.data.name }}</view>
           <view class="slot__role">{{ slot.data.role }}</view>
           <view class="slot__remove" hover-class="tap-hover" @tap.stop="removeMember(slot.data.id)">
-            <c-icon name="close" size="26rpx" color="#97a0b5" />
+            <c-icon name="close" size="26rpx" color="var(--ink-3)" />
           </view>
         </view>
         <view v-else class="slot slot--empty" hover-class="tap-hover" @tap="openPicker('character')">
-          <c-icon name="add" size="44rpx" color="#c2c9d6" />
+          <c-icon name="add" size="44rpx" color="var(--ink-3)" />
           <text class="slot__hint">添加角色</text>
         </view>
       </template>
@@ -47,7 +57,7 @@
 
     <view class="section-title">
       <text>出战奇波</text>
-      <text class="section-title__more">影响合击元素</text>
+      <text class="section-title__more">{{ MAX_QIBO }} 只编成</text>
     </view>
 
     <view class="slots">
@@ -59,11 +69,11 @@
           <view class="slot__name">{{ slot.data.name }}</view>
           <view class="slot__role">{{ slot.data.role }}</view>
           <view class="slot__remove" hover-class="tap-hover" @tap.stop="removeQibo(slot.data.id)">
-            <c-icon name="close" size="26rpx" color="#97a0b5" />
+            <c-icon name="close" size="26rpx" color="var(--ink-3)" />
           </view>
         </view>
         <view v-else class="slot slot--empty" hover-class="tap-hover" @tap="openPicker('qibo')">
-          <c-icon name="add" size="44rpx" color="#c2c9d6" />
+          <c-icon name="add" size="44rpx" color="var(--ink-3)" />
           <text class="slot__hint">添加奇波</text>
         </view>
       </template>
@@ -86,7 +96,7 @@
       <view class="cx-btn cx-btn--ghost" hover-class="tap-hover" @tap="clearTeam">清空队伍</view>
     </view>
 
-    <view class="cx-empty"><view class="cx-empty__icon">🐾</view><view class="cx-empty__text">还没有编入角色，先去角色图鉴挑几位</view></view>
+    <view v-if="!team.members.length && !team.qibos.length" class="cx-empty"><view class="cx-empty__icon">🐾</view><view class="cx-empty__text">还没有编入角色，先去角色图鉴挑几位</view></view>
 
     <view v-if="pickerVisible" class="cx-overlay" @tap="pickerVisible = false">
       <view class="cx-sheet" @tap.stop>
@@ -111,8 +121,8 @@
               <view class="picker__name">{{ item.name }}</view>
               <view class="picker__desc">{{ item.desc }}</view>
             </view>
-            <c-icon v-if="item.added" name="check" size="34rpx" color="#2f6bff" />
-            <c-icon v-else name="add-circle" size="34rpx" color="#c2c9d6" />
+            <c-icon v-if="item.added" name="check" size="34rpx" color="var(--brand)" />
+            <c-icon v-else name="add-circle" size="34rpx" color="var(--ink-3)" />
           </view>
         </scroll-view>
       </view>
@@ -158,6 +168,31 @@ const updatedText = computed(() =>
 
 const memberViews = computed(() => slots(team.value.members, characterIndex.value, MAX_MEMBERS));
 const qiboViews = computed(() => slots(team.value.qibos, qiboIndex.value, MAX_QIBO));
+
+// R2-8 克制提示（对齐竞品队伍编成「克制提示」区块：展示出战角色元素的克制目标）
+const counterHints = computed(() => {
+  const seen = new Set();
+  const hints = [];
+  team.value.members.forEach((id) => {
+    const item = characterIndex.value[id];
+    const key = item && item.element;
+    if (!key || seen.has(key)) return;
+    const element = toolkit.value.elementMap[key];
+    const targets = (toolkit.value.counters && toolkit.value.counters[key]) || [];
+    if (!element || !targets.length) return;
+    seen.add(key);
+    hints.push({
+      key,
+      name: element.name || key,
+      color: element.color || '#2f9bff',
+      tint: element.tint || '#eaf4ff',
+      targets: targets
+        .map((t) => (toolkit.value.elementMap[t] || {}).name || t)
+        .join('、')
+    });
+  });
+  return hints;
+});
 
 const checks = computed(() => [
   { label: '有明确输出位', ok: summary.value.hasCarry },
@@ -231,10 +266,6 @@ function openPicker(type) {
   refreshPicker();
 }
 
-function onPopupChange(event) {
-  pickerVisible.value = event.detail.visible;
-}
-
 function pickItem(item) {
   if (item.disabled) return;
   if (pickerType.value === 'qibo') {
@@ -263,6 +294,9 @@ function removeQibo(id) {
 }
 
 function goDetail(type, id) {
+  // 阶段5：奇波/角色详情唯一入口在分包；其余图鉴仍在主包
+  if (type === 'character') return uni.navigateTo({ url: `/pkg-character/detail?id=${id}` });
+  if (type === 'qibo') return uni.navigateTo({ url: `/pkg-qibo/detail?id=${id}` });
   uni.navigateTo({ url: `/pages/${type}/detail?id=${id}` });
 }
 
@@ -299,7 +333,7 @@ onLoad(refresh);
 onShow(refresh);
 unsubscribe = onCatalogUpdate(refresh);
 onUnload(() => unsubscribe && unsubscribe());
-onShareAppMessage(() => ({ title: `我的蓝色星原队伍：${team.value.name}`, path: '/pages/index/index' }));
+onShareAppMessage(() => ({ title: `我的队伍：${team.value.name} · 奇波小助手`, path: '/pages/index/index' }));
 </script>
 
 <style>
@@ -349,6 +383,40 @@ onShareAppMessage(() => ({ title: `我的蓝色星原队伍：${team.value.name}
   align-items: center;
   gap: 20rpx;
   margin-top: 24rpx;
+}
+
+.counter-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx 20rpx;
+  margin-top: 14rpx;
+}
+
+.counter-hints--empty {
+  opacity: 0.7;
+}
+
+.counter-hints__row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.counter-hints__tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44rpx;
+  height: 36rpx;
+  padding: 0 10rpx;
+  border-radius: 8rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+}
+
+.counter-hints__text {
+  color: var(--ink-2);
+  font-size: 22rpx;
 }
 
 .coverage__item {
@@ -472,13 +540,19 @@ onShareAppMessage(() => ({ title: `我的蓝色星原队伍：${team.value.name}
   justify-content: space-between;
   gap: 20rpx;
   margin: 32rpx 0 8rpx;
+  /* 9.5 / T01：双按钮等宽分布，避免短文案描边按钮贴边与基线错位（P1 修复） */
+  padding: 0 8rpx;
+}
+
+.actions .cx-btn {
+  flex: 1;
 }
 
 .picker {
   display: flex;
   flex-direction: column;
   max-height: 72vh;
-  padding: 28rpx 28rpx 40rpx;
+  padding: 28rpx 28rpx calc(28rpx + env(safe-area-inset-bottom));
   border-radius: 32rpx 32rpx 0 0;
   background: var(--card-bg);
 }

@@ -1,5 +1,5 @@
 {
-  "name": "蓝色星原助手",
+  "name": "奇波小助手",
   "appid": "__UNI__QBXZS",
   "description": "奇波图鉴、角色图鉴、元素克制与队伍编成",
   "versionName": "1.0.0",
@@ -26,7 +26,7 @@
     "mergeVirtualHostAttributes": true
   },
   "h5": {
-    "title": "蓝色星原助手",
+    "title": "奇波小助手",
     "router": {
       "mode": "hash"
     }

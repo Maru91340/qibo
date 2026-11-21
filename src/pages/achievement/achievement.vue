@@ -47,6 +47,7 @@
           hover-class="facet-chip--hover" hover-stay-time="90" @tap="category = option"
         >
           {{ option }}
+          <text class="facet-chip__count">{{ categoryCount.get(option) || 0 }}</text>
         </view>
       </view>
     </view>
@@ -95,7 +96,7 @@ import { useTheme } from '@/utils/theme.js';
 
 const { isDark } = useTheme();
 import { computed, ref } from 'vue';
-import { onShareAppMessage } from '@dcloudio/uni-app';
+import { onShareAppMessage, onUnload } from '@dcloudio/uni-app';
 import { getCatalog, onCatalogUpdate } from '@/services/content.js';
 
 const keyword = ref('');
@@ -112,6 +113,18 @@ const categories = computed(() => {
     if (item.category) seen.set(item.category, (seen.get(item.category) || 0) + 1);
   });
   return ['全部', ...[...seen.keys()].sort((a, b) => seen.get(b) - seen.get(a))];
+});
+
+// R2-2：分类计数（对齐竞品成就页「全部 N / 分类 N」展示口径）
+const categoryCount = computed(() => {
+  const seen = new Map();
+  let total = 0;
+  items.value.forEach((item) => {
+    total += 1;
+    if (item.category) seen.set(item.category, (seen.get(item.category) || 0) + 1);
+  });
+  seen.set('全部', total);
+  return seen;
 });
 
 const totalCount = computed(() =>
@@ -150,9 +163,10 @@ function reload() {
 }
 
 reload();
-onCatalogUpdate(reload);
+const unsubscribe = onCatalogUpdate(reload);
+onUnload(() => unsubscribe && unsubscribe());
 
-onShareAppMessage(() => ({ title: '成就图鉴 · 蓝色星原助手', path: '/pages/achievement/achievement' }));
+onShareAppMessage(() => ({ title: '成就图鉴 · 奇波小助手', path: '/pages/achievement/achievement' }));
 </script>
 
 <style>

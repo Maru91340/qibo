@@ -15,6 +15,7 @@ const includesKeyword = (item, fields, kw) =>
     .indexOf(kw) >= 0;
 
 export function decorateWithElement(item, elementMap) {
+  if (!item) return null;
   const element = elementMap[item.element] || {};
   return Object.assign({}, item, {
     elementName: element.name || '—',
@@ -24,14 +25,35 @@ export function decorateWithElement(item, elementMap) {
   });
 }
 
+// 同组筛选匹配任一选项，不同组之间同时生效；兼容原有单选调用。
 export function filterQibos(items, options = {}) {
-  const kw = String(options.keyword || '').trim().toLowerCase();
+  const rawKeyword = String(options.keyword || '').trim();
+  const kw = rawKeyword.toLowerCase();
+  const exactCodeQuery = !!rawKeyword && /^[0-9a-z]+$/i.test(rawKeyword);
+  const numberQuery = /^\d+$/.test(rawKeyword) ? String(Number(rawKeyword)) : '';
+  const selected = (value) => (Array.isArray(value) ? value : [value]).filter((entry) => entry && entry !== '全部' && entry !== 'all');
+  const matches = (selection, values) => !selection.length || selection.some((value) => values.includes(value));
+  const elements = selected(options.element);
+  const stages = selected(options.stage);
+  const races = selected(options.race);
+  const sizes = selected(options.size);
+  const jobs = selected(options.job);
   return (items || []).filter((item) => {
+    const fields = item.fields || [];
+    const valuesOf = (label) => fields.filter((field) => field.label === label).flatMap((field) => String(field.value || '').split(/[、,，]/).map((value) => value.trim()).filter(Boolean));
     if (options.kind && options.kind !== '全部' && item.kind !== options.kind) return false;
-    if (options.element && options.element !== 'all' && item.element !== options.element) return false;
+    if (!matches(elements, item.elements && item.elements.length ? item.elements : [item.element])) return false;
+    if (!matches(stages, valuesOf('阶段'))) return false;
+    if (!matches(races, valuesOf('种族'))) return false;
+    if (!matches(sizes, valuesOf('体型'))) return false;
+    if (!matches(jobs, valuesOf('家园工种'))) return false;
     if (options.rarity && options.rarity !== '全部' && item.rarity !== options.rarity) return false;
     if (options.usage && options.usage !== '全部' && (item.usage || []).indexOf(options.usage) < 0) return false;
-    if (kw && !includesKeyword(item, ['name', 'desc', 'habitat', 'kind', 'rarity', 'usage', 'skills'], kw)) return false;
+    if (exactCodeQuery) {
+      const itemNumber = String(Number(item.number));
+      const itemCode = String(item.code || `${item.number || ''}${item.suffix || ''}`).toLowerCase();
+      if (numberQuery ? itemNumber !== numberQuery : itemCode !== kw) return false;
+    } else if (kw && !includesKeyword(item, ['name', 'desc', 'habitat', 'kind', 'rarity', 'usage', 'skills'], kw)) return false;
     return true;
   });
 }
@@ -40,7 +62,7 @@ export function filterCharacters(items, options = {}) {
   const kw = String(options.keyword || '').trim().toLowerCase();
   return (items || []).filter((item) => {
     if (options.role && options.role !== '全部' && item.role !== options.role) return false;
-    if (options.element && options.element !== 'all' && item.element !== options.element) return false;
+    if (options.element && options.element !== 'all' && !(item.elements && item.elements.length ? item.elements : [item.element]).includes(options.element)) return false;
     if (options.rarity && options.rarity !== '全部' && item.rarity !== options.rarity) return false;
     if (kw && !includesKeyword(item, ['name', 'title', 'desc', 'role', 'rarity', 'teams'], kw)) return false;
     return true;
@@ -87,7 +109,7 @@ export function searchAll(source, keyword) {
         name: item.name,
         desc: `${item.title} · ${item.role}`,
         icon: 'usergroup',
-        path: `/pages/character/detail?id=${item.id}`
+        path: `/pkg-character/detail?id=${item.id}`
       }))
     });
   }
@@ -99,7 +121,7 @@ export function searchAll(source, keyword) {
         name: item.name,
         desc: `${item.kind} · ${item.habitat}`,
         icon: 'smile',
-        path: `/pages/qibo/detail?id=${item.id}`
+        path: `/pkg-qibo/detail?id=${item.id}`
       }))
     });
   }

@@ -4,11 +4,10 @@
       <view class="page-hero__inner">
         <text class="page-hero__eyebrow">内容与运营</text>
         <view class="page-hero__title">壁纸画廊</view>
-        <view class="page-hero__sub">官方壁纸与活动贺图占位预览，原图接入后可保存到相册。</view>
+        <view class="page-hero__sub">官方壁纸 · 节日贺图 · 过场图（BWIKI 收录，点击可查看大图）</view>
         <view class="page-hero__meta">
           <text class="page-hero__tag">{{ items.length }} 张</text>
           <text class="page-hero__tag">{{ categories.length - 1 }} 个分类</text>
-          <text class="page-hero__tag">示例预览</text>
         </view>
       </view>
     </view>
@@ -45,14 +44,24 @@
         hover-stay-time="90"
         @tap="goDetail(item)"
       >
-        <view class="wallpaper-card__cover" :style="{ background: gradientOf(item) }">
-          <text class="wallpaper-card__glyph">{{ item.title.slice(0, 1) }}</text>
+        <view class="wallpaper-card__cover">
+          <image
+            v-if="item.url && !brokenIcons[item.id]"
+            class="wallpaper-card__img"
+            :src="item.url"
+            mode="aspectFill"
+            lazy-load
+            @error="brokenIcons[item.id] = true"
+          />
+          <view v-else class="wallpaper-card__cover wallpaper-card__cover--ph" :style="{ background: gradientOf(item) }">
+            <text class="wallpaper-card__glyph">{{ item.title.slice(0, 1) }}</text>
+          </view>
           <view class="wallpaper-card__veil" />
           <text class="wallpaper-card__cat">{{ item.category }}</text>
         </view>
         <view class="wallpaper-card__body">
           <view class="wallpaper-card__title">{{ item.title }}</view>
-          <view class="wallpaper-card__note">{{ item.desc }}</view>
+          <view v-if="item.desc" class="wallpaper-card__note">{{ item.desc }}</view>
         </view>
       </view>
     </view>
@@ -66,7 +75,7 @@
       </view>
     </view>
 
-    <view class="ct-source">当前为占位预览，不使用来源不明的图片；官方壁纸接入后替换并开放保存。</view>
+    <view class="ct-source">图片来源：BWIKI 官方壁纸页（tgs2025 / Comic World 330 / 动态 / 星至测试 / 官网），点击可查看大图。</view>
   </view>
 </template>
 
@@ -76,9 +85,28 @@ import { useTheme } from '@/utils/theme.js';
 const { isDark } = useTheme();
 import { computed, ref } from 'vue';
 import { onShareAppMessage } from '@dcloudio/uni-app';
-import { wallpapers } from '@/data/content.js';
+import wallpaperData from '@/data/generated/wallpapers.json';
+import { cloudDetailAsset } from '@/data/site-images.js';
 
-const items = wallpapers;
+const brokenIcons = ref({});
+// 文件名转友好标题：去扩展名与 hash 后缀（如 banner.25882074.jpg → banner）
+function prettyName(item) {
+  if (item.note) {
+    const fromNote = item.note.split('：')[0].trim();
+    if (fromNote) return fromNote.slice(0, 18);
+  }
+  return item.name.replace(/\.[a-z0-9]+$/i, '').replace(/\.[a-f0-9]{6,}$/i, '');
+}
+const items = wallpaperData.groups.flatMap((group) =>
+  group.items.map((item, idx) => ({
+    id: group.label + '-' + idx,
+    title: prettyName(item),
+    desc: item.note,
+    category: group.label,
+    // patchwiki 原图：微信端转 cloud:// detail-assets/BWIKI采集图/<原名>，H5 保持热链
+    url: cloudDetailAsset(item.url)
+  }))
+);
 const category = ref('全部');
 
 const categories = computed(() => {
@@ -98,10 +126,14 @@ function gradientOf(item) {
 }
 
 function goDetail(item) {
+  if (item.url) {
+    uni.previewImage({ urls: [item.url], current: item.url });
+    return;
+  }
   uni.navigateTo({ url: `/pages/wallpaper/detail?id=${item.id}` });
 }
 
-onShareAppMessage(() => ({ title: '壁纸画廊 · 蓝色星原助手', path: '/pages/wallpaper/list' }));
+onShareAppMessage(() => ({ title: '壁纸画廊 · 奇波小助手', path: '/pages/wallpaper/list' }));
 </script>
 
 <style>
@@ -173,5 +205,17 @@ onShareAppMessage(() => ({ title: '壁纸画廊 · 蓝色星原助手', path: '/
   color: var(--ink-3);
   font-size: 21rpx;
   line-height: 1.5;
+}
+
+.wallpaper-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.wallpaper-card__cover--ph {
+  position: absolute;
+  inset: 0;
 }
 </style>

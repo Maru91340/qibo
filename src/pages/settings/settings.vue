@@ -25,13 +25,9 @@
     </view>
 
     <view class="panel card">
-      <view class="panel__title">云端发布（管理员）</view>
-      <view class="panel__desc">把内置图鉴数据发布到云数据库，供所有用户在线拉取。口令与云函数环境变量 QBXZS_SEED_TOKEN 一致。</view>
-      <view class="pub-token">
-        <input class="pub-token__input" :value="seedToken" password placeholder="SEED_TOKEN 口令" placeholder-class="ac-search__ph" @input="seedToken = $event.detail.value" />
-      </view>
-      <view class="st-btn" hover-class="tap-hover" @tap="publishBundled">{{ publishing ? '发布中…' : '发布内置数据到云端' }}</view>
-      <view v-if="publishResult" class="pub-result">{{ publishResult }}</view>
+      <view class="panel__title">问题反馈</view>
+      <view class="panel__desc">数据纠错 · 功能建议 · Bug 反馈；通过微信客服会话直接联系维护者，会话记录保留在微信中。</view>
+      <button class="st-btn st-btn--contact" open-type="contact" hover-class="tap-hover">前往反馈</button>
     </view>
 
     <view class="panel card">
@@ -50,17 +46,15 @@
       </view>
     </view>
 
-    <view class="footnote">蓝色星原手册 · 非官方资料站</view>
+    <view class="footnote">奇波小助手 · 非官方资料站</view>
   </view>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
-import { useTheme, setThemePref, readThemePref } from '@/utils/theme.js';
+import { useTheme, setThemePref, refreshTheme } from '@/utils/theme.js';
 import { clearCatalogCache, catalogNotice, prefetchCatalog } from '@/services/content.js';
-import { callCloudFunction } from '@/services/cloud.js';
-import { CATALOG_FUNCTIONS } from '@/config/cloud.js';
 import { APP_VERSION } from '@/config/app.js';
 
 const { pref, isDark } = useTheme();
@@ -80,41 +74,6 @@ function apply(value) {
   setThemePref(value);
 }
 
-const seedToken = ref(uni.getStorageSync('qbxzs:seed-token') || '');
-const publishing = ref(false);
-const publishResult = ref('');
-
-async function publishBundled() {
-  if (publishing.value) return;
-  if (!seedToken.value.trim()) {
-    uni.showToast({ title: '请输入口令', icon: 'none' });
-    return;
-  }
-  uni.setStorageSync('qbxzs:seed-token', seedToken.value.trim());
-  publishing.value = true;
-  publishResult.value = '';
-  try {
-    const res = await callCloudFunction(CATALOG_FUNCTIONS.seed, {
-      action: 'publish',
-      source: 'bundled',
-      token: seedToken.value.trim()
-    }, 60000);
-    if (res && res.ok) {
-      const counts = res.counts || {};
-      const total = Object.values(counts).reduce((a, b) => a + b, 0);
-      publishResult.value = `✓ 发布成功 version ${res.version} · ${total} 条`;
-      uni.showToast({ title: '发布成功', icon: 'success' });
-    } else {
-      publishResult.value = `✗ ${res ? res.code || res.message : '无返回'}`;
-      uni.showToast({ title: '发布失败', icon: 'none' });
-    }
-  } catch (error) {
-    publishResult.value = `✗ ${error.message || error}`;
-    uni.showToast({ title: '发布失败', icon: 'none' });
-  }
-  publishing.value = false;
-}
-
 function clearCache() {
   clearCatalogCache();
   uni.showToast({ title: '缓存已清除', icon: 'none' });
@@ -122,7 +81,7 @@ function clearCache() {
 }
 
 onShow(() => {
-  pref.value = readThemePref();
+  refreshTheme();
   const cache = uni.getStorageSync('qbxzs:catalog-cache');
   cacheVersion.value = cache && cache.revision ? new Date(cache.fetchedAt).toLocaleDateString() : '';
 });
@@ -178,25 +137,13 @@ onShow(() => {
   font-size: 26rpx;
   background: var(--card-bg);
 }
-.pub-token {
-  margin-top: 18rpx;
-  padding: 14rpx 20rpx;
-  border-radius: 16rpx;
-  background: var(--soft);
+.st-btn--contact {
+  border: none;
+  width: 100%;
+  text-align: center;
+  line-height: inherit;
 }
-
-.pub-token__input {
-  font-size: 25rpx;
-  color: var(--ink);
-}
-
-.pub-result {
-  margin-top: 14rpx;
-  padding: 14rpx 18rpx;
-  border-radius: 14rpx;
-  background: var(--soft);
-  color: var(--ink-2);
-  font-size: 22rpx;
-  line-height: 1.5;
+.st-btn--contact::after {
+  border: none;
 }
 </style>

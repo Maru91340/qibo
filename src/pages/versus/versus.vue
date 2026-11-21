@@ -117,7 +117,7 @@ function goPage(path) {
   uni.navigateTo({ url: path });
 }
 
-onShareAppMessage(() => ({ title: '奇波对决 · 蓝色星原助手', path: '/pages/versus/versus' }));
+onShareAppMessage(() => ({ title: '奇波对决 · 奇波小助手', path: '/pages/versus/versus' }));
 </script>
 
 <style>

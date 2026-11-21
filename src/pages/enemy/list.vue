@@ -1,5 +1,7 @@
 <template>
+  <page-meta :page-style="sheetOpen ? 'overflow: hidden;' : ''" />
   <catalog-list
+    @sheet="sheetOpen = $event"
     type="enemy"
     search-placeholder="搜敌人名称、元素"
     accent="#e0553f"
@@ -10,7 +12,9 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { onShareAppMessage } from '@dcloudio/uni-app';
 
-onShareAppMessage(() => ({ title: '敌人图鉴 · 蓝色星原助手', path: '/pages/enemy/list' }));
+const sheetOpen = ref(false);
+onShareAppMessage(() => ({ title: '敌人图鉴 · 奇波小助手', path: '/pages/enemy/list' }));
 </script>

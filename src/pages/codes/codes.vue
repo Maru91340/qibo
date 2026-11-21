@@ -101,7 +101,7 @@ function goSubscribe() {
   uni.navigateTo({ url: '/pages/subscribe/subscribe' });
 }
 
-onShareAppMessage(() => ({ title: '福利码 · 蓝色星原助手', path: '/pages/codes/codes' }));
+onShareAppMessage(() => ({ title: '福利码 · 奇波小助手', path: '/pages/codes/codes' }));
 </script>
 
 <style>

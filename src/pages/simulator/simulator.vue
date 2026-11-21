@@ -4,7 +4,7 @@
     sub="用你自定的单抽概率做本地随机模拟，观察抽数内命中次数与最长未命中；结果不代表官方掉率。"
     :tags="['自定概率', '本地运算', '非官方']"
     hero="linear-gradient(135deg, #1f3d9e 0%, #7f5bff 55%, #4fd2e8 100%)"
-    note="官方卡池概率未公开，本页概率由你手动输入，仅用于理解随机分布，不构成任何抽卡建议或结果预测。"
+    note="官方卡池概率未公开，本页概率由你手动输入，仅用于理解随机分布，不构成任何抽卡建议或结果预测；概率参考表为三测口径（BWIKI/竞品样本），公测以官方公告为准。"
   >
     <view class="tool-panel">
       <view class="tool-panel__head">
@@ -59,6 +59,61 @@
       <view class="tool-bar">
         <view class="ct-btn" hover-class="ct-btn--hover" @tap="run">开始模拟</view>
         <view class="ct-btn ct-btn--ghost" hover-class="ct-btn--hover" @tap="clearHistory">清空记录</view>
+      </view>
+    </view>
+
+    <view class="tool-panel">
+      <view class="tool-panel__head">
+        <text class="tool-panel__title">星结参数（对照竞品）</text>
+        <text class="tool-panel__hint">公式未公开</text>
+      </view>
+      <view class="tool-result__row">
+        <text class="tool-result__key">目标奇波</text>
+        <picker mode="selector" :range="qiboNames" @change="onQiboPick">
+          <text class="tool-result__value">{{ qiboName }}（点按更换）</text>
+        </picker>
+      </view>
+      <view class="tool-result__row">
+        <text class="tool-result__key">目标等级 / 剩余血量</text>
+        <text class="tool-result__value">Lv.{{ starLevel }} / {{ starHp }}%</text>
+      </view>
+      <view class="tool-result__row">
+        <text class="tool-result__key">世界等级 / 连结力 / 图志</text>
+        <text class="tool-result__value">W{{ starWorld }} / {{ starLink }} / {{ starBook }}</text>
+      </view>
+      <view class="tool-result__row">
+        <text class="tool-result__key">星结蛋糕</text>
+        <text class="tool-result__value">{{ starCake ? '有 (+5)' : '无' }}</text>
+      </view>
+    </view>
+
+    <view class="tool-panel">
+      <view class="tool-panel__head">
+        <text class="tool-panel__title">各卡牌星结概率</text>
+        <text class="tool-panel__hint">竞品默认参数参考</text>
+      </view>
+      <view class="star-table">
+        <view class="star-table__head">
+          <text>卡牌</text><text>首卡概率</text><text>期望张数</text><text>95%需</text><text>必得</text>
+        </view>
+        <view v-for="card in starCardRates" :key="card.key" class="star-table__row">
+          <text class="star-table__name">{{ card.name }}<text v-if="card.recommend" class="star-table__rec">推荐</text></text>
+          <text class="star-table__rate">{{ card.rate }}</text>
+          <text>{{ card.expected }}</text>
+          <text>{{ card.p95 }}</text>
+          <text>{{ card.guaranteed }}</text>
+        </view>
+        <text class="star-table__note">首卡概率为 1 星结的成功率；期望张数=成功 1 次平均消耗；95%需/必得=累计概率达 95%/100% 所需张数。公式未公开，以上为竞品默认参数（小芽狐 Lv.30/血量100%/世界等级1/连结力60/无蛋糕）参考值。</text>
+      </view>
+    </view>
+
+    <view class="tool-panel">
+      <view class="tool-panel__head">
+        <text class="tool-panel__title">过程拆解示例</text>
+      </view>
+      <view v-for="step in starProcessDemo" :key="step.label" class="tool-result__row">
+        <text class="tool-result__key">{{ step.label }}</text>
+        <text class="tool-result__value">{{ step.value }}</text>
       </view>
     </view>
 
@@ -119,7 +174,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { onShareAppMessage } from '@dcloudio/uni-app';
-import { simulatorPresets } from '@/data/tools.js';
+import { simulatorPresets, starCardRates, starProcessDemo } from '@/data/tools.js';
 
 const STORAGE_KEY = 'qbxzs:simulator';
 const MIN_RATE = 0.1;
@@ -205,7 +260,20 @@ function clearHistory() {
   uni.showToast({ title: '已清空记录', icon: 'none' });
 }
 
-onShareAppMessage(() => ({ title: '星结模拟 · 蓝色星原助手', path: '/pages/simulator/simulator' }));
+onShareAppMessage(() => ({ title: '星结模拟 · 奇波小助手', path: '/pages/simulator/simulator' }));
+
+// 星结参数（对照竞品，公式未公开）
+const qiboName = ref('小芽狐');
+const qiboNames = ref(['小芽狐', '导电螳', '影蝠', '库库', '浮蝶']);
+const starLevel = ref(30);
+const starHp = ref(100);
+const starWorld = ref(1);
+const starLink = ref(60);
+const starBook = ref(1);
+const starCake = ref(false);
+function onQiboPick(event) {
+  qiboName.value = qiboNames.value[Number(event.detail.value)] || qiboName.value;
+}
 </script>
 
 <style>
@@ -213,5 +281,56 @@ onShareAppMessage(() => ({ title: '星结模拟 · 蓝色星原助手', path: '/
   margin-top: 20rpx;
   padding-top: 12rpx;
   border-top: 1rpx solid var(--line);
+}
+
+.star-table {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.star-table__head,
+.star-table__row {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #5a6480;
+}
+
+.star-table__head text,
+.star-table__row text {
+  flex: 1;
+  text-align: center;
+}
+
+.star-table__head {
+  color: #8a93a8;
+  font-size: 22rpx;
+}
+
+.star-table__name {
+  text-align: left !important;
+  color: #333;
+}
+
+.star-table__rate {
+  color: #d9841f;
+  font-weight: 600;
+}
+
+.star-table__rec {
+  margin-left: 8rpx;
+  padding: 2rpx 8rpx;
+  border-radius: 6rpx;
+  background: #e2543f;
+  color: #fff;
+  font-size: 18rpx;
+}
+
+.star-table__note {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #8a93a8;
+  line-height: 1.6;
 }
 </style>

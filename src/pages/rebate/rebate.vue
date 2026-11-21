@@ -35,14 +35,14 @@
 
       <view class="tool-picker">
         <view
-          v-for="tier in rebateTiers"
-          :key="tier.amount"
+          v-for="quick in rebateQuickAmounts"
+          :key="quick"
           class="tool-picker__item"
-          :class="{ 'tool-picker__item--active': amount === tier.amount }"
+          :class="{ 'tool-picker__item--active': amount === quick }"
           hover-class="tool-picker__item--hover"
           hover-stay-time="90"
-          @tap="setAmount(tier.amount)"
-        >¥{{ tier.amount }}</view>
+          @tap="setAmount(quick)"
+        >¥{{ quick }}</view>
       </view>
 
       <view class="tool-bar">
@@ -52,8 +52,8 @@
 
     <view class="tool-panel">
       <view class="tool-panel__head">
-        <text class="tool-panel__title">档位对照</text>
-        <text class="tool-panel__hint">{{ reachedCount }} / {{ rebateTiers.length }} 档</text>
+        <text class="tool-panel__title">星虹返利估算</text>
+        <text class="tool-panel__hint">2000 内 200% · 更高 150%</text>
       </view>
 
       <view class="tool-ladder">
@@ -79,6 +79,10 @@
         <text class="tool-result__label">累计充值（本地输入）</text>
         <text class="tool-result__hero">¥{{ amount }}</text>
         <text class="tool-result__text">{{ tierText }}</text>
+        <view class="tool-result__row">
+          <text class="tool-result__key">预估返利星虹</text>
+          <text class="tool-result__value">{{ rebateEstimate }} 星虹</text>
+        </view>
       </view>
 
       <view v-else class="tool-empty">
@@ -92,12 +96,21 @@
         <text class="tool-result__value">{{ highestTier ? '¥' + highestTier : '暂无' }}</text>
       </view>
       <view class="tool-result__row">
-        <text class="tool-result__key">预估返利</text>
-        <text class="tool-result__value tool-result__value--pending">公测后开放</text>
+        <text class="tool-result__key">返利发放</text>
+        <text class="tool-result__value">星虹邮件 · 365 天有效</text>
       </view>
       <view class="tool-result__row">
         <text class="tool-result__key">发放形式 / 上限</text>
         <text class="tool-result__value tool-result__value--pending">待核实</text>
+      </view>
+    </view>
+    <view class="tool-panel">
+      <view class="tool-panel__head">
+        <text class="tool-panel__title">返还规则要点</text>
+      </view>
+      <view class="rebate-rules">
+        <text v-for="(rule, idx) in rebateRules" :key="idx" class="rebate-rules__item">· {{ rule }}</text>
+        <text class="rebate-rules__note">规则以官方『旅途测试充值返还规则说明』为准；本工具仅做预演，不构成任何承诺。</text>
       </view>
     </view>
   </tool-shell>
@@ -106,7 +119,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { onShareAppMessage } from '@dcloudio/uni-app';
-import { rebateTiers } from '@/data/tools.js';
+import { rebateQuickAmounts, rebateRules, calcRebate } from '@/data/tools.js';
 
 const STORAGE_KEY = 'qbxzs:rebate';
 const MAX_AMOUNT = 99999;
@@ -123,17 +136,12 @@ function readAmount() {
 const amount = ref(readAmount());
 const amountLabel = computed(() => `¥${amount.value}`);
 const amountInput = computed(() => (amount.value ? String(amount.value) : ''));
-const highestTier = computed(() => {
-  let result = 0;
-  rebateTiers.forEach((tier) => {
-    if (amount.value >= tier.amount) result = tier.amount;
-  });
-  return result;
-});
-const reachedCount = computed(() => rebateTiers.filter((tier) => amount.value >= tier.amount).length);
+const rebateEstimate = computed(() => calcRebate(amount.value));
 const tierText = computed(() => {
-  if (!highestTier.value) return '尚未达到任何示例档位，继续输入金额即可看到对照结果。';
-  return `已达到 ¥${highestTier.value} 示例档位；更高档位金额与返利规则待官方公布。`;
+  if (!amount.value) return '输入金额或点选快捷档位，查看星虹返利估算。';
+  return amount.value <= 2000
+    ? '2,000 元以内按 200% 返星虹。'
+    : '2,000 元以内按 200%，超出部分按 150% 估算（125% 档位分界待核实）。';
 });
 
 function save(value) {
@@ -159,5 +167,5 @@ function reset() {
   uni.showToast({ title: '已清零', icon: 'none' });
 }
 
-onShareAppMessage(() => ({ title: '充值返利 · 蓝色星原助手', path: '/pages/rebate/rebate' }));
+onShareAppMessage(() => ({ title: '充值返利 · 奇波小助手', path: '/pages/rebate/rebate' }));
 </script>

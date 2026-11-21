@@ -116,7 +116,7 @@ function goSearch() {
   uni.navigateTo({ url: '/pages/search/search' });
 }
 
-onShareAppMessage(() => ({ title: '奇波百科 · 蓝色星原助手', path: '/pages/wiki/wiki' }));
+onShareAppMessage(() => ({ title: '奇波百科 · 奇波小助手', path: '/pages/wiki/wiki' }));
 </script>
 
 <style>

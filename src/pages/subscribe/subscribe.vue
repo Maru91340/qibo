@@ -27,6 +27,7 @@
             <text class="ct-tag ct-tag--ghost">{{ topic.cadence }}</text>
           </view>
           <view class="sub-row__desc">{{ topic.desc }}</view>
+          <view v-if="topic.entry" class="sub-row__entry">入口：{{ topic.entry }}</view>
         </view>
         <view class="sub-switch" :class="{ 'sub-switch--on': active[topic.id] }">
           <view class="sub-switch__knob" />
@@ -48,7 +49,7 @@
       </view>
       <view class="kv__row">
         <text class="kv__key">推送方式</text>
-        <text class="kv__value">订阅消息（待配置）</text>
+        <text class="kv__value">{{ pushStatusText }}</text>
       </view>
     </view>
 
@@ -73,6 +74,28 @@ import { subscribeTopics } from '@/data/content.js';
 
 const STORAGE_KEY = 'qbxzs:subscribe';
 const topics = subscribeTopics;
+// P2-2 订阅消息接线（2026-11-04）：在微信公众平台-订阅消息申请模板后，把模板 ID 填入
+// 该数组即可（最多 3 条/次请求），无需再改任何逻辑；为空时保持「本地记录」优雅降级。
+const SUBSCRIBE_TEMPLATE_IDS = [];
+const pushStatusText = SUBSCRIBE_TEMPLATE_IDS.length
+  ? '微信订阅消息（已接入）'
+  : '订阅消息（模板待配置，先本地记录）';
+
+function requestSubscribe() {
+  // #ifdef MP-WEIXIN
+  if (!SUBSCRIBE_TEMPLATE_IDS.length) {
+    uni.showToast({ title: '订阅消息模板待配置，已先本地记录', icon: 'none' });
+    return;
+  }
+  uni.requestSubscribeMessage({
+    tmplIds: SUBSCRIBE_TEMPLATE_IDS.slice(0, 3),
+    fail: () => uni.showToast({ title: '未获得订阅授权，仍保留本地记录', icon: 'none' })
+  });
+  // #endif
+  // #ifndef MP-WEIXIN
+  uni.showToast({ title: '当前端仅本地记录，小程序端可接收订阅消息', icon: 'none' });
+  // #endif
+}
 
 function readActive() {
   const stored = uni.getStorageSync(STORAGE_KEY);
@@ -98,21 +121,28 @@ function save() {
 }
 
 function toggle(id) {
+  const turningOn = !active.value[id];
   active.value = Object.assign({}, active.value, { [id]: !active.value[id] });
   save();
+  if (turningOn) requestSubscribe();
 }
 
 function setAll(value) {
+  const wasOff = enabledCount.value === 0;
   const next = {};
   topics.forEach((topic) => {
     next[topic.id] = value;
   });
   active.value = next;
   save();
-  uni.showToast({ title: value ? '已全部开启' : '已全部关闭', icon: 'none' });
+  if (value && wasOff) {
+    requestSubscribe();
+  } else {
+    uni.showToast({ title: value ? '已全部开启' : '已全部关闭', icon: 'none' });
+  }
 }
 
-onShareAppMessage(() => ({ title: '订阅提醒 · 蓝色星原助手', path: '/pages/subscribe/subscribe' }));
+onShareAppMessage(() => ({ title: '订阅提醒 · 奇波小助手', path: '/pages/subscribe/subscribe' }));
 </script>
 
 <style>
@@ -193,5 +223,11 @@ onShareAppMessage(() => ({ title: '订阅提醒 · 蓝色星原助手', path: '/
 
 .sub-switch--on .sub-switch__knob {
   transform: translateX(40rpx);
+}
+
+.sub-row__entry {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #a8aeb9;
 }
 </style>

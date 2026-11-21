@@ -12,5 +12,5 @@
 <script setup>
 import { onShareAppMessage } from '@dcloudio/uni-app';
 
-onShareAppMessage(() => ({ title: '地区阵营 · 蓝色星原助手', path: '/pages/region/list' }));
+onShareAppMessage(() => ({ title: '地区阵营 · 奇波小助手', path: '/pages/region/list' }));
 </script>

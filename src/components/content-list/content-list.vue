@@ -38,7 +38,7 @@
             hover-stay-time="90"
             @tap="category = option"
           >
-            {{ option }}
+            {{ option }} {{ categoryCount(option) }}
           </view>
         </view>
       </scroll-view>
@@ -60,14 +60,17 @@
       >
         <view class="content-card__cover" :style="{ background: coverBg }">
           <image
-            v-if="coverOf(item) && !brokenCovers[item.id]"
+            v-if="coverOf(item)"
             class="content-card__img"
             :src="coverOf(item)"
             mode="aspectFill"
             lazy-load
-            @error="brokenCovers[item.id] = true"
+            @error="onCoverError(item)"
           />
-          <text v-else class="content-card__glyph">{{ item.title.slice(0, 1) }}</text>
+          <view v-else class="content-card__glyph content-card__glyph--fallback" hover-class="tap-hover" @tap.stop="onCoverRetry(item)">
+            <text>{{ (item.title || '?').slice(0, 1) }}</text>
+            <text class="content-card__retry">↻ 点按重试</text>
+          </view>
           <view class="content-card__fade" />
           <text class="content-card__cat">{{ item.category }}</text>
         </view>
@@ -109,6 +112,8 @@ import { computed, ref, watch } from 'vue';
 import { CONTENT_NOTICE, CONTENT_UPDATED_AT, getContentCollection } from '@/data/content.js';
 import { getCatalog } from '@/services/content.js';
 import { hexToRgba } from '@/utils/format.js';
+import { useImageSources } from '@/utils/image-source.js';
+import { imageFileIndex } from '@/data/site-images.js';
 
 const props = defineProps({
   type: { type: String, required: true },
@@ -122,6 +127,11 @@ const collection = getContentCollection(props.type);
 const updatedAt = CONTENT_UPDATED_AT;
 const notice = CONTENT_NOTICE;
 const items = collection.items;
+// P2-3：分类 chips 附带条目计数（对齐竞品「剧情任务 94 · 阅读物 0」的统计样式）
+function categoryCount(option) {
+  if (option === '全部') return items.length;
+  return items.filter((entry) => entry.category === option).length;
+}
 const keyword = ref('');
 const category = ref(
   props.initialCategory && collection.categories.indexOf(props.initialCategory) >= 0
@@ -146,9 +156,27 @@ function hashIndex(key, length) {
   return length ? hash % length : 0;
 }
 
+// 2.4：一图流长图只登记为 poster 用途，列表封面按 poster 宽度取缩略图；
+// 其余内容条目的封面逻辑保持原样（随机装饰图属 H02，留待阶段 4.2 处理）
+const { srcOf, onError: nextImageSource, retry: retrySource } = useImageSources();
+function isPoster(item) {
+  return imageFileIndex('guideWiki', item.id, 'poster') >= 0;
+}
 function coverOf(item) {
+  if (!item || brokenCovers.value[item.id]) return '';
+  if (item.image && isPoster(item)) {
+    return srcOf(item, 'guideWiki', 'poster', { widths: [480, 240], fallback: item.image });
+  }
   if (item.image) return item.image;
   return arts.length ? arts[hashIndex(item.id, arts.length)] : '';
+}
+function onCoverError(item) {
+  if (isPoster(item)) { nextImageSource(item, 'poster'); return; }
+  brokenCovers.value[item.id] = true;
+}
+function onCoverRetry(item) {
+  if (isPoster(item)) { retrySource(item, 'poster'); return; }
+  brokenCovers.value = Object.assign({}, brokenCovers.value, { [item.id]: false });
 }
 
 const coverBg = computed(
@@ -218,6 +246,23 @@ function goSearch() {
   font-size: 84rpx;
   font-weight: 700;
   opacity: 0.5;
+}
+
+/* 2.5 封面缺图占位：与封面同高，标题在下方正文区固定可见 */
+.content-card__glyph--fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  width: 100%;
+  height: 200rpx;
+  font-size: 72rpx;
+}
+
+.content-card__retry {
+  font-size: 20rpx;
+  opacity: 0.8;
 }
 
 .content-card__fade {

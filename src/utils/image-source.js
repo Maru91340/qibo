@@ -3,17 +3,43 @@
 // 由页面渲染首字/元素徽章占位，图片区域尺寸固定，不会因失败改动布局。
 import { ref } from 'vue';
 import { imageSources } from '@/data/site-images.js';
+import { resolveCloudFileURL } from '@/services/cloud.js';
 
 export function useImageSources() {
   const stages = ref({});
+  const cloudUrls = ref({});
+  const cloudRequests = new Set();
   const keyOf = (id, role) => `${id}::${role}`;
+
+  // 异步解析跨应用云存储地址；解析失败时继续使用候选链的下一档。
+  function cloudSourceOf(source, item, role, stage) {
+    if (!source.startsWith('cloud://')) return source;
+    if (Object.prototype.hasOwnProperty.call(cloudUrls.value, source)) return cloudUrls.value[source];
+    const requestKey = `${keyOf(item.id, role)}::${source}`;
+    if (!cloudRequests.has(requestKey)) {
+      cloudRequests.add(requestKey);
+      resolveCloudFileURL(source).then((url) => {
+        cloudRequests.delete(requestKey);
+        if (url) {
+          cloudUrls.value = Object.assign({}, cloudUrls.value, { [source]: url });
+          return;
+        }
+        const key = keyOf(item.id, role);
+        if ((stages.value[key] || 0) === stage) {
+          stages.value = Object.assign({}, stages.value, { [key]: stage + 1 });
+        }
+      });
+    }
+    return '';
+  }
 
   // 模板中调用：srcOf(item, 'charWiki', 'avatar', { widths: [240, 120] })
   function srcOf(item, type, role, options = {}) {
     if (!item) return '';
-    const list = imageSources(type, item.id, role, options.fallback || item.icon || '', options);
+    const fallback = Object.prototype.hasOwnProperty.call(options, 'fallback') ? options.fallback : (item.icon || '');
+    const list = imageSources(type, item, role, fallback, options);
     const stage = stages.value[keyOf(item.id, role)] || 0;
-    return stage < list.length ? list[stage] : '';
+    return stage < list.length ? cloudSourceOf(list[stage], item, role, stage) : '';
   }
 
   // 图片 @error：切下一档；没有更多候选时 srcOf 返回空串，页面显示占位

@@ -2,6 +2,8 @@ page {
   --brand: #2f6bff;
   --brand-deep: #1f3d9e;
   --brand-soft: #eaf0ff;
+  --brand-text: #2f6bff;
+  --hero-chip-ink: #1f3d9e;
   --ink: #1a2138;
   --ink-2: #5a6480;
   --ink-3: #97a0b5;
@@ -27,6 +29,17 @@ page {
   --td-text-color-primary: #1a2138;
   --td-text-color-secondary: #5a6480;
   --td-radius-default: 12rpx;
+  --brand-strong: var(--brand-deep);
+  --accent-mint: #22b891;
+  --accent-gold: #e9a93b;
+  --page-bg: var(--bg);
+  --surface: var(--card-bg);
+  --surface-2: var(--soft);
+  --surface-3: #e9eef7;
+  --text-primary: var(--ink);
+  --text-secondary: var(--ink-2);
+  --text-muted: var(--ink-3);
+  --border: var(--line);
 
   background: var(--bg);
   color: var(--ink);
@@ -38,13 +51,15 @@ page {
   --brand-soft: #22304f;
   --brand-deep: #9db8ff;
   --brand-bright: #7ea4ff;
-  --ink: #e9edf8;
-  --ink-2: #aab4cd;
-  --ink-3: #7d879f;
-  --bg: #131722;
-  --line: #273046;
-  --card-bg: #1c2233;
-  --soft: #232b40;
+  --brand-text: #9db8ff;
+  --hero-chip-ink: #1f3d9e;
+  --ink: #edf2ff;
+  --ink-2: #b9c3da;
+  --ink-3: #8d98b2;
+  --bg: #111621;
+  --line: #2b354b;
+  --card-bg: #1a2232;
+  --soft: #222c40;
   --ok: #55d98a;
   --ok-soft: #16351f;
   --danger: #f8837b;
@@ -59,6 +74,17 @@ page {
   --td-brand-color-1: #22304f;
   --td-text-color-primary: #e9edf8;
   --td-text-color-secondary: #aab4cd;
+  --brand-strong: #8eaeff;
+  --accent-mint: #35c9a5;
+  --accent-gold: #f3bd55;
+  --page-bg: var(--bg);
+  --surface: var(--card-bg);
+  --surface-2: var(--soft);
+  --surface-3: #2a3850;
+  --text-primary: var(--ink);
+  --text-secondary: var(--ink-2);
+  --text-muted: var(--ink-3);
+  --border: var(--line);
 
   background: var(--bg);
   color: var(--ink);
@@ -308,6 +334,8 @@ page {
 .head__text {
   flex: 1;
   min-width: 0;
+  /* 9.4 / S05：为右上收藏按钮预留空间（catalog-detail 长名防重叠） */
+  padding-right: 150rpx;
 }
 
 .head__name {
@@ -426,6 +454,14 @@ page {
 
 .facet-chip--hover {
   transform: scale(0.94);
+}
+
+/* 筛选 chip 分类计数（R2-2/R2-10：对齐竞品「全部 N / 分类 N」口径） */
+.facet-chip__count {
+  margin-left: 10rpx;
+  font-size: 22rpx;
+  opacity: 0.72;
+  font-variant-numeric: tabular-nums;
 }
 
 /* 展开详情入场动画（成就/词条手风琴共用） */
@@ -589,6 +625,132 @@ page {
   font-size: 22rpx;
 }
 
+/* 列表加载/错误/空态重置（qibo/character 列表共用） */
+.cl-loading {
+  padding: 48rpx;
+  text-align: center;
+  color: var(--ink-2);
+}
+
+.cl-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+  margin: 18rpx 0;
+  padding: 48rpx 32rpx;
+  border: 1rpx solid var(--line);
+  border-radius: 20rpx;
+  background: var(--card-bg);
+  text-align: center;
+}
+
+.cl-error__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.cl-error__title {
+  color: var(--ink);
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.cl-error__text {
+  max-width: 560rpx;
+  color: var(--ink-2);
+  font-size: 23rpx;
+  line-height: 1.5;
+}
+
+.cl-error__retry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 176rpx;
+  min-height: 44px;
+  margin-top: 8rpx;
+  padding: 0 24rpx;
+  border-radius: 22px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.cl-empty__reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 12rpx;
+  padding: 0 32rpx;
+  border-radius: 22px;
+  background: var(--brand-soft);
+  color: var(--brand-deep);
+  font-size: 26rpx;
+}
+
+/* 详情页共享小件（pkg-qibo / pkg-character / catalog-detail 通用） */
+.head__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 10rpx;
+}
+
+.head__chip {
+  max-width: 100%;
+  padding: 2rpx 14rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 20rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.head__chip--strong {
+  background: rgba(255, 255, 255, 0.3);
+  font-weight: 700;
+}
+
+.related-count {
+  padding: 2rpx 14rpx;
+  border-radius: 999rpx;
+  background: var(--soft);
+  font-size: 20rpx;
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+/* 折叠块头部（展开/收起说明与长表） */
+.fold {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+  min-height: 56rpx;
+  margin-top: 10rpx;
+  padding: 0 4rpx;
+  color: var(--brand-deep);
+  font-size: 22rpx;
+}
+
+.fold__arrow {
+  color: var(--ink-3);
+  font-size: 20rpx;
+}
+
 /* 奇波/角色详情 hero 官方图（qibo/character detail 共用） */
 .head__img {
   flex: none;
@@ -597,6 +759,63 @@ page {
   border-radius: 32rpx;
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 8rpx 20rpx rgba(10, 14, 38, 0.28);
+}
+
+/* R3-1/R3-2 详情页 hero 大图区（对标竞品 430×260：大图+查看大图+悬浮元信息） */
+.banner {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  height: 440rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.banner__img {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.banner__glyph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  font-size: 96rpx;
+  font-weight: 700;
+  text-shadow: 0 4rpx 16rpx rgba(10, 14, 38, 0.35);
+}
+
+.banner__zoom {
+  position: absolute;
+  right: 16rpx;
+  bottom: 16rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 999rpx;
+  background: rgba(10, 14, 38, 0.55);
+  color: #fff;
+  font-size: 22rpx;
+}
+
+.banner__meta {
+  margin-top: 20rpx;
+}
+
+/* hero 元素渐变底（qibo/character detail 共用；--ele-color 由页面内联提供） */
+.hero--element {
+  background: linear-gradient(132deg, var(--ele-color, #5a6480) 0%, rgba(255, 255, 255, 0.06) 140%);
+}
+
+.hero--element .banner__meta,
+.hero--element .head__name,
+.hero--element .head__sub,
+.hero--element .head__tag {
+  color: #ffffff;
 }
 
 /* 列表条目图（catalog-list 与 qibo/character 列表共用） */
@@ -632,4 +851,123 @@ page {
   margin-top: 10rpx;
   font-size: 26rpx;
   font-weight: 600;
+}
+
+/* ===== 9.x / S01-S02：双列图鉴卡（catalog-page / qibo-page / character-page 三作用域共用；2026-11-12 收敛至全局避免页面 CSS chunk 分包漏加载） ===== */
+.catalog-page .entry-list,
+.qibo-page .entry-list,
+.character-page .entry-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.catalog-page .entry-card,
+.qibo-page .entry-card,
+.character-page .entry-card {
+  position: relative;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.catalog-page .entry-card__img,
+.qibo-page .entry-card__img,
+.character-page .entry-card__img,
+.catalog-page .entry-card__badge,
+.qibo-page .entry-card__badge,
+.character-page .entry-card__badge {
+  width: 100%;
+  height: 176rpx;
+  border-radius: 0;
+}
+
+.catalog-page .entry-card__body,
+.qibo-page .entry-card__body,
+.character-page .entry-card__body {
+  padding: 14rpx 16rpx 16rpx;
+}
+
+.catalog-page .entry-card__desc,
+.qibo-page .entry-card__desc,
+.character-page .entry-card__desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  margin: 8rpx 0 0;
+}
+
+.catalog-page .entry-card .chip-row,
+.qibo-page .entry-card .chip-row,
+.character-page .entry-card .chip-row {
+  flex-wrap: nowrap;
+  overflow: hidden;
+  margin: 10rpx 0 0;
+}
+
+.catalog-page .entry-card .chip-row .chip,
+.qibo-page .entry-card .chip-row .chip,
+.character-page .entry-card .chip-row .chip,
+.catalog-page .entry-card .chip-row .cl-element-badge,
+.qibo-page .entry-card .chip-row .cl-element-badge,
+.character-page .entry-card .chip-row .cl-element-badge {
+  white-space: nowrap;
+}
+
+.catalog-page .entry-card__arrow,
+.qibo-page .entry-card__arrow,
+.character-page .entry-card__arrow {
+  display: none;
+}
+
+.catalog-page .entry-card .fav-star,
+.qibo-page .entry-card .fav-star,
+.character-page .entry-card .fav-star {
+  position: absolute;
+  top: 6rpx;
+  right: 6rpx;
+  margin-left: 0;
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 999rpx;
+  background: rgba(10, 14, 38, 0.38);
+  color: #ffffff;
+  font-size: 26rpx;
+  min-width: 0;
+  min-height: 0;
+}
+
+.catalog-page .entry-card .fav-star--on,
+.qibo-page .entry-card .fav-star--on,
+.character-page .entry-card .fav-star--on {
+  color: #ffb02e;
+}
+
+/* ===== 9.3 / S03：详情页收藏位（qibo/character detail 共用；收敛全局避免页面 CSS chunk 漏加载） ===== */
+.head__fav {
+  position: absolute;
+  top: 16rpx;
+  right: 16rpx;
+  padding: 8rpx 22rpx;
+  border-radius: 999rpx;
+  background: rgba(10, 14, 38, 0.38);
+  color: #ffffff;
+  font-size: 24rpx;
+  backdrop-filter: blur(6rpx);
+  text-shadow: 0 1rpx 4rpx rgba(10, 14, 38, 0.6);
+}
+
+/* ===== 9.5 / S06：横向 chips 滚动容器隐藏滚动条（H5 端 scroll-view 默认滚动条在深色下突兀） ===== */
+.filter-row::-webkit-scrollbar,
+.ct-cats::-webkit-scrollbar,
+.facets::-webkit-scrollbar,
+.filter-row .uni-scroll-view::-webkit-scrollbar,
+.ct-cats .uni-scroll-view::-webkit-scrollbar,
+.facets .uni-scroll-view::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }

@@ -10,5 +10,5 @@
 <script setup>
 import { onShareAppMessage } from '@dcloudio/uni-app';
 
-onShareAppMessage(() => ({ title: '教程合集 · 蓝色星原助手', path: '/pages/tutorial/list' }));
+onShareAppMessage(() => ({ title: '教程合集 · 奇波小助手', path: '/pages/tutorial/list' }));
 </script>

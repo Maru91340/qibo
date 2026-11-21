@@ -239,6 +239,19 @@ const tutorialItems = [
   }
 ];
 
+// R2-9：BWIKI 游戏内书籍并入剧情读物（阅读物分类，来源 BWIKI「游戏内书籍」采集，公测后以官方为准）
+const bookItems = ((generated.types || {}).book || {}).items
+  ? generated.types.book.items.map((entry) => ({
+      id: entry.id,
+      title: entry.name,
+      category: '阅读物',
+      summary: entry.summary || entry.desc || '',
+      tags: ['阅读物', '游戏内书籍'],
+      verified: entry.verified !== false,
+      sections: (entry.sections || []).map((s) => ({ title: s.title, text: s.text }))
+    }))
+  : [];
+
 const storyItems = [
   {
     id: 'world-promilia',
@@ -383,9 +396,9 @@ export const contentCollections = {
   },
   story: {
     title: '剧情读物',
-    subtitle: '世界观、地区与游戏内书籍索引',
-    categories: ['全部', '世界设定', '官方信息', '游戏内书籍'],
-    items: storyItems
+    subtitle: '阅读物为 BWIKI 游戏内书籍（57 篇）；剧情任务/日渡尘影/奇波对决待公测数据源开放',
+    categories: ['全部', '阅读物', '世界设定', '官方信息', '游戏内书籍'],
+    items: bookItems.concat(storyItems)
   }
 };
 
@@ -512,7 +525,7 @@ export const guideTopics = [
     summary: '地区条目先看阵营与类型，点位清单等待公测后接入。',
     steps: [
       { text: '地区阵营图鉴查看国家、村落与区域。', link: { label: '地区阵营', path: '/pages/region/list' } },
-      { text: '地图探索页当前为点位清单骨架，公测后补坐标。', link: { label: '地图探索', path: '/pages/explore/explore' } }
+      { text: '地图探索页当前为点位清单骨架，公测后补坐标。', link: { label: '地图探索', path: '/pages-explore/explore/explore' } }
     ]
   },
   {
@@ -582,12 +595,20 @@ export const wallpapers = wallpaperSeed.map((item, index) => Object.assign({}, i
   note: '占位预览：官方原图接入后可保存到相册。'
 }));
 
-export const codeEntries = [];
+// 兑换码来源：BWIKI 兑换码汇总页（2026-11-04 采集，公测 11/26 起 ~12/31 有效）
+// 奖励内容以游戏内核实为准；status 用公测前展示口径
+export const codeEntries = [
+  { code: 'LSXYBILIBILI1126', status: '公测后可用', reward: 'B站渠道公测预约礼包（11/26–12/31 有效，以游戏内核实为准）' },
+  { code: 'LSXYWEGAME1126', status: '公测后可用', reward: 'WeGame 渠道公测预约礼包（11/26–12/31 有效，以游戏内核实为准）' },
+  { code: 'LSXYTAP1126', status: '公测后可用', reward: 'TapTap 渠道公测预约礼包（11/26–12/31 有效，以游戏内核实为准）' },
+  { code: 'LSXYHYKB1126', status: '公测后可用', reward: '好快爆渠道公测预约礼包（11/26–12/31 有效，以游戏内核实为准）' },
+  { code: 'LSXY43991126', status: '公测后可用', reward: '4399 渠道公测预约礼包（11/26–12/31 有效，以游戏内核实为准）' }
+];
 
 export const codeFaq = [
   {
     q: '现在有可用的兑换码吗？',
-    a: '暂无可核实的兑换码。公测前的所谓「内部码」多为假消息，本页只收录官方发布且能验证的码。'
+    a: '公测兑换码尚未开放。已收录 5 条各渠道公测预约码（11/26 起可兑，12/31 截止，见上方列表）。公测前的所谓「内部码」多为假消息，本页只收录官方发布且能验证的码。'
   },
   {
     q: '兑换入口在哪里？',
@@ -600,11 +621,11 @@ export const codeFaq = [
 ];
 
 export const subscribeTopics = [
-  { id: 'launch', title: '公测开服提醒', desc: '11 月 26 日公测当天提醒一次', cadence: '一次性' },
-  { id: 'codes', title: '兑换码更新', desc: '收录到新的可用兑换码时提醒', cadence: '不定期' },
-  { id: 'version', title: '版本前瞻', desc: '新版本角色、奇波与活动信息', cadence: '每版本' },
-  { id: 'event', title: '卡池与活动', desc: '卡池轮换与限时活动开启', cadence: '每周' },
-  { id: 'maintenance', title: '维护公告', desc: '停服维护与补偿信息', cadence: '按公告' }
+  { id: 'launch', title: '公测定档提醒', desc: '官方公布公测日的第一时间提醒，预下载与开服时间', cadence: '一次性', entry: '首页倒计时条 / 福利页' },
+  { id: 'codes', title: '兑换码上新提醒', desc: '公测兑换码与测试福利上新时第一时间推送', cadence: '不定期', entry: '福利与兑换码页' },
+  { id: 'maintenance', title: '测试关服前提醒', desc: '关服前 3 天与 1 天各提醒一次，别忘清空福利', cadence: '关服前', entry: '首页倒计时条' },
+  { id: 'version', title: '图鉴数据更新', desc: '奇波图鉴收录、新食谱收录等数据更新提醒', cadence: '数据更新时', entry: '首页版本信息' },
+  { id: 'event', title: '每日福利领取提醒', desc: '每日秘虹晶发放时段的领取提醒（每日一次）', cadence: '每日', entry: '福利与兑换码页' }
 ];
 
 export const wikiFaqs = [
@@ -635,58 +656,5 @@ export const wikiFaqs = [
     a: '按工种分组查看缺口，优先填生产岗位，探索型奇波留给外出队伍，同一只奇波不要重复占用。',
     tags: ['家园'],
     link: { label: '家园派驻', path: '/pages/station/station' }
-  },
-  {
-    id: 'wiki-verified',
-    q: '为什么有些条目标了「待核实」？',
-    a: '这些条目来自示例、社区整理或公测前前瞻，官方数值与文案可能变化。公测后采集任务会重新拉取并替换。',
-    tags: ['数据']
-  },
-  {
-    id: 'wiki-image',
-    q: '图片为什么有时加载不出来？',
-    a: '图鉴图片为 BWIKI 缩略图热链，受 CDN 与网络影响；加载失败时会回退成文字徽章，不影响条目查看。',
-    tags: ['图片']
-  },
-  {
-    id: 'wiki-cache',
-    q: '数据看起来是旧的怎么办？',
-    a: '到设置页清理图鉴缓存，再进入页面会回落到内置资料并尝试重新同步。',
-    tags: ['缓存'],
-    link: { label: '设置', path: '/pages/settings/settings' }
-  },
-  {
-    id: 'wiki-tools',
-    q: '对比、养成、保底工具为什么还没开放？',
-    a: '这些工具依赖公测后的正式数值。当前只搭交互骨架，避免用示例数值给出误导结论。',
-    tags: ['工具']
-  }
-];
-
-export const aboutSections = [
-  {
-    title: '关于游戏',
-    rows: [
-      { label: '游戏名称', value: '蓝色星原：旅谣' },
-      { label: '制作组', value: '蛮啾网络（Manjuu）' },
-      { label: '公测时间', value: '官网标注 11 月 26 日正式公测' },
-      { label: '类型', value: '开放世界角色扮演' }
-    ]
-  },
-  {
-    title: '关于本工具',
-    text: '这是玩家自制的图鉴与查询助手，不是官方产品。目标是让奇波、角色、物品与家园信息查得更快，同时明确标注数据边界。'
-  },
-  {
-    title: '数据来源',
-    steps: ['图鉴条目：BWIKI 开放 API 采集，图片使用 120px 缩略图热链。', '官方信息：官网与官方公开公告。', '示例条目：站内手工整理，统一标「待核实」。']
-  },
-  {
-    title: '数据边界',
-    text: '公测前数值、技能与剧情可能变动；标注「待核实」的内容不要直接用于攻略结论。公测后采集任务会重新生成快照。'
-  },
-  {
-    title: '版权与反馈',
-    text: '游戏名称、角色与图片版权归原作者所有，本工具仅作学习与查询用途，不做商业使用。发现问题可在公众号或项目仓库反馈。'
   }
 ];

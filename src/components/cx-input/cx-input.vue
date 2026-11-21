@@ -11,7 +11,10 @@
       @input="onInput"
       @confirm="$emit('submit')"
     />
-    <text v-if="value" class="cx-input__clear" hover-class="tap-hover" @tap="$emit('clear')">×</text>
+    <!-- 3.4 / L06：外层撑 44px 可触面积，内层保持原 42rpx 视觉圆点 -->
+    <view v-if="value" class="cx-input__clear-hit" hover-class="tap-hover" @tap="$emit('clear')">
+      <text class="cx-input__clear">×</text>
+    </view>
   </view>
 </template>
 
@@ -53,6 +56,17 @@ function onInput(event) {
 
 .cx-input__ph {
   color: var(--ink-3);
+}
+
+/* 3.4 / L06：热区 44×44px，视觉尺寸维持 42rpx */
+.cx-input__clear-hit {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: -12rpx;
 }
 
 .cx-input__clear {

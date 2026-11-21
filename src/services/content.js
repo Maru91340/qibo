@@ -1,11 +1,12 @@
 import { callCloudFunction } from './cloud.js';
 import { CATALOG_FUNCTIONS } from '../config/cloud.js';
-import { bundledCatalog, CATALOG_VERSION } from '../data/catalog.js';
+import { applyStation2Overlay, bundledCatalog, CATALOG_VERSION } from '../data/catalog.js';
+import { officialItems } from '../utils/catalog-view.js';
 
 export const CATALOG_TYPES = [
   'meta', 'element', 'qibo', 'character',
   'spirit', 'item', 'equipment', 'material', 'food', 'fishing', 'enemy',
-  'dungeon', 'building', 'achievement', 'region', 'affix', 'guide'
+  'dungeon', 'building', 'achievement', 'region', 'affix', 'guide', 'book'
 ];
 const CACHE_KEY = 'qbxzs:catalog-cache';
 const UPDATE_EVENT = 'catalog:updated';
@@ -28,8 +29,15 @@ export function getCatalog(type) {
     uni.setStorageSync('qbxzs:cache-bv', CATALOG_VERSION);
   }
   const stored = entry(type);
+  const content = stored ? stored.content : bundledCatalog[type];
+  const normalized = type === 'character' && content ? {
+    ...content,
+    notice: '角色资料以游戏实际内容为准。',
+    items: officialItems(content.items).filter((item) => item.id !== 'char-starborn-female' && item.id !== 'char-starborn-male')
+  } : content;
+  const data = applyStation2Overlay(type, normalized);
   return {
-    data: stored ? stored.content : bundledCatalog[type],
+    data,
     source: stored ? 'cloud' : 'bundled',
     revision: stored ? stored.revision : 'builtin'
   };

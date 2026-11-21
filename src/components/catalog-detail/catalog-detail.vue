@@ -5,15 +5,16 @@
         <view class="hero__inner">
           <view class="head__top">
             <image
-              v-if="bigIcon && !iconBroken"
+              v-if="detailSrc"
               class="head__img"
-              :src="bigIcon"
-              mode="aspectFill"
-              @error="iconBroken = true"
-              @tap="preview(bigIcon)"
+              :src="detailSrc"
+              mode="aspectFit"
+              @error="onDetailError"
+              @tap="preview(detailSrc)"
             />
-            <view v-else class="head__dot" :style="{ background: accent, color: '#fff' }">
-              {{ badgeText }}
+            <view v-else class="head__dot head__dot--fallback" :style="{ background: accent, color: '#fff' }" hover-class="tap-hover" @tap="onDetailRetry">
+              <text class="head__dot__glyph">{{ (item.name || '?').slice(0, 1) }}</text>
+              <text class="head__dot__retry">↻ 重试</text>
             </view>
             <view class="head__text">
               <view class="head__name">{{ item.name }}</view>
@@ -44,6 +45,13 @@
         </view>
       </view>
 
+      <view v-if="item.obtainedFrom && item.obtainedFrom.length" class="panel card">
+        <view class="panel__title">获取途径</view>
+        <view class="obtain-chips">
+          <text v-for="(way, idx) in item.obtainedFrom" :key="idx" class="obtain-chips__item">{{ way }}</text>
+        </view>
+      </view>
+
       <view v-if="item.desc && item.desc !== item.summary" class="panel card">
         <view class="panel__title">详情</view>
         <view class="panel__desc">{{ item.desc }}</view>
@@ -68,8 +76,11 @@
             hover-stay-time="90"
             @tap="goRelated(rel.id)"
           >
-            <image v-if="rel.icon && !brokenIcons[rel.id]" class="related-card__img" :src="rel.icon" mode="aspectFill" lazy-load @error="brokenIcons[rel.id] = true" />
-            <view v-else class="related-card__glyph">{{ (rel.name || '?').slice(0, 1) }}</view>
+            <image v-if="relatedSrc(rel)" class="related-card__img" :src="relatedSrc(rel)" mode="aspectFit" lazy-load @error="onRelatedError(rel)" />
+            <view v-else class="related-card__glyph related-card__glyph--retry" hover-class="tap-hover" @tap.stop="onRelatedRetry(rel)">
+              <text>{{ (rel.name || '?').slice(0, 1) }}</text>
+              <text class="related-card__retry">↻</text>
+            </view>
             <text class="related-card__name">{{ rel.name }}</text>
           </view>
         </scroll-view>
@@ -93,10 +104,11 @@
 import { useTheme } from '@/utils/theme.js';
 
 const { isDark } = useTheme();
-import { computed, ref } from 'vue';
+import { computed, onUnmounted, ref, watch } from 'vue';
 import { getCatalog, onCatalogUpdate } from '@/services/content.js';
 import { pushRecent } from '@/utils/recent.js';
 import { isFav, toggleFav } from '@/utils/favorites.js';
+import { useImageSources } from '@/utils/image-source.js';
 
 const props = defineProps({
   type: { type: String, required: true },
@@ -107,12 +119,27 @@ const props = defineProps({
 });
 
 const catalog = ref({ items: [], notice: '' });
-const iconBroken = ref(false);
-// 详情页用 240px 大图（BWIKI 缩略图支持改前缀尺寸），失败回退 120px 原图
-const bigIcon = computed(() => {
-  const icon = item.value && item.value.icon;
-  return icon ? icon.replace('/120px-', '/240px-') : '';
-});
+// 2.4/2.5：详情大图按 240px → 原宽度候选链取图，失败逐档降级到首字占位并可点按重试
+const { srcOf, onError: nextImageSource, retry: retrySource, reset } = useImageSources();
+const detailSrc = computed(() =>
+  item.value ? srcOf(item.value, props.type, 'icon', { widths: [240, 120], legacyWidths: [240] }) : ''
+);
+function onDetailError() {
+  nextImageSource(item.value, 'icon');
+}
+function onDetailRetry() {
+  retrySource(item.value, 'icon');
+}
+function relatedSrc(rel) {
+  return srcOf(rel, props.type, 'icon', { widths: [120], preferMapped: false });
+}
+function onRelatedError(rel) {
+  nextImageSource(rel, 'icon');
+}
+function onRelatedRetry(rel) {
+  retrySource(rel, 'icon');
+}
+watch(() => props.id, () => { reset(); });
 
 const item = computed(() => (catalog.value.items || []).filter((entry) => entry.id === props.id)[0] || null);
 const notice = computed(() => catalog.value.notice || '');
@@ -162,7 +189,6 @@ function preview(src) {
   uni.previewImage({ urls: [src] });
 }
 
-const brokenIcons = ref({});
 const related = computed(() => {
   const it = item.value;
   if (!it || !it.category || it.category === '其他') return [];
@@ -174,7 +200,8 @@ function goRelated(rid) {
   uni.redirectTo({ url: `/pages/${props.type}/detail?id=${rid}` });
 }
 
-let unsubscribe = onCatalogUpdate(reload);
+const unsubscribe = onCatalogUpdate(reload);
+onUnmounted(unsubscribe);
 </script>
 
 <style>
@@ -238,6 +265,35 @@ let unsubscribe = onCatalogUpdate(reload);
   border-radius: 32rpx;
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 8rpx 20rpx rgba(10, 14, 38, 0.28);
+}
+
+/* 2.5 占位与详情大图同为 128rpx，避免图片失败时头部塌陷 */
+.head__dot--fallback {
+  position: relative;
+  flex-direction: column;
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 32rpx;
+}
+
+.head__dot__glyph {
+  font-size: 48rpx;
+  line-height: 1;
+}
+
+.head__dot__retry {
+  margin-top: 8rpx;
+  font-size: 18rpx;
+  opacity: 0.85;
+}
+
+.related-card__glyph--retry {
+  flex-direction: column;
+}
+
+.related-card__retry {
+  font-size: 18rpx;
+  opacity: 0.75;
 }
 
 .cl-missing {
