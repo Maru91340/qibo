@@ -500,6 +500,29 @@
           }
         }
       ]
+    },
+    {
+      "root": "pkg-gacha",
+      "pages": [
+        {
+          "path": "index",
+          "style": {
+            "navigationBarTitleText": "星原观测",
+            "enablePullDownRefresh": false,
+            "navigationStyle": "custom",
+            "pageOrientation": "landscape"
+          }
+        },
+        {
+          "path": "history",
+          "style": {
+            "navigationBarTitleText": "观测记录",
+            "enablePullDownRefresh": false,
+            "navigationStyle": "custom",
+            "pageOrientation": "landscape"
+          }
+        }
+      ]
     }
   ]
 }
